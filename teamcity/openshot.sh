@@ -5,7 +5,7 @@
 # License: GPL2
 
 # Get Script
-wget http://www.mltframework.org/twiki/pub/MLT/BuildScripts/build-openshot.sh
+wget http://github.com/mltframework/mlt-scripts/raw/master/build/build-openshot.sh
 echo 'INSTALL_DIR="$(pwd)/openshot"' >> build-openshot.conf
 echo 'AUTO_APPEND_DATE=0' >> build-openshot.conf
 echo 'SOURCE_DIR="$(pwd)/src"' >> build-openshot.conf

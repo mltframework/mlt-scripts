@@ -5,7 +5,7 @@
 # License: GPL2
 
 # Get Script
-wget http://www.mltframework.org/twiki/pub/MLT/BuildScripts/build-melted.sh
+wget http://github.com/mltframework/mlt-scripts/raw/master/build/build-melted.sh
 echo 'INSTALL_DIR="$(pwd)/melted"' >> build-melted.conf
 echo 'AUTO_APPEND_DATE=0' >> build-melted.conf
 echo 'SOURCE_DIR="$(pwd)/src"' >> build-melted.conf
