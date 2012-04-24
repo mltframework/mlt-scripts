@@ -19,7 +19,7 @@
 # ARGS AND GLOBALS
 ################################################################################
 
-VERSION=16
+VERSION=17
 
 # These are all of the configuration variables with defaults
 INSTALL_DIR="$HOME/kdenlive"
