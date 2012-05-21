@@ -7,7 +7,7 @@
 # bash, test, tr, awk, ps, make, cmake, cat, sed, curl or wget, and possibly others
 
 # Author: Dan Dennedy <dan@dennedy.org>
-# Version: 5
+# Version: 6
 # License: GPL2
 
 ################################################################################
@@ -715,12 +715,6 @@ function get_subproject {
           debug "No git repo, need to check out"
           feedback_status "Cloning git sources for $1"
           DEPTH="--depth 1"
-          # mltframework.org git does not yet support depth option
-          echo $REPOLOC | grep mltframework &> /dev/null
-          test 0 = $? && DEPTH=""
-          # webmproject.org git does not yet support depth option
-          echo $REPOLOC | grep webmproject &> /dev/null
-          test 0 = $? && DEPTH=""
           cmd git --no-pager clone $DEPTH $REPOLOC || die "Unable to git clone source for $1 from $REPOLOC"
           cmd cd $1 || die "Unable to change to directory $1"
           cmd git checkout $REVISION || die "Unable to git checkout $REVISION"
