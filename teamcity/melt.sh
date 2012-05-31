@@ -1,8 +1,11 @@
-#!/bin/bash -e
+#!/bin/bash
 
 # This script is used by teamcity to retrieve the melt script and run it
 # Author: Brian Matherly
 # License: GPL2
+
+set -o nounset
+set -o errexit
 
 # Get Script
 wget --no-check-certificate http://github.com/mltframework/mlt-scripts/raw/master/build/build-melt.sh
