@@ -14,9 +14,9 @@ echo 'INSTALL_DIR="$(pwd)/shotcut"' >> build-shotcut.conf
 echo 'SOURCE_DIR="$(pwd)/src"' >> build-shotcut.conf
 
 # Run Script
-./build-shotcut.sh
+./build-shotcut.sh $@
 
 # Cleanup
-rm -Rf src
+rm -Rf src Shotcut
 rm *.sh
 rm *.conf
