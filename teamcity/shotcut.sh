@@ -17,6 +17,6 @@ echo 'SOURCE_DIR="$(pwd)/src"' >> build-shotcut.conf
 ./build-shotcut.sh $@
 
 # Cleanup
-rm -Rf src Shotcut
+rm -Rf src
 rm *.sh
 rm *.conf
