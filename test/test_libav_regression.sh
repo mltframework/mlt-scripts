@@ -147,7 +147,7 @@ run_tests()
          report_test_fail "Failed to build melt against ${FFBRANCH[$i]}"
       fi
 
-      if [ archive_artifact ]; then
+      if [ "$archive_artifact" -ne "0" ]; then
         tar -czvf ${FFBRANCH[$i]}.tar.gz melt
       fi
       
