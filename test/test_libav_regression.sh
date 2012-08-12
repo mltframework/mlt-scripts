@@ -74,11 +74,14 @@ CONFIG[12]='
    FFMPEG_REVISION="origin/release/0.8"
    FFMPEG_PROJECT="libav"'
 
+declare archive_artifact=0
+
 print_help()
 {
 cat <<EOM
    -------------------------------------------------------------------------
       Usage: $(basename $0) [arg]
+         -a       [a]rchive result
          -e       Stop on [e]rror
          -h       Print [h]elp and exit.
          -t       Report in [t]eamcity format
@@ -88,8 +91,9 @@ EOM
 
 parse_args()
 {
-   while getopts "eht" opt; do
+   while getopts "aeht" opt; do
       case $opt in
+        a) archive_artifact=1;;
         e) set -e;;
         h) print_help; exit 0;;
         t) report_tc_format;;
@@ -139,8 +143,12 @@ run_tests()
       init_test $i
 
       ./build-melt.sh
-      if [ ! -f "melt/melt" || $? != 0 ]; then
+      if [ $? -ne 0 ] || [ ! -f "melt/bin/melt" ]; then
          report_test_fail "Failed to build melt against ${FFBRANCH[$i]}"
+      fi
+
+      if [ archive_artifact ]; then
+        tar -czvf ${FFBRANCH[$i]}.tar.gz melt
       fi
       
       cleanup_test
