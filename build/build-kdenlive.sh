@@ -486,7 +486,7 @@ function set_globals {
   ####
   # frei0r
   CONFIG[3]="./configure --prefix=$FINAL_INSTALL_DIR --libdir=$FINAL_INSTALL_DIR/lib"
-  CFLAGS_[3]=$CFLAGS
+  CFLAGS_[3]="$CFLAGS -O2"
   LDFLAGS_[3]=$LDFLAGS
 
   ####
