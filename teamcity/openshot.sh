@@ -8,7 +8,7 @@ set -o nounset
 set -o errexit
 
 # Get Script
-wget http://github.com/mltframework/mlt-scripts/raw/master/build/build-openshot.sh
+wget --no-check-certificate http://raw.github.com/mltframework/mlt-scripts/master/build/build-openshot.sh
 echo 'INSTALL_DIR="$(pwd)/openshot"' >> build-openshot.conf
 echo 'AUTO_APPEND_DATE=0' >> build-openshot.conf
 echo 'SOURCE_DIR="$(pwd)/src"' >> build-openshot.conf
