@@ -11,7 +11,7 @@ test_yml()
 {
    # The yml test requires a fresh build of the latest mlt.
    # Get it and compile it.
-   wget --no-check-certificate http://github.com/mltframework/mlt-scripts/raw/master/build/build-melt.sh
+   wget --no-check-certificate http://raw.github.com/mltframework/mlt-scripts/master/build/build-melt.sh
    echo 'INSTALL_DIR="$(pwd)/melt"' >> build-melt.conf
    echo 'AUTO_APPEND_DATE=0' >> build-melt.conf
    echo 'SOURCE_DIR="$(pwd)/src"' >> build-melt.conf
@@ -21,8 +21,8 @@ test_yml()
    # Test must run in the melt directory
    pushd melt
       # Get the test scripts
-      wget --no-check-certificate https://github.com/mltframework/mlt-scripts/raw/master/test/report_results.sh
-      wget --no-check-certificate https://github.com/mltframework/mlt-scripts/raw/master/test/test_yml.sh
+      wget --no-check-certificate http://raw.github.com/mltframework/mlt-scripts/master/test/report_results.sh
+      wget --no-check-certificate http://raw.github.com/mltframework/mlt-scripts/master/test/test_yml.sh
 
       # Run the script
       chmod 755 test_yml.sh
@@ -36,8 +36,8 @@ test_yml()
 test_libav_regression()
 {
    # Get the test scripts
-   wget --no-check-certificate https://github.com/mltframework/mlt-scripts/raw/master/test/report_results.sh
-   wget --no-check-certificate https://github.com/mltframework/mlt-scripts/raw/master/test/test_libav_regression.sh
+   wget --no-check-certificate http://raw.github.com/mltframework/mlt-scripts/master/test/report_results.sh
+   wget --no-check-certificate http://raw.github.com/mltframework/mlt-scripts/master/test/test_libav_regression.sh
 
    # Run the script
    chmod 755 test_libav_regression.sh
