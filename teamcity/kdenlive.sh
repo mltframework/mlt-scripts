@@ -8,7 +8,7 @@ set -o nounset
 set -o errexit
 
 # Get Script
-wget https://github.com/mltframework/mlt-scripts/raw/master/build/build-kdenlive.sh
+wget https://raw.github.com/mltframework/mlt-scripts/master/build/build-kdenlive.sh
 echo 'INSTALL_DIR="$(pwd)/kdenlive"' >> build-kdenlive.conf
 echo 'AUTO_APPEND_DATE=0' >> build-kdenlive.conf
 echo 'SOURCE_DIR="$(pwd)/src"' >> build-kdenlive.conf
