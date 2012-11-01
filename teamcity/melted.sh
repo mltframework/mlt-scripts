@@ -8,7 +8,7 @@ set -o nounset
 set -o errexit
 
 # Get Script
-wget http://github.com/mltframework/mlt-scripts/raw/master/build/build-melted.sh
+wget --no-check-certificate http://raw.github.com/mltframework/mlt-scripts/master/build/build-melted.sh
 echo 'INSTALL_DIR="$(pwd)/melted"' >> build-melted.conf
 echo 'AUTO_APPEND_DATE=0' >> build-melted.conf
 echo 'SOURCE_DIR="$(pwd)/src"' >> build-melted.conf
