@@ -35,7 +35,7 @@ report_suite_start()
 report_suite_finish()
 {
    if [ $teamcity_format -eq 1 ]; then
-      echo "##teamcity[testSuiteFinished name='$suite_name"
+      echo "##teamcity[testSuiteFinished name='$suite_name']"
    else
       echo -en $GREEN_ESC
       echo "Finished test suite: $suite_name"
