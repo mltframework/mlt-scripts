@@ -8,19 +8,19 @@
 source report_results.sh
 
 FFBRANCH[0]="ffmpeg_master"
-FFBRANCH[1]="ffmpeg_0.5"
-FFBRANCH[2]="ffmpeg_0.6"
-FFBRANCH[3]="ffmpeg_0.7"
-FFBRANCH[4]="ffmpeg_0.8"
-FFBRANCH[5]="ffmpeg_0.9"
-FFBRANCH[6]="ffmpeg_0.10"
-FFBRANCH[7]="ffmpeg_0.11"
-FFBRANCH[8]="ffmpeg_1.0"
+FFBRANCH[1]="ffmpeg_0_5"
+FFBRANCH[2]="ffmpeg_0_6"
+FFBRANCH[3]="ffmpeg_0_7"
+FFBRANCH[4]="ffmpeg_0_8"
+FFBRANCH[5]="ffmpeg_0_9"
+FFBRANCH[6]="ffmpeg_0_10"
+FFBRANCH[7]="ffmpeg_0_11"
+FFBRANCH[8]="ffmpeg_1_0"
 FFBRANCH[9]="libav_master"
-FFBRANCH[10]="libav_0.5"
-FFBRANCH[11]="libav_0.6"
-FFBRANCH[12]="libav_0.7"
-FFBRANCH[13]="libav_0.8"
+FFBRANCH[10]="libav_0_5"
+FFBRANCH[11]="libav_0_6"
+FFBRANCH[12]="libav_0_7"
+FFBRANCH[13]="libav_0_8"
 
 CONFIG[0]='
    FFMPEG_HEAD=1
