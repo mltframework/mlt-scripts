@@ -38,10 +38,10 @@ run_tests()
 {
    for file in `find share/mlt -type f -name \*.yml`; do
 	   file_name=${file##*/}
-	   service_type=${file_name%%%%_*}
+	   service_type=${file_name%%_*}
 	   service_name=${file_name%*.yml}
 	   service_name=${service_name#*_}
-	   test_name=$service_type.$service_name
+	   test_name=${service_type}_${service_name}
 
       report_test_start "$test_name"
 
