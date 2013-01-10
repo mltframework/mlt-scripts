@@ -7,7 +7,7 @@
 # bash, test, tr, awk, ps, make, cmake, cat, sed, curl or wget, and possibly others
 
 # Author: Dan Dennedy <dan@dennedy.org>
-# Version: 6
+# Version: 7
 # License: GPL2
 
 ################################################################################
@@ -32,8 +32,8 @@ FREI0R_REVISION=
 ENABLE_SWFDEC=0
 SWFDEC_HEAD=1
 SWFDEC_REVISION=
-X264_HEAD=1
-X264_REVISION=
+X264_HEAD=0
+X264_REVISION=stable
 LIBVPX_HEAD=1
 LIBVPX_REVISION=
 ENABLE_LAME=1
