@@ -110,7 +110,7 @@ parse_args()
 init_suite()
 {
    if [ -f build-melt.sh ]; then rm build-melt.sh; fi
-   wget https://raw.github.com/mltframework/mlt-scripts/master/build/build-melt.sh
+   wget --no-check-certificate https://raw.github.com/mltframework/mlt-scripts/master/build/build-melt.sh
    chmod 755 build-melt.sh
 }
 
