@@ -121,7 +121,7 @@ function parse_args {
 # $1 : string: ffmpeg, mlt, etc.
 function to_key {
   case $1 in 
-    ffmpeg)
+    FFmpeg)
       echo 0
     ;;
     mlt)
@@ -283,7 +283,7 @@ function set_globals {
 
   # Subdirs list, for number of common operations
   # Note, the function to_key depends on this
-  SUBDIRS="ffmpeg mlt flowblade"
+  SUBDIRS="FFmpeg mlt flowblade"
   if test "$ENABLE_FREI0R" = 1 ; then
       SUBDIRS="frei0r $SUBDIRS"
   fi
@@ -302,7 +302,7 @@ function set_globals {
   debug "SUBDIRS = $SUBDIRS"
 
   # REPOLOCS Array holds the repo urls
-  REPOLOCS[0]="git://git.videolan.org/ffmpeg.git"
+  REPOLOCS[0]="git://github.com/FFmpeg/FFmpeg.git"
   REPOLOCS[1]="git://github.com/mltframework/mlt.git"
   REPOLOCS[2]="https://code.google.com/p/flowblade/"
   REPOLOCS[3]="git://code.dyne.org/frei0r.git"
@@ -647,7 +647,7 @@ function make_clean_dir {
   feedback_status "Cleaning out sources for $1"
   cmd pushd .
   # Special hack for ffmpeg, it sometimes requires distclean to work.
-  if test "ffmpeg" = "$1" ; then
+  if test "FFmpeg" = "$1" ; then
       cmd cd $1 && cmd make distclean
   else
       cmd cd $1 && cmd make clean

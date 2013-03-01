@@ -35,7 +35,7 @@ X264_REVISION=d967c09cd93a230e03ec1e0f0f696975d15a01c0
 LIBVPX_HEAD=1
 LIBVPX_REVISION=
 ENABLE_LAME=1
-FFMPEG_PROJECT="ffmpeg"
+FFMPEG_PROJECT="FFmpeg"
 FFMPEG_HEAD=1
 FFMPEG_REVISION=
 FFMPEG_SUPPORT_H264=1
@@ -302,12 +302,12 @@ function set_globals {
   debug "SUBDIRS = $SUBDIRS"
 
   # REPOLOCS Array holds the repo urls
-  if test "$FFMPEG_PROJECT" = "ffmpeg"; then
-      REPOLOCS[0]="git://git.videolan.org/ffmpeg.git"
+  if test "$FFMPEG_PROJECT" = "FFmpeg"; then
+      REPOLOCS[0]="git://github.com/FFmpeg/FFmpeg.git"
   elif test "$FFMPEG_PROJECT" = "libav"; then
       REPOLOCS[0]="git://git.libav.org/libav.git"
   else
-      die "Unknown FFMPEG_PROJECT ($FFMPEG_PFOJECT). Options are: ffmpeg or libav."
+      die "Unknown FFMPEG_PROJECT ($FFMPEG_PFOJECT). Options are: FFmpeg or libav."
   fi
   REPOLOCS[1]="git://github.com/mltframework/mlt.git"
   REPOLOCS[2]="git://code.dyne.org/frei0r.git"
