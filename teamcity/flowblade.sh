@@ -15,8 +15,20 @@ echo 'SOURCE_DIR="$(pwd)/src"' >> build-flowblade.conf
 chmod 755 build-flowblade.sh
 
 # Run Script
-./build-flowblade.sh
+./build-flowblade.sh 2>&1 | tee -a output.txt
+
+# Check for need to retry
+if grep output.txt "Unable to git clone source for"
+then
+   minutes=2
+   while [ $minutes -gt 0 ]; do
+      echo "Git clone failed. Retrying in $minutes minutes."
+      sleep 60
+      minutes=$((minutes-1))
+   done
+   ./build-flowblade.sh
+fi
 
 # Create Archive
 tar -cjvf flowblade.tar.bz2 flowblade
-rm -Rf flowblade src build-flowblade.conf build-flowblade.sh
+rm -Rf flowblade src build-flowblade.conf build-flowblade.sh output.txt
