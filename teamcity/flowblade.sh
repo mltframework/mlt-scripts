@@ -20,7 +20,7 @@ chmod 755 build-flowblade.sh
 # Check for need to retry
 if grep output.txt "Unable to git clone source for"
 then
-   minutes=2
+   minutes=60
    while [ $minutes -gt 0 ]; do
       echo "Git clone failed. Retrying in $minutes minutes."
       sleep 60

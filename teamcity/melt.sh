@@ -15,8 +15,20 @@ echo 'SOURCE_DIR="$(pwd)/src"' >> build-melt.conf
 chmod 755 build-melt.sh
 
 # Run Script
-./build-melt.sh
+./build-melt.sh 2>&1 | tee -a output.txt
+
+# Check for need to retry
+if grep output.txt "Unable to git clone source for"
+then
+   minutes=60
+   while [ $minutes -gt 0 ]; do
+      echo "Git clone failed. Retrying in $minutes minutes."
+      sleep 60
+      minutes=$((minutes-1))
+   done
+   ./build-melt.sh
+fi
 
 # Create Archive
 tar -cjvf melt.tar.bz2 melt
-rm -Rf melt src build-melt.conf build-melt.sh
+rm -Rf melt src build-melt.conf build-melt.sh output.txt

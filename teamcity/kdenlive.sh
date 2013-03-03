@@ -15,8 +15,20 @@ echo 'SOURCE_DIR="$(pwd)/src"' >> build-kdenlive.conf
 chmod 755 build-kdenlive.sh
 
 # Run Script
-./build-kdenlive.sh
+./build-kdenlive.sh 2>&1 | tee -a output.txt
+
+# Check for need to retry
+if grep output.txt "Unable to git clone source for"
+then
+   minutes=60
+   while [ $minutes -gt 0 ]; do
+      echo "Git clone failed. Retrying in $minutes minutes."
+      sleep 60
+      minutes=$((minutes-1))
+   done
+   ./build-kdenlive.sh
+fi
 
 # Create Archive
 tar -cjvf kdenlive.tar.bz2 kdenlive
-rm -Rf kdenlive src build-kdenlive.conf build-kdenlive.sh
+rm -Rf kdenlive src build-kdenlive.conf build-kdenlive.sh output.txt

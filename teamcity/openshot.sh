@@ -15,8 +15,20 @@ echo 'SOURCE_DIR="$(pwd)/src"' >> build-openshot.conf
 chmod 755 build-openshot.sh
 
 # Run Script
-./build-openshot.sh
+./build-openshot.sh 2>&1 | tee -a output.txt
+
+# Check for need to retry
+if grep output.txt "Unable to git clone source for"
+then
+   minutes=60
+   while [ $minutes -gt 0 ]; do
+      echo "Git clone failed. Retrying in $minutes minutes."
+      sleep 60
+      minutes=$((minutes-1))
+   done
+   ./build-openshot.sh
+fi
 
 # Create Archive
 tar -cjvf openshot.tar.bz2 openshot
-rm -Rf openshot src build-openshot.conf build-openshot.sh
+rm -Rf openshot src build-openshot.conf build-openshot.sh output.txt
