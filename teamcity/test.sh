@@ -7,9 +7,9 @@
 set -o nounset
 set -o errexit
 
-test_yml()
+test_latest()
 {
-   # The yml test requires a fresh build of the latest mlt.
+   # Run the tests that require a fresh build of the latest mlt.
    # Get it and compile it.
    wget --no-check-certificate http://raw.github.com/mltframework/mlt-scripts/master/build/build-melt.sh
    echo 'INSTALL_DIR="$(pwd)/melt"' >> build-melt.conf
@@ -23,10 +23,15 @@ test_yml()
       # Get the test scripts
       wget --no-check-certificate http://raw.github.com/mltframework/mlt-scripts/master/test/report_results.sh
       wget --no-check-certificate http://raw.github.com/mltframework/mlt-scripts/master/test/test_yml.sh
+      wget --no-check-certificate http://raw.github.com/mltframework/mlt-scripts/master/test/test_avsync.sh
 
-      # Run the script
+      # Run the YML test
       chmod 755 test_yml.sh
      ./test_yml.sh -t
+
+      # Run the A/V sync test
+      chmod 755 test_avsync.sh
+     ./test_avsync.sh -t
    popd
 
    # Cleanup
@@ -48,5 +53,5 @@ test_libav_regression()
    rm test_libav_regression.sh
 }
 
-test_yml
+test_latest
 test_libav_regression
