@@ -16,11 +16,14 @@ FFBRANCH[5]="ffmpeg_0_9"
 FFBRANCH[6]="ffmpeg_0_10"
 FFBRANCH[7]="ffmpeg_0_11"
 FFBRANCH[8]="ffmpeg_1_0"
-FFBRANCH[9]="libav_master"
-FFBRANCH[10]="libav_0_5"
-FFBRANCH[11]="libav_0_6"
-FFBRANCH[12]="libav_0_7"
-FFBRANCH[13]="libav_0_8"
+FFBRANCH[9]="ffmpeg_1_1"
+FFBRANCH[10]="ffmpeg_1_2"
+FFBRANCH[11]="libav_master"
+FFBRANCH[12]="libav_0_5"
+FFBRANCH[13]="libav_0_6"
+FFBRANCH[14]="libav_0_7"
+FFBRANCH[15]="libav_0_8"
+FFBRANCH[15]="libav_9"
 
 CONFIG[0]='
    FFMPEG_HEAD=1
@@ -59,24 +62,36 @@ CONFIG[8]='
    FFMPEG_REVISION="origin/release/1.0"
    FFMPEG_PROJECT="FFmpeg"'
 CONFIG[9]='
+   FFMPEG_HEAD=0
+   FFMPEG_REVISION="origin/release/1.1"
+   FFMPEG_PROJECT="FFmpeg"'
+CONFIG[10]='
+   FFMPEG_HEAD=0
+   FFMPEG_REVISION="origin/release/1.2"
+   FFMPEG_PROJECT="FFmpeg"'
+CONFIG[11]='
    FFMPEG_HEAD=1
    FFMPEG_PROJECT="libav"'
-CONFIG[10]='
+CONFIG[12]='
    FFMPEG_HEAD=0
    FFMPEG_REVISION="origin/release/0.5"
    FFMPEG_PROJECT="libav"
    FFMPEG_SUPPORT_LIBVPX=0'
-CONFIG[11]='
+CONFIG[13]='
    FFMPEG_HEAD=0
    FFMPEG_REVISION="origin/release/0.6"
    FFMPEG_PROJECT="libav"'
-CONFIG[12]='
+CONFIG[14]='
    FFMPEG_HEAD=0
    FFMPEG_REVISION="origin/release/0.7"
    FFMPEG_PROJECT="libav"'
-CONFIG[13]='
+CONFIG[15]='
    FFMPEG_HEAD=0
    FFMPEG_REVISION="origin/release/0.8"
+   FFMPEG_PROJECT="libav"'
+CONFIG[16]='
+   FFMPEG_HEAD=0
+   FFMPEG_REVISION="origin/release/9"
    FFMPEG_PROJECT="libav"'
 
 declare archive_artifact=0
@@ -133,7 +148,7 @@ init_test()
 
 cleanup_test()
 {
-   rm -Rf melt src build-melt.conf
+   rm -Rf melt src/FFmpeg src/libav build-melt.conf
 }
 
 run_tests()
