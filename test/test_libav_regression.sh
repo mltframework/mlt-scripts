@@ -23,7 +23,7 @@ FFBRANCH[12]="libav_0_5"
 FFBRANCH[13]="libav_0_6"
 FFBRANCH[14]="libav_0_7"
 FFBRANCH[15]="libav_0_8"
-FFBRANCH[15]="libav_9"
+FFBRANCH[16]="libav_9"
 
 CONFIG[0]='
    FFMPEG_HEAD=1
