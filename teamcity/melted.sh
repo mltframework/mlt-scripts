@@ -18,7 +18,7 @@ chmod 755 build-melted.sh
 ./build-melted.sh 2>&1 | tee -a output.txt
 
 # Check for need to retry
-if grep output.txt "Unable to git clone source for"
+if grep "Unable to git clone source for" output.txt
 then
    minutes=60
    while [ $minutes -gt 0 ]; do
