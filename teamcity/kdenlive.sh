@@ -15,7 +15,7 @@ echo 'SOURCE_DIR="$(pwd)/src"' >> build-kdenlive.conf
 chmod 755 build-kdenlive.sh
 
 # Run Script
-./build-kdenlive.sh 2>&1 | tee -a output.txt
+./build-kdenlive.sh 2>&1 | tee output.txt
 
 # Check for need to retry
 if grep "Unable to git clone source for" output.txt
@@ -26,7 +26,12 @@ then
       sleep 60
       minutes=$((minutes-1))
    done
-   ./build-kdenlive.sh
+   ./build-kdenlive.sh 2>&1 | tee output.txt
+fi
+
+if grep "Some kind of error occured" output.txt; then
+   echo "Build failed"
+   exit 1
 fi
 
 # Create Archive

@@ -15,7 +15,7 @@ echo 'SOURCE_DIR="$(pwd)/src"' >> build-melted.conf
 chmod 755 build-melted.sh
 
 # Run Script
-./build-melted.sh 2>&1 | tee -a output.txt
+./build-melted.sh 2>&1 | tee output.txt
 
 # Check for need to retry
 if grep "Unable to git clone source for" output.txt
@@ -26,7 +26,12 @@ then
       sleep 60
       minutes=$((minutes-1))
    done
-   ./build-melted.sh
+   ./build-melted.sh 2>&1 | tee output.txt
+fi
+
+if grep "Some kind of error occured" output.txt; then
+   echo "Build failed"
+   exit 1
 fi
 
 # Create Archive
