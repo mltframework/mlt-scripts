@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# This script compiles mlt against all branches of ffmpeg and libav.
+# This script compiles mlt against all supported branches of ffmpeg and libav.
 #
 # Author: Brian Matherly <pez4brian@yahoo.com>
 # License: GPL2
@@ -8,88 +8,66 @@
 source report_results.sh
 
 FFBRANCH[0]="ffmpeg_master"
-FFBRANCH[1]="ffmpeg_0_5"
-FFBRANCH[2]="ffmpeg_0_6"
-FFBRANCH[3]="ffmpeg_0_7"
-FFBRANCH[4]="ffmpeg_0_8"
-FFBRANCH[5]="ffmpeg_0_9"
-FFBRANCH[6]="ffmpeg_0_10"
-FFBRANCH[7]="ffmpeg_0_11"
-FFBRANCH[8]="ffmpeg_1_0"
-FFBRANCH[9]="ffmpeg_1_1"
-FFBRANCH[10]="ffmpeg_1_2"
-FFBRANCH[11]="libav_master"
-FFBRANCH[12]="libav_0_5"
-FFBRANCH[13]="libav_0_6"
-FFBRANCH[14]="libav_0_7"
-FFBRANCH[15]="libav_0_8"
-FFBRANCH[16]="libav_9"
+FFBRANCH[1]="ffmpeg_0_7"
+FFBRANCH[2]="ffmpeg_0_8"
+FFBRANCH[3]="ffmpeg_0_9"
+FFBRANCH[4]="ffmpeg_0_10"
+FFBRANCH[5]="ffmpeg_0_11"
+FFBRANCH[6]="ffmpeg_1_0"
+FFBRANCH[7]="ffmpeg_1_1"
+FFBRANCH[8]="ffmpeg_1_2"
+FFBRANCH[9]="libav_master"
+FFBRANCH[10]="libav_0_7"
+FFBRANCH[11]="libav_0_8"
+FFBRANCH[12]="libav_9"
 
 CONFIG[0]='
    FFMPEG_HEAD=1
    FFMPEG_PROJECT="FFmpeg"'
 CONFIG[1]='
    FFMPEG_HEAD=0
-   FFMPEG_REVISION="origin/release/0.5"
-   FFMPEG_PROJECT="FFmpeg"
-   FFMPEG_SUPPORT_LIBVPX=0'
+   FFMPEG_REVISION="origin/release/0.7"
+   FFMPEG_PROJECT="FFmpeg"'
 CONFIG[2]='
    FFMPEG_HEAD=0
-   FFMPEG_REVISION="origin/release/0.6"
+   FFMPEG_REVISION="origin/release/0.8"
    FFMPEG_PROJECT="FFmpeg"'
 CONFIG[3]='
    FFMPEG_HEAD=0
-   FFMPEG_REVISION="origin/release/0.7"
+   FFMPEG_REVISION="origin/release/0.9"
    FFMPEG_PROJECT="FFmpeg"'
 CONFIG[4]='
    FFMPEG_HEAD=0
-   FFMPEG_REVISION="origin/release/0.8"
+   FFMPEG_REVISION="origin/release/0.10"
    FFMPEG_PROJECT="FFmpeg"'
 CONFIG[5]='
    FFMPEG_HEAD=0
-   FFMPEG_REVISION="origin/release/0.9"
+   FFMPEG_REVISION="origin/release/0.11"
    FFMPEG_PROJECT="FFmpeg"'
 CONFIG[6]='
    FFMPEG_HEAD=0
-   FFMPEG_REVISION="origin/release/0.10"
+   FFMPEG_REVISION="origin/release/1.0"
    FFMPEG_PROJECT="FFmpeg"'
 CONFIG[7]='
    FFMPEG_HEAD=0
-   FFMPEG_REVISION="origin/release/0.11"
+   FFMPEG_REVISION="origin/release/1.1"
    FFMPEG_PROJECT="FFmpeg"'
 CONFIG[8]='
    FFMPEG_HEAD=0
-   FFMPEG_REVISION="origin/release/1.0"
-   FFMPEG_PROJECT="FFmpeg"'
-CONFIG[9]='
-   FFMPEG_HEAD=0
-   FFMPEG_REVISION="origin/release/1.1"
-   FFMPEG_PROJECT="FFmpeg"'
-CONFIG[10]='
-   FFMPEG_HEAD=0
    FFMPEG_REVISION="origin/release/1.2"
    FFMPEG_PROJECT="FFmpeg"'
-CONFIG[11]='
+CONFIG[9]='
    FFMPEG_HEAD=1
    FFMPEG_PROJECT="libav"'
-CONFIG[12]='
-   FFMPEG_HEAD=0
-   FFMPEG_REVISION="origin/release/0.5"
-   FFMPEG_PROJECT="libav"
-   FFMPEG_SUPPORT_LIBVPX=0'
-CONFIG[13]='
-   FFMPEG_HEAD=0
-   FFMPEG_REVISION="origin/release/0.6"
-   FFMPEG_PROJECT="libav"'
-CONFIG[14]='
+CONFIG[10]='
    FFMPEG_HEAD=0
    FFMPEG_REVISION="origin/release/0.7"
    FFMPEG_PROJECT="libav"'
-CONFIG[15]='
+CONFIG[11]='
    FFMPEG_HEAD=0
    FFMPEG_REVISION="origin/release/0.8"
    FFMPEG_PROJECT="libav"'
-CONFIG[16]='
+CONFIG[12]='
    FFMPEG_HEAD=0
    FFMPEG_REVISION="origin/release/9"
    FFMPEG_PROJECT="libav"'
