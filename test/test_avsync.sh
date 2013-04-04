@@ -21,7 +21,7 @@ TEST_CMDS[0]="melt -silent -profile dv_ntsc blipflash out=$TEST_DURATION -consum
               melt -silent -profile dv_ntsc libdv:$TMP_FILE.dv -consumer blipflash:$RESULTS_FILE terminate_on_pause=1"
 
 TEST_NAME[1]="avformat-avi"
-TEST_CMDS[1]="melt -silent -profile dv_ntsc blipflash out=$TEST_DURATION -consumer avformat:$TMP_FILE.avi terminate_on_pause=1; 
+TEST_CMDS[1]="melt -silent -profile dv_ntsc blipflash out=$TEST_DURATION -consumer avformat:$TMP_FILE.avi acodec=mp2 terminate_on_pause=1; 
               melt -silent -profile dv_ntsc avformat:$TMP_FILE.avi -consumer blipflash:$RESULTS_FILE terminate_on_pause=1;"
 
 TEST_NAME[2]="avformat-dv"
