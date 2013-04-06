@@ -19,7 +19,7 @@
 # ARGS AND GLOBALS
 ################################################################################
 
-VERSION=18
+VERSION=19
 
 # These are all of the configuration variables with defaults
 INSTALL_DIR="$HOME/kdenlive"
@@ -1480,6 +1480,7 @@ export FREI0R_PATH=\$INSTALL_DIR/lib/frei0r-1/:/usr/lib/frei0r-1:/usr/local/lib/
 export MANPATH=\$MANPATH:\$INSTALL_DIR/share/man/
 export PKG_CONFIG_PATH=\$INSTALL_DIR/lib/pkgconfig/:\$PKG_CONFIG_PATH
 export KDEHOME=\$INSTALL_DIR/.kde
+export KDEDIRS=\$INSTALL_DIR
 End-of-environment-setup-template
   if test 0 != $? ; then
     die "Unable to create environment script"
