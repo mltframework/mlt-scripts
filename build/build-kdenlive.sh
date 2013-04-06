@@ -1298,6 +1298,7 @@ export FREI0R_PATH=\$INSTALL_DIR/lib/frei0r-1/:/usr/lib/frei0r-1:/usr/local/lib/
 export MANPATH=\$MANPATH:\$INSTALL_DIR/share/man/
 export PKG_CONFIG_PATH=\$INSTALL_DIR/lib/pkgconfig/:\$PKG_CONFIG_PATH
 export KDEHOME=\$INSTALL_DIR/.kde
+export KDEDIRS=\$INSTALL_DIR
 
 # We need to set LANG to C to avoid e.g. kde4-config from getting to
 # funky, but we do not want kdenlive to run with it, so store the
@@ -1420,6 +1421,7 @@ End-of-info
     echo FREI0R_PATH=\$FREI0R_PATH
     echo PKG_CONFIG_PATH=\$PKG_CONFIG_PATH
     echo KDEHOME=\$KDEHOME
+    echo KDEDIRS=\$KDEDIRS
     echo Running ldd \$INSTALL_DIR/bin/kdenlive
     ldd \$INSTALL_DIR/bin/kdenlive
     KDENLIVE_BIN="\$INSTALL_DIR/bin/kdenlive"
