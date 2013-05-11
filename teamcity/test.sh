@@ -24,6 +24,7 @@ test_latest()
       wget --no-check-certificate http://raw.github.com/mltframework/mlt-scripts/master/test/report_results.sh
       wget --no-check-certificate http://raw.github.com/mltframework/mlt-scripts/master/test/test_yml.sh
       wget --no-check-certificate http://raw.github.com/mltframework/mlt-scripts/master/test/test_avsync.sh
+      wget --no-check-certificate http://raw.github.com/mltframework/mlt-scripts/master/test/test_qtest.sh
 
       # Run the YML test
       chmod 755 test_yml.sh
@@ -32,6 +33,10 @@ test_latest()
       # Run the A/V sync test
       chmod 755 test_avsync.sh
      ./test_avsync.sh -t
+
+      # Run the qtests
+      chmod 755 test_qtest.sh
+     ./test_qtest.sh -t -s "$PWD/../src/mlt"
    popd
 
    # Cleanup
