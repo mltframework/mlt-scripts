@@ -67,7 +67,7 @@ filter_results()
             testname=${testname%%()*}
             report_test_start $testname
             echo $data
-            report_test_finish $testname
+            report_test_finish
             ;;
          'FAIL! '*)
             testname=${data##*:}
@@ -89,16 +89,32 @@ filter_results()
   done
 }
 
+compile_tests()
+{
+   report_test_start "Compile"
+   pushd $MLT_SOURCE_PATH/src/tests
+   qmake -r tests.pro
+   make
+   RETVAL=$?
+   popd
+
+   if [ $RETVAL -eq 0 ]; then
+      report_test_finish
+   else
+      report_test_fail "Failed to compile qtest suite"
+   fi
+}
+
 run_tests()
 {
    pushd $MLT_SOURCE_PATH/src/tests
-   qmake -r tests.pro
    make check | filter_results
    popd
 }
 
 parse_args "$@"
 report_suite_start "qtest"
+compile_tests
 run_tests
 report_suite_finish "qtest"
 
