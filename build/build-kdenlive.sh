@@ -5,8 +5,8 @@
 # List of programs used:
 # bash, test, tr, awk, ps, make, cmake, cat, sed, qdbus, curl or wget, and possibly others
 
-# Note on feedback: 
-# The caller can provide a dcop reference to a kmdr-executor running kdenlive builder wizard, 
+# Note on feedback:
+# The caller can provide a dcop reference to a kmdr-executor running kdenlive builder wizard,
 # or just the word kdialog, or nothing
 
 # Compilation instructions more or less taken from http://kdenlive.org/compile
@@ -156,9 +156,9 @@ function parse_args {
     kmdr*)
       # Just plain OK.
     ;;
-    *)  
+    *)
       echo "Illegal value for -d: $DCOPREF"
-      exit -1 
+      exit -1
    ;;
   esac
 }
@@ -171,7 +171,7 @@ function parse_args {
 # Returns a numeric key from a known subproject
 # $1 : string: ffmpeg, mlt, mlt++ or kdenlive
 function to_key {
-  case $1 in 
+  case $1 in
     FFmpeg)
       echo 0
     ;;
@@ -227,7 +227,7 @@ function init_log_file {
 # Function that prints a trace line
 # $@ : arguments to be printed
 function trace {
-  if test "1" = "$TRACE" ; then 
+  if test "1" = "$TRACE" ; then
     echo "TRACE: $@"
   fi
 }
@@ -237,7 +237,7 @@ function trace {
 # Function that prints a debug line
 # $@ : arguments to be printed
 function debug {
-  if test "1" = "$DEBUG" ; then 
+  if test "1" = "$DEBUG" ; then
     echo "DEBUG: $@"
   fi
 }
@@ -295,8 +295,8 @@ function read_configuration {
   fi
   debug "Reading configuration from $CONFIGFILE"
   # This is for replacement in kdenlive_start
-  for LINE in `tr "\t" "=" < $CONFIGFILE`; do 
-    debug Setting $LINE 
+  for LINE in `tr "\t" "=" < $CONFIGFILE`; do
+    debug Setting $LINE
     CONFIGURATION="$CONFIGURATION$LINE   "
     #export $LINE || die "Invalid export line: $LINE. Unable to set configuration options from CONFIGFILE"
   done ||\
@@ -377,7 +377,7 @@ function set_globals {
   REVISIONS[0]=""
   if test 0 = "$FFMPEG_HEAD" -a "$FFMPEG_REVISION" ; then
     REVISIONS[0]="$FFMPEG_REVISION"
-  fi 
+  fi
   # Git, just use blank or the hash.
   REVISIONS[1]=""
   if test 0 = "$MLT_HEAD" -a "$MLT_REVISION" ; then
@@ -427,7 +427,7 @@ function set_globals {
   debug "Using make -j$MAKEJ for compilation"
 
   # CONFIG Array holds the ./configure (or equiv) command for each project
-  # CFLAGS_ Array holds additional CFLAGS for the configure/make step of a given project 
+  # CFLAGS_ Array holds additional CFLAGS for the configure/make step of a given project
   # LDFLAGS_ Array holds additional LDFLAGS for the configure/make step of a given project
 
   #####
@@ -482,7 +482,7 @@ function set_globals {
   LDFLAGS_[2]=$LDFLAGS
   # And a very special bonus for kdenlivebuildwizard
   LD_LIBRARY_PATH_[2]="$FINAL_INSTALL_DIR/lib:$LD_LIBRARY_PATH"
-  
+
   ####
   # frei0r
   CONFIG[3]="./configure --prefix=$FINAL_INSTALL_DIR --libdir=$FINAL_INSTALL_DIR/lib"
@@ -495,7 +495,7 @@ function set_globals {
   CFLAGS_[4]=$CFLAGS
   [ "$TARGET_OS" = "Darwin" ] && CFLAGS_[4]="-I. -fno-common -read_only_relocs suppress ${CFLAGS_[4]} "
   LDFLAGS_[4]=$LDFLAGS
-  
+
   ####
   # libvpx
   CONFIG[5]="./configure --prefix=$FINAL_INSTALL_DIR --enable-vp8 --enable-postproc --enable-multithread --enable-runtime-cpu-detect --disable-install-docs --disable-debug-libs --disable-examples"
@@ -537,7 +537,7 @@ function feedback_init {
         warn Unable to set maximum on ProgressBar
       cmd qdbus $DCOPREF /ProgressDialog org.kde.kdialog.ProgressDialog.showCancelButton true || \
         warn Unable to show Cancel button on kdialog instance
-    ;; 
+    ;;
     kmdr*)
       cmd dcop $DCOPREF KommanderIf setMaximum ProgressBar $1 || \
         warn Unable to setMaximum on ProgressBar
@@ -560,7 +560,7 @@ function feedback_set_progress {
     org.kde.kdialog-*)
       cmd qdbus $DCOPREF /ProgressDialog org.freedesktop.DBus.Properties.Set org.kde.kdialog.ProgressDialog value $1 || \
         warn Unable to set value on ProgressBar
-    ;; 
+    ;;
     kmdr*)
       cmd dcop $DCOPREF KommanderIf setText ProgressBar $1 || \
         warn Unable to setProgress on ProgressBar
@@ -583,7 +583,7 @@ function feedback_status {
     org.kde.kdialog-*)
       cmd qdbus $DCOPREF /ProgressDialog org.kde.kdialog.ProgressDialog.setLabelText "$ARG" || \
         warn Unable to setLabel on ProgressDialog
-    ;; 
+    ;;
     kmdr*)
       cmd dcop $DCOPREF KommanderIf setText LabelFeedback "$ARG" || \
         warn Unable to update gui status
@@ -616,7 +616,7 @@ function feedback_result {
         warn Unable to close feedback dialog
         ARG=$@
       cmd kdialog --title "Process has finished" --msgbox '<html><p>Reason: '"$ARG"'.</p><p>Click OK to continue.</p><p>Consult the output for more information.</p>'
-    ;; 
+    ;;
     kmdr*)
       ARG=$@
       feedback_status $ARG
@@ -625,7 +625,7 @@ function feedback_result {
       cmd dcop $DCOPREF KommanderIf execute ScriptObjectDone || \
         warn Unable to notify GUI that I am done
     ;;
-  esac  
+  esac
 }
 
 
@@ -692,7 +692,7 @@ function prepare_feedback {
     if test "$FFMPEG_SUPPORT_MP3" = 1 && test "$ENABLE_LAME" = 1; then
       NUMSTEPS=$(( $NUMSTEPS + 1 ))
     fi
-  fi   
+  fi
   if test 1 = "$COMPILE_INSTALL" ; then
     debug Adding 9 steps for compile-install
     NUMSTEPS=$(( $NUMSTEPS + 9 ))
@@ -714,7 +714,7 @@ function prepare_feedback {
       NUMSTEPS=$(( $NUMSTEPS + 3 ))
     fi
   fi
-  if test 1 = "$CREATE_STARTUP_SCRIPT" ; then 
+  if test 1 = "$CREATE_STARTUP_SCRIPT" ; then
     debug Adding 1 step for script creating
     NUMSTEPS=$(( $NUMSTEPS + 1 ))
   fi
@@ -739,7 +739,7 @@ function check_abort {
       else
         echo cont
       fi
-    ;; 
+    ;;
     kmdr*)
       wasCancelled=`dcop $DCOPREF KommanderIf text LabelAbort`
       if test 0 != $? ; then
@@ -749,7 +749,7 @@ function check_abort {
         echo $wasCancelled
       fi
     ;;
-  esac  
+  esac
 }
 
 ######################################################################
@@ -762,14 +762,14 @@ function check_abort {
 # This is highly ineffective, I am sorry to say...
 function is_newer_equal {
   trace "Entering is_newer_equal @ = $@"
-  A1=`echo $1 | cut -d. -f1` 
-  A2=`echo $1 | cut -d. -f2` 
-  A3=`echo $1 | cut -d. -f3 | sed 's/^\([0-9]\{1,3\}\).*/\1/'` 
-  B1=`echo $2 | cut -d. -f1` 
-  B2=`echo $2 | cut -d. -f2` 
+  A1=`echo $1 | cut -d. -f1`
+  A2=`echo $1 | cut -d. -f2`
+  A3=`echo $1 | cut -d. -f3 | sed 's/^\([0-9]\{1,3\}\).*/\1/'`
+  B1=`echo $2 | cut -d. -f1`
+  B2=`echo $2 | cut -d. -f2`
   B3=`echo $2 | cut -d. -f3 | sed 's/^\([0-9]\{1,3\}\).*/\1/'`
-  debug "A = $A1 $A2 $A3, B = $B1 $B2 $B3" 
-  test "$A1" -gt "$B1" -o \( "$A1" = "$B1" -a "$A2" -gt "$B2" \) -o \( "$A1" = "$B1" -a "$A2" = "$B2" -a "$A3" -ge "$B3" \)  
+  debug "A = $A1 $A2 $A3, B = $B1 $B2 $B3"
+  test "$A1" -gt "$B1" -o \( "$A1" = "$B1" -a "$A2" -gt "$B2" \) -o \( "$A1" = "$B1" -a "$A2" = "$B2" -a "$A3" -ge "$B3" \)
 }
 
 #################################################################
@@ -780,7 +780,7 @@ function test_kde4_available {
   cmd kde4-config -v || die "Unable to run kde4-config"
   QT_VER=`kde4-config -v | grep -i Qt | awk '{print $2}'`
   KDE_VER=`kde4-config -v | grep -i KDE | awk '{print $4}'`
-  debug "Versions found: QT: $QT_VER, KDE: $KDE_VER" 
+  debug "Versions found: QT: $QT_VER, KDE: $KDE_VER"
   is_newer_equal $QT_VER $KDE4_MIN_QT && is_newer_equal $KDE_VER $KDE4_MIN_KDE
   if test 0 != $? ; then
     die "Building kdenlive for KDE4 was selected, but sufficiently new versions of KDE4 and Qt4 was not found. Needed KDE version $KDE4_MIN_KDE, found $KDE_VER. Needed Qt version $KDE4_MIN_QT, found $QT_VER"
@@ -820,7 +820,7 @@ function clean_dirs {
   feedback_status Cleaning out all subdirs
   cmd cd $SOURCE_DIR || mkdir -p $SOURCE_DIR
   cmd cd $SOURCE_DIR || die "Unable to change to directory $SOURCE_DIR"
-  for DIR in $SUBDIRS ; do 
+  for DIR in $SUBDIRS ; do
     make_clean_dir $DIR
   done
   feedback_status Done cleaning out in source dirs
@@ -935,7 +935,7 @@ function get_all_sources {
   log Changing to $SOURCE_DIR
   cd $SOURCE_DIR || mkdir -p "$SOURCE_DIR"
   cd $SOURCE_DIR || die "Unable to change to directory $SOURCE_DIR"
-  for DIR in $SUBDIRS ; do 
+  for DIR in $SUBDIRS ; do
     get_subproject $DIR
   done
   feedback_status Done getting all sources
@@ -1002,7 +1002,7 @@ function mlt_check_configure {
         if test "0" = "$MLT_DISABLE_SOX" ; then
           mlt_format_optional sox "sound effects/operations" "sox-dev"
           DODIE=1
-        fi 
+        fi
       ;;
       disable-jackrack)
         mlt_format_optional jackrack "sound effects/operations" "libjack-dev"
@@ -1021,7 +1021,7 @@ function mlt_check_configure {
       disable-frei0r)
         mlt_format_optional frei0r "plugin architecture. Several additional effects and transitions" "see http://www.piksel.org/frei0r"
       ;;
-        
+
       # OTHERS
       disable-dv)
         mlt_format_optional dv "loading and saving of DV files" "libdv/libdv-dev"
@@ -1105,7 +1105,7 @@ function configure_compile_install_subproject {
   if test "mlt" = "$1" ; then
     mlt_check_configure
   fi
-  
+
   # Compile
   feedback_status Building $1 - this could take some time
   cmd make -j$MAKEJ || die "Unable to build $1"
@@ -1122,7 +1122,7 @@ function configure_compile_install_subproject {
     TMPNAME=`mktemp -t build-kdenlive.installoutput.XXXXXXXXX`
     # At least kdesudo does not return an error code if the program fails
     # Filter output for error, and dup it to the log
-    $SUDO make install > $TMPNAME 2>&1 
+    $SUDO make install > $TMPNAME 2>&1
     cat $TMPNAME 2>&1
     # If it contains error it returns 0. 1 matches, 255 errors
     # Filter X errors out too
@@ -1172,9 +1172,9 @@ function configure_compile_install_all {
   export LD_RUN_PATH="$FINAL_INSTALL_DIR/lib"
   export PKG_CONFIG_PATH="$FINAL_INSTALL_DIR/lib/pkgconfig:$PKG_CONFIG_PATH"
 
-  log Changing to $SOURCE_DIR 
+  log Changing to $SOURCE_DIR
   cd $SOURCE_DIR || die "Unable to change to directory $SOURCE_DIR"
-  for DIR in $SUBDIRS ; do 
+  for DIR in $SUBDIRS ; do
     configure_compile_install_subproject $DIR
   done
   feedback_status Done configuring, compiling and installing all sources
@@ -1193,7 +1193,7 @@ function get_dir_info {
   # trace "Entering get_dir_info @ = $@"
   pushd . &> /dev/null
   cd $1 || die "Unable to change directory to $1"
-  REPOTYPE=`lookup REPOTYPES $1`  
+  REPOTYPE=`lookup REPOTYPES $1`
   if test "xgit" = "x$REPOTYPE" ; then
     FIND_STR="\(commit\|Date\)"
     INFO_TEXT=`git --no-pager log -n1 | grep "$FIND_STR"`
@@ -1211,14 +1211,14 @@ function get_dir_info {
 # sys_info
 # Returns some information about the system
 function sys_info {
-  echo 
+  echo
   echo uname -a at time of compilation:
   uname -a
   echo Information about cc at the time of compilation:
   LANG=C cc -v 2>&1
   if which dpkg ; then
     echo Found dpkg - running dpkg -l to grep libc6
-    dpkg -l | grep libc6 
+    dpkg -l | grep libc6
   else
     if which rpm ; then
       echo Found rpm - running rpm -qa to grep libc6
@@ -1230,7 +1230,7 @@ function sys_info {
   if test 1 = "$USE_KDE4" ; then
     echo Information about kde 4 at the time of compilation:
     kde4-config -v
-  else 
+  else
     echo Information about kde 3 at the time of compilation:
     kde-config -v
   fi
@@ -1244,10 +1244,10 @@ function create_startup_script {
   trace "Entering create_startup_script @ = $@"
   pushd .
 
-  log Changing to $SOURCE_DIR 
+  log Changing to $SOURCE_DIR
   cd $SOURCE_DIR || die "Unable to change to directory $SOURCE_DIR"
   INFO=$INFO"Information about revisions of modules at the time of compilation:"
-  for DIR in $SUBDIRS ; do 
+  for DIR in $SUBDIRS ; do
     INFO=$INFO`get_dir_info $DIR`
   done
   INFO=$INFO`sys_info`
@@ -1268,7 +1268,7 @@ function create_startup_script {
 # If none is given, pass verything to kdenlive proper
 
 # Figure out the install path regardless how invoked
-get_prefix() 
+get_prefix()
 {
   # get the path used to run this script
   local prefix=\$(dirname "\$0")
@@ -1278,7 +1278,7 @@ get_prefix()
   echo "\$prefix"
 }
 
-# Set up environment    
+# Set up environment
 export INSTALL_DIR=\$(get_prefix)
 export PATH=\$INSTALL_DIR/bin:\$PATH
 export LD_LIBRARY_PATH=\$INSTALL_DIR/lib:\$INSTALL_DIR/lib/frei0r-1:\$LD_LIBRARY_PATH
@@ -1303,7 +1303,7 @@ export KDEDIRS=\$INSTALL_DIR
 # We need to set LANG to C to avoid e.g. kde4-config from getting to
 # funky, but we do not want kdenlive to run with it, so store the
 # true lang too.
-export TRUE_LANG=\$LANG 
+export TRUE_LANG=\$LANG
 export LANG=C
 
 ################################################################################
@@ -1314,7 +1314,7 @@ function usage() {
   echo "  -v, --version        Show version information"
   echo "  --help-start         Show this help"
   echo "  -g, --gdb            Start in gdb mode (no dialog)"
-  echo "  -n, --normal         Start in normal mode (no dialog)" 
+  echo "  -n, --normal         Start in normal mode (no dialog)"
 }
 
 WAY_TO_RUN=""
@@ -1335,7 +1335,7 @@ while test "" != "\$1" ; do
   --help-start)
     usage
     exit 0
-  ;; 
+  ;;
   -g|--gdb)
     WAY_TO_RUN="GDB"
     shift
@@ -1348,13 +1348,13 @@ while test "" != "\$1" ; do
     kdenlive_args=(\${kdenlive_args[@]} "\$1")
     shift
   ;;
-  esac 
+  esac
 done
 
 # We need kdialog and gdb to provide the user with an option to run it in gdb.
 # If kdialog is not present, nevermind.
 if test "\$WAY_TO_RUN" == "" ; then
-    which gdb kdialog &> /dev/null 
+    which gdb kdialog &> /dev/null
     if test 0 = \$? ; then
         # Found gdb, ask for way to run it
         WAY_TO_RUN=\`kdialog --combobox "<html><p><b>Starting kdenlive from \$INSTALL_DIR</b></p><p>Kdenlive can be started in two different ways, please select the way you wish to use.</p><p><b>Normal</b> Normal mode, for normal use</p><p><b>GDB output capture</b> Capture output from kdenlive in the Gnu Debugger in a format suitable for a crash report. Use when trying to isolate a bug</p><p>If in doubt, just click the Ok button.</p></html>" "Normal" "GDB output capture"\`
@@ -1369,13 +1369,13 @@ fi
 
 echo Way to run = \$WAY_TO_RUN
 
-case \$WAY_TO_RUN in 
+case \$WAY_TO_RUN in
   GDB*)
     INFILE=\`mktemp -t start-kdenlive.gdb.input.XXXXXXXX\`
     OUTFILE=\`mktemp -t start-kdenlive.gdb.output.XXXXXXXX\`
     echo "Logging to \$OUTFILE"
     cat > \$INFILE <<End-of-cmds
-echo 
+echo
 echo set pagination off\n
 set pagination off
 echo set environment LANG = \$TRUE_LANG
@@ -1426,10 +1426,10 @@ End-of-info
     ldd \$INSTALL_DIR/bin/kdenlive
     KDENLIVE_BIN="\$INSTALL_DIR/bin/kdenlive"
     [ "$TARGET_OS" = "Darwin" ] && KDENLIVE_BIN="\$INSTALL_DIR/bin/kdenlive.app/Contents/MacOS/kdenlive"
-    echo Running gdb -batch -x "\$INFILE" --args "\$KDENLIVE_BIN" --nocrashhandler "\${kdenlive_args[@]}" 
+    echo Running gdb -batch -x "\$INFILE" --args "\$KDENLIVE_BIN" --nocrashhandler "\${kdenlive_args[@]}"
     gdb -batch -x "\$INFILE" --args "\$KDENLIVE_BIN" --nocrashhandler "\${kdenlive_args[@]}"
     } >\$OUTFILE 2>&1
-    which kdialog &> /dev/null 
+    which kdialog &> /dev/null
     if test 0 = \$? ; then
       if test 0 != \$? ; then
         kdialog --error "There was an error running gdb on \$INSTALL_DIR/bin/kdenlive. Please try a normal run"
@@ -1447,7 +1447,7 @@ End-of-info
     echo running kdenlive "\${kdenlive_args[@]}"
     export LANG=\$TRUE_LANG
     kdenlive "\${kdenlive_args[@]}"
-  ;; 
+  ;;
 esac
 End-of-startup-script-template
   if test 0 != $? ; then
@@ -1461,8 +1461,8 @@ End-of-startup-script-template
   # Note that if you change any of this, you may also want to change kdenlive_start
   cat > $TMPFILE <<End-of-environment-setup-template
 # Set up environment
-# Source this file using a bash/sh compatible shell, to get an environment, 
-# where you address the binaries and libraries used by your custom Kdenlive build  
+# Source this file using a bash/sh compatible shell, to get an environment,
+# where you address the binaries and libraries used by your custom Kdenlive build
 # Figure out the install path regardless how invoked
 export INSTALL_DIR="\$(dirname \$(pwd))"
 export PATH=\$INSTALL_DIR/bin:\$PATH
@@ -1513,11 +1513,11 @@ function perform_action {
     sys_info
     configure_compile_install_all
   fi
-  if test 1 = "$CREATE_STARTUP_SCRIPT" ; then 
+  if test 1 = "$CREATE_STARTUP_SCRIPT" ; then
     create_startup_script
   fi
   feedback_result SUCCESS "Everything succeeded"
-} 
+}
 
 ################################################################################
 # MAIN AND FRIENDS
@@ -1526,7 +1526,7 @@ function perform_action {
 #################################################################
 # kill_recursive
 # The intention of this is to be able to kill all children, whenever the
-# user aborts. 
+# user aborts.
 # This does not really work very very well, but its the best I can offer.
 # It may leave some defunct around(?)
 # $1 pid
@@ -1582,12 +1582,12 @@ function main {
     case $DCOPREF in
       none)
         log "DCOPREF is $DCOPREF, using ordinary sudo"
-        echo You have chosen to install as root. 
+        echo You have chosen to install as root.
         echo
         echo 'Please provide your sudo password below.  (If you have recently provided your sudo password to this script, you may not have to do that, because the password is cached).'
         echo
-        echo The password will be handled securely by the sudo program. 
-        echo 
+        echo The password will be handled securely by the sudo program.
+        echo
         echo If you fail to provide the password, you will have to provide it later when installing the different projects.
         sudo -v
         if test 0 != $? ; then
@@ -1610,12 +1610,12 @@ function main {
           # This is kdesudo, but it may not support the --comment option. Try and figure it out
           log "Checking for --comment option to kdesudo"
           $SUDO --help | grep -- --comment &> /dev/null
-          if test 0 == $? ; then 
+          if test 0 == $? ; then
             debug "$SUDO supports --comment"
-            $SUDO --caption "Please provide sudo password" --comment "<html><p>You have chosen to install as root.</p><p>Please provide your sudo password below.</p><p>The password will be handled securely by the KDE kdesudo program.</p><p>If you fail to provide the password, you will have to provide it later when installing the different projects. Providing it now allows the program to run unsupervised.</p></html>" -c /bin/true 
+            $SUDO --caption "Please provide sudo password" --comment "<html><p>You have chosen to install as root.</p><p>Please provide your sudo password below.</p><p>The password will be handled securely by the KDE kdesudo program.</p><p>If you fail to provide the password, you will have to provide it later when installing the different projects. Providing it now allows the program to run unsupervised.</p></html>" -c /bin/true
           else
             debug "$SUDO does not support --comment"
-            $SUDO --caption "Please provide sudo password" -c /bin/true 
+            $SUDO --caption "Please provide sudo password" -c /bin/true
           fi
         fi
         # If the user fails to provide password, it is OK, but if running kdesudo fails, stop
@@ -1623,15 +1623,15 @@ function main {
           die "Some kind of error occured while calling $SUDO. Unable to proceed"
         fi
       ;;
-    esac  
+    esac
   fi
   log "Done checking for sudo requirement" 2>&1
-  
-  { 
+
+  {
   prepare_feedback
   perform_action
   } 2>&1
-  
+
   # All is well, that ends well
   exit 0
 }
@@ -1642,6 +1642,6 @@ if test 1 = "$DETACH"; then
   main &
   # Note, that we assume caller has setup stdin & stdout redirection
   disown -a
-else 
+else
   main
 fi
