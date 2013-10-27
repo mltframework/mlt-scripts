@@ -314,7 +314,7 @@ function set_globals {
   REPOLOCS[0]="git://github.com/FFmpeg/FFmpeg.git"
   REPOLOCS[1]="git://github.com/mltframework/mlt.git"
   REPOLOCS[2]="git://github.com/mltframework/melted.git"
-  REPOLOCS[3]="git://code.dyne.org/frei0r.git"
+  REPOLOCS[3]="git://github.com/ddennedy/frei0r.git"
   REPOLOCS[4]="git://git.videolan.org/x264.git"
   REPOLOCS[5]="http://git.chromium.org/webm/libvpx.git"
   REPOLOCS[6]="git://github.com/mltframework/rugen.git"
