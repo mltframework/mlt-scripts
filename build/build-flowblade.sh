@@ -855,8 +855,8 @@ function mlt_check_configure {
         mlt_format_required sdl "Please install libsdl1.2-dev. "
         DODIE=1
       ;;
-      disable-qimage)
-        mlt_format_optional qimage "some additional image loading support" "libqt4-dev"
+      disable-qt)
+        mlt_format_optional qt "some additional image loading support" "libqt4-dev"
       ;;
 
       # AUDIO
