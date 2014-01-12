@@ -44,6 +44,9 @@ FFMPEG_SUPPORT_THEORA=1
 FFMPEG_SUPPORT_MP3=1
 FFMPEG_SUPPORT_FAAC=0
 FFMPEG_ADDITIONAL_OPTIONS=
+ENABLE_VIDSTAB=1
+VIDSTAB_HEAD=1
+VIDSTAB_REVISION=
 MLT_HEAD=1
 MLT_REVISION=
 # QT_INCLUDE_DIR="$(pkg-config --variable=prefix QtCore)/include"
@@ -144,6 +147,9 @@ function to_key {
     ;;
     lame)
       echo 6
+    ;;
+    vid.stab)
+      echo 7
     ;;
     *)
       echo UNKNOWN
@@ -299,6 +305,9 @@ function set_globals {
   if test "$FFMPEG_SUPPORT_MP3" = 1 && test "$ENABLE_LAME" = 1; then
       SUBDIRS="lame $SUBDIRS"
   fi
+  if test "$ENABLE_VIDSTAB" = 1 ; then
+      SUBDIRS="vid.stab $SUBDIRS"
+  fi
   debug "SUBDIRS = $SUBDIRS"
 
   # REPOLOCS Array holds the repo urls
@@ -315,6 +324,7 @@ function set_globals {
   REPOLOCS[4]="http://git.chromium.org/webm/libvpx.git"
   REPOLOCS[5]="git://github.com/mltframework/swfdec.git"
   REPOLOCS[6]="http://downloads.sourceforge.net/project/lame/lame/3.99/lame-3.99.1.tar.gz"
+  REPOLOCS[7]="git://github.com/georgmartius/vid.stab.git"
 
   # REPOTYPE Array holds the repo types. (Yes, this might be redundant, but easy for me)
   REPOTYPES[0]="git"
@@ -324,6 +334,7 @@ function set_globals {
   REPOTYPES[4]="git"
   REPOTYPES[5]="git"
   REPOTYPES[6]="http-tgz"
+  REPOTYPES[7]="git"
 
   # And, set up the revisions
   REVISIONS[0]=""
@@ -352,6 +363,10 @@ function set_globals {
     REVISIONS[5]="$SWFDEC_REVISION"
   fi
   REVISIONS[6]="lame-3.99.1"
+  REVISIONS[7]=""
+  if test 0 = "$VIDSTAB_HEAD" -a "$VIDSTAB_REVISION" ; then
+    REVISIONS[7]="$VIDSTAB_REVISION"
+  fi
 
   # Figure out the install dir - we may not install, but then we know it.
   FINAL_INSTALL_DIR=$INSTALL_DIR
@@ -460,6 +475,12 @@ function set_globals {
   CONFIG[6]="./configure --prefix=$FINAL_INSTALL_DIR --libdir=$FINAL_INSTALL_DIR/lib --disable-decoder --disable-frontend"
   CFLAGS_[6]=$CFLAGS
   LDFLAGS_[6]=$LDFLAGS
+
+  ####
+  # vid.stab
+  CONFIG[7]="cmake -DCMAKE_INSTALL_PREFIX:PATH=$FINAL_INSTALL_DIR"
+  CFLAGS_[7]=$CFLAGS
+  LDFLAGS_[7]=$LDFLAGS
 }
 
 ######################################################################
