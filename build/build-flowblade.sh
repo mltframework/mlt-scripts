@@ -1121,6 +1121,7 @@ export PATH="\$INSTALL_DIR/bin:$PATH"
 export LD_LIBRARY_PATH="\$INSTALL_DIR/lib:\$LD_LIBRARY_PATH"
 export MLT_REPOSITORY="\$INSTALL_DIR/lib/mlt"
 export MLT_DATA="\$INSTALL_DIR/share/mlt"
+export MLT_MOVIT_PATH="\$INSTALL_DIR/share/movit"
 export FREI0R_PATH="\$INSTALL_DIR/lib/frei0r-1"
 
 python "\$INSTALL_DIR/flowblade-trunk/flowblade" $@
@@ -1145,6 +1146,7 @@ export LD_LIBRARY_PATH=\$INSTALL_DIR/lib:\$INSTALL_DIR/lib/frei0r-1:\$LD_LIBRARY
 export MLT_REPOSITORY=\$INSTALL_DIR/lib/mlt
 export MLT_DATA=\$INSTALL_DIR/share/mlt
 export MLT_PROFILES_PATH=\$INSTALL_DIR/share/mlt/profiles
+export MLT_MOVIT_PATH=\$INSTALL_DIR/share/movit
 export FREI0R_PATH=\$INSTALL_DIR/lib/frei0r-1/:/usr/lib/frei0r-1:/usr/local/lib/frei0r-1:/opt/local/lib/frei0r-1
 export MANPATH=\$MANPATH:\$INSTALL_DIR/share/man/
 export PKG_CONFIG_PATH=\$INSTALL_DIR/lib/pkgconfig/:\$PKG_CONFIG_PATH
