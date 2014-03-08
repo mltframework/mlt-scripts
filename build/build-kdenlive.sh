@@ -19,7 +19,7 @@
 # ARGS AND GLOBALS
 ################################################################################
 
-VERSION=19
+VERSION=20
 
 # These are all of the configuration variables with defaults
 INSTALL_DIR="$HOME/kdenlive"
@@ -32,7 +32,7 @@ SOURCES_CLEAN=1
 INSTALL_AS_ROOT=0
 CREATE_STARTUP_SCRIPT=1
 KDENLIVE_HEAD=0
-KDENLIVE_REVISION=origin/v0.9
+KDENLIVE_REVISION=
 ENABLE_FREI0R=1
 FREI0R_HEAD=1
 FREI0R_REVISION=
