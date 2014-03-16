@@ -19,7 +19,7 @@
 # ARGS AND GLOBALS
 ################################################################################
 
-VERSION=20
+VERSION=21
 
 # These are all of the configuration variables with defaults
 INSTALL_DIR="$HOME/kdenlive"
@@ -39,6 +39,9 @@ FREI0R_REVISION=
 ENABLE_SWFDEC=0
 SWFDEC_HEAD=1
 SWFDEC_REVISION=
+ENABLE_MOVIT=1
+MOVIT_HEAD=1
+MOVIT_REVISION=
 X264_HEAD=0
 X264_REVISION=d967c09cd93a230e03ec1e0f0f696975d15a01c0
 LIBVPX_HEAD=1
@@ -196,6 +199,9 @@ function to_key {
     lame)
       echo 7
     ;;
+    movit)
+      echo 8
+    ;;
     *)
       echo UNKNOWN
     ;;
@@ -339,6 +345,9 @@ function set_globals {
   if test "$ENABLE_FREI0R" = 1 ; then
       SUBDIRS="frei0r $SUBDIRS"
   fi
+  if test "$ENABLE_MOVIT" = 1 && test "$MOVIT_HEAD" = 1 -o "$MOVIT_REVISION" != ""; then
+      SUBDIRS="movit $SUBDIRS"
+  fi
   if test "$ENABLE_SWFDEC" = 1 ; then
       SUBDIRS="swfdec $SUBDIRS"
   fi
@@ -362,6 +371,7 @@ function set_globals {
   REPOLOCS[5]="http://git.chromium.org/webm/libvpx.git"
   REPOLOCS[6]="git://github.com/mltframework/swfdec.git"
   REPOLOCS[7]="http://downloads.sourceforge.net/project/lame/lame/3.99/lame-3.99.1.tar.gz"
+  REPOLOCS[8]="git://github.com/ddennedy/movit.git"
 
   # REPOTYPE Array holds the repo types. (Yes, this might be redundant, but easy for me)
   REPOTYPES[0]="git"
@@ -372,6 +382,7 @@ function set_globals {
   REPOTYPES[5]="git"
   REPOTYPES[6]="git"
   REPOTYPES[7]="http-tgz"
+  REPOTYPES[8]="git"
 
   # And, set up the revisions
   REVISIONS[0]=""
@@ -404,6 +415,11 @@ function set_globals {
     REVISIONS[6]="$SWFDEC_REVISION"
   fi
   REVISIONS[7]="lame-3.99.1"
+  REVISIONS[8]=""
+  if test 0 = "$MOVIT_HEAD" -a "$MOVIT_REVISION" ; then
+    REVISIONS[8]="$MOVIT_REVISION"
+  fi
+  
 
   # Figure out the install dir - we may not install, but then we know it.
   FINAL_INSTALL_DIR=$INSTALL_DIR
@@ -515,6 +531,19 @@ function set_globals {
   CONFIG[7]="./configure --prefix=$FINAL_INSTALL_DIR --libdir=$FINAL_INSTALL_DIR/lib --disable-decoder --disable-frontend"
   CFLAGS_[7]=$CFLAGS
   LDFLAGS_[7]=$LDFLAGS
+  
+    #####
+  # movit
+  CONFIG[8]="./autogen.sh --prefix=$FINAL_INSTALL_DIR"
+  if test "$TARGET_OS" = "Win32" ; then
+    CONFIG[8]="${CONFIG[5]} --host=x86-w64-mingw32"
+    CFLAGS_[8]="$CFLAGS"
+  elif test "$TARGET_OS" = "Darwin"; then
+    CFLAGS_[8]="$CFLAGS -I/opt/local/include"
+  else
+    CFLAGS_[8]="$CFLAGS"
+  fi
+  LDFLAGS_[8]=$LDFLAGS
 }
 
 ######################################################################
@@ -658,6 +687,10 @@ function prepare_feedback {
       debug Adding 1 step for get frei0r
       NUMSTEPS=$(( $NUMSTEPS + 1 ))
     fi
+    if test 1 = "$ENABLE_MOVIT" ; then
+      debug Adding 1 step for get movit
+      NUMSTEPS=$(( $NUMSTEPS + 1 ))
+    fi
     if test 1 = "$ENABLE_SWFDEC" ; then
       debug Adding 1 step for get swfdec
       NUMSTEPS=$(( $NUMSTEPS + 1 ))
@@ -679,6 +712,10 @@ function prepare_feedback {
       debug Adding 1 step for clean frei0r
       NUMSTEPS=$(( $NUMSTEPS + 1 ))
     fi
+    if test 1 = "$ENABLE_MOVIT" ; then
+      debug Adding 1 step for clean movit
+      NUMSTEPS=$(( $NUMSTEPS + 1 ))
+    fi
     if test 1 = "$ENABLE_SWFDEC" ; then
       debug Adding 1 step for clean swfdec
       NUMSTEPS=$(( $NUMSTEPS + 1 ))
@@ -698,6 +735,10 @@ function prepare_feedback {
     NUMSTEPS=$(( $NUMSTEPS + 9 ))
     if test 1 = "$ENABLE_FREI0R" ; then
       debug Adding 3 steps for compile-install frei0r
+      NUMSTEPS=$(( $NUMSTEPS + 3 ))
+    fi
+    if test 1 = "$ENABLE_MOVIT" ; then
+      debug Adding 3 steps for compile-install movit
       NUMSTEPS=$(( $NUMSTEPS + 3 ))
     fi
     if test 1 = "$ENABLE_SWFDEC" ; then
@@ -1088,7 +1129,12 @@ function configure_compile_install_subproject {
       die "Unable to confirm presence of configure file for $1"
     fi
   fi
-
+  
+  # Special hack for movit
+  if test "movit" = "$1" -o "mlt" = "$1"; then
+    export CXXFLAGS="$CFLAGS"
+  fi
+  
   # Special hack for swfdec
   if test "swfdec" = "$1" -a ! -e configure ; then
     debug "Need to create configure for $1"
@@ -1108,7 +1154,11 @@ function configure_compile_install_subproject {
 
   # Compile
   feedback_status Building $1 - this could take some time
-  cmd make -j$MAKEJ || die "Unable to build $1"
+  if test "movit" = "$1" ; then
+    cmd make -j$MAKEJ RANLIB="$RANLIB" libmovit.la || die "Unable to build $1"
+  else
+    cmd make -j$MAKEJ || die "Unable to build $1"
+  fi
   feedback_progress Done building $1
 
   # Install
