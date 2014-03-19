@@ -296,6 +296,9 @@ function set_globals {
   # Subdirs list, for number of common operations
   # Note, the function to_key depends on this
   SUBDIRS="$FFMPEG_PROJECT mlt"
+  if test "$ENABLE_MOVIT" = 1 && test "$MOVIT_HEAD" = 1 -o "$MOVIT_REVISION" != ""; then
+      SUBDIRS="movit $SUBDIRS"
+  fi
   if test "$ENABLE_FREI0R" = 1 ; then
       SUBDIRS="frei0r $SUBDIRS"
   fi
@@ -313,9 +316,6 @@ function set_globals {
   fi
   if test "$ENABLE_VIDSTAB" = 1 ; then
       SUBDIRS="vid.stab $SUBDIRS"
-  fi
-  if test "$ENABLE_MOVIT" = 1 && test "$MOVIT_HEAD" = 1 -o "$MOVIT_REVISION" != ""; then
-      SUBDIRS="movit $SUBDIRS"
   fi
   debug "SUBDIRS = $SUBDIRS"
 
@@ -1305,3 +1305,4 @@ if test 1 = "$DETACH"; then
 else 
   main
 fi
+
