@@ -19,7 +19,7 @@
 # ARGS AND GLOBALS
 ################################################################################
 
-VERSION=21
+VERSION=22
 
 # These are all of the configuration variables with defaults
 INSTALL_DIR="$HOME/kdenlive"
@@ -535,10 +535,7 @@ function set_globals {
     #####
   # movit
   CONFIG[8]="./autogen.sh --prefix=$FINAL_INSTALL_DIR"
-  if test "$TARGET_OS" = "Win32" ; then
-    CONFIG[8]="${CONFIG[5]} --host=x86-w64-mingw32"
-    CFLAGS_[8]="$CFLAGS"
-  elif test "$TARGET_OS" = "Darwin"; then
+  if test "$TARGET_OS" = "Darwin"; then
     CFLAGS_[8]="$CFLAGS -I/opt/local/include"
   else
     CFLAGS_[8]="$CFLAGS"
