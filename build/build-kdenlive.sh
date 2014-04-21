@@ -1192,7 +1192,23 @@ function configure_compile_install_subproject {
         fi
       fi
       echo "KDE HOME FOLDER: $HOMEPATH"
-    fi
+    elif test "mlt" = "$1" ; then
+      log Copying some libs from system
+      if [ "1" = "$ENABLE_MOVIT" ]; then
+        GLEWLIB=$(ldd "$FINAL_INSTALL_DIR"/lib/mlt/libmltopengl.so | awk '/GLEW/ {print $3}')
+        log GLEWLIB=$GLEWLIB
+        cmd install -c "$GLEWLIB" "$FINAL_INSTALL_DIR"/lib
+      fi
+
+      if [ "0" = "$MLT_DISABLE_SOX" ]; then
+        SOXLIB=$(ldd "$FINAL_INSTALL_DIR"/lib/mlt/libmltsox.so | awk '/libsox/ {print $3}')
+        log SOXLIB=$SOXLIB
+        cmd install -c "$SOXLIB" "$FINAL_INSTALL_DIR"/lib
+        PNGLIB=$(ldd "$SOXLIB" | awk '/libpng/ {print $3}')
+        log PNGLIB=$PNGLIB
+        cmd install -c "$PNGLIB" "$FINAL_INSTALL_DIR"/lib
+      fi
+   fi
   fi
   feedback_progress Done installing $1
 
