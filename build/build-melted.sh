@@ -988,7 +988,7 @@ function configure_compile_install_subproject {
     cat $TMPNAME 2>&1
     # If it contains error it returns 0. 1 matches, 255 errors
     # Filter X errors out too
-    grep -v "X Error" $TMPNAME | grep -i error 2>&1
+    grep -v "X Error" $TMPNAME | grep -v error.h | grep -i error 2>&1
     if test 0 = $? ; then
       die "Unable to install $1"
     fi
