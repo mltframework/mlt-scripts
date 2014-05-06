@@ -19,7 +19,7 @@
 # ARGS AND GLOBALS
 ################################################################################
 
-VERSION=22
+VERSION=23
 
 # These are all of the configuration variables with defaults
 INSTALL_DIR="$HOME/kdenlive"
@@ -42,6 +42,7 @@ SWFDEC_REVISION=
 ENABLE_MOVIT=1
 MOVIT_HEAD=1
 MOVIT_REVISION=
+LIBEPOXY_REVISION=
 X264_HEAD=0
 X264_REVISION=d967c09cd93a230e03ec1e0f0f696975d15a01c0
 LIBVPX_HEAD=1
@@ -202,6 +203,9 @@ function to_key {
     movit)
       echo 8
     ;;
+    libepoxy)
+      echo 9
+    ;;
     *)
       echo UNKNOWN
     ;;
@@ -346,7 +350,7 @@ function set_globals {
       SUBDIRS="frei0r $SUBDIRS"
   fi
   if test "$ENABLE_MOVIT" = 1 && test "$MOVIT_HEAD" = 1 -o "$MOVIT_REVISION" != ""; then
-      SUBDIRS="movit $SUBDIRS"
+      SUBDIRS="libepoxy movit $SUBDIRS"
   fi
   if test "$ENABLE_SWFDEC" = 1 ; then
       SUBDIRS="swfdec $SUBDIRS"
@@ -371,7 +375,8 @@ function set_globals {
   REPOLOCS[5]="http://git.chromium.org/webm/libvpx.git"
   REPOLOCS[6]="git://github.com/mltframework/swfdec.git"
   REPOLOCS[7]="http://downloads.sourceforge.net/project/lame/lame/3.99/lame-3.99.1.tar.gz"
-  REPOLOCS[8]="git://github.com/ddennedy/movit.git"
+  REPOLOCS[8]="http://git.sesse.net/movit/"
+  REPOLOCS[9]="git://github.com/anholt/libepoxy.git"
 
   # REPOTYPE Array holds the repo types. (Yes, this might be redundant, but easy for me)
   REPOTYPES[0]="git"
@@ -383,6 +388,7 @@ function set_globals {
   REPOTYPES[6]="git"
   REPOTYPES[7]="http-tgz"
   REPOTYPES[8]="git"
+  REPOTYPES[9]="git"
 
   # And, set up the revisions
   REVISIONS[0]=""
@@ -419,7 +425,10 @@ function set_globals {
   if test 0 = "$MOVIT_HEAD" -a "$MOVIT_REVISION" ; then
     REVISIONS[8]="$MOVIT_REVISION"
   fi
-  
+  REVISIONS[9]=""
+  if test "$LIBEPOXY_REVISION" ; then
+    REVISIONS[9]="$LIBEPOXY_REVISION"
+  fi
 
   # Figure out the install dir - we may not install, but then we know it.
   FINAL_INSTALL_DIR=$INSTALL_DIR
@@ -532,7 +541,7 @@ function set_globals {
   CFLAGS_[7]=$CFLAGS
   LDFLAGS_[7]=$LDFLAGS
   
-    #####
+  #####
   # movit
   CONFIG[8]="./autogen.sh --prefix=$FINAL_INSTALL_DIR"
   if test "$TARGET_OS" = "Darwin"; then
@@ -541,6 +550,16 @@ function set_globals {
     CFLAGS_[8]="$CFLAGS"
   fi
   LDFLAGS_[8]=$LDFLAGS
+
+  #####
+  # libepoxy
+  CONFIG[9]="./autogen.sh --prefix=$FINAL_INSTALL_DIR"
+  if test "$TARGET_OS" = "Darwin"; then
+    CFLAGS_[9]="$CFLAGS -I/opt/local/include"
+  else
+    CFLAGS_[9]="$CFLAGS"
+  fi
+  LDFLAGS_[9]=$LDFLAGS
 }
 
 ######################################################################
@@ -685,8 +704,8 @@ function prepare_feedback {
       NUMSTEPS=$(( $NUMSTEPS + 1 ))
     fi
     if test 1 = "$ENABLE_MOVIT" ; then
-      debug Adding 1 step for get movit
-      NUMSTEPS=$(( $NUMSTEPS + 1 ))
+      debug Adding 2 steps for get movit and libepoxy
+      NUMSTEPS=$(( $NUMSTEPS + 2 ))
     fi
     if test 1 = "$ENABLE_SWFDEC" ; then
       debug Adding 1 step for get swfdec
@@ -710,8 +729,8 @@ function prepare_feedback {
       NUMSTEPS=$(( $NUMSTEPS + 1 ))
     fi
     if test 1 = "$ENABLE_MOVIT" ; then
-      debug Adding 1 step for clean movit
-      NUMSTEPS=$(( $NUMSTEPS + 1 ))
+      debug Adding 2 steps for clean movit and libepoxy
+      NUMSTEPS=$(( $NUMSTEPS + 2 ))
     fi
     if test 1 = "$ENABLE_SWFDEC" ; then
       debug Adding 1 step for clean swfdec
@@ -735,8 +754,8 @@ function prepare_feedback {
       NUMSTEPS=$(( $NUMSTEPS + 3 ))
     fi
     if test 1 = "$ENABLE_MOVIT" ; then
-      debug Adding 3 steps for compile-install movit
-      NUMSTEPS=$(( $NUMSTEPS + 3 ))
+      debug Adding 6 steps for compile-install movit and libepoxy
+      NUMSTEPS=$(( $NUMSTEPS + 6 ))
     fi
     if test 1 = "$ENABLE_SWFDEC" ; then
       debug Adding 3 steps for compile-install swfdec
@@ -1194,12 +1213,6 @@ function configure_compile_install_subproject {
       echo "KDE HOME FOLDER: $HOMEPATH"
     elif test "mlt" = "$1" ; then
       log Copying some libs from system
-      if [ "1" = "$ENABLE_MOVIT" ]; then
-        GLEWLIB=$(ldd "$FINAL_INSTALL_DIR"/lib/mlt/libmltopengl.so | awk '/GLEW/ {print $3}')
-        log GLEWLIB=$GLEWLIB
-        cmd install -c "$GLEWLIB" "$FINAL_INSTALL_DIR"/lib
-      fi
-
       if [ "0" = "$MLT_DISABLE_SOX" ]; then
         SOXLIB=$(ldd "$FINAL_INSTALL_DIR"/lib/mlt/libmltsox.so | awk '/libsox/ {print $3}')
         log SOXLIB=$SOXLIB
