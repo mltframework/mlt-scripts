@@ -7,7 +7,7 @@
 # bash, test, tr, awk, ps, make, cmake, cat, sed, curl or wget, and possibly others
 
 # Author: Dan Dennedy <dan@dennedy.org>
-# Version: 9
+# Version: 10
 # License: GPL2
 
 ################################################################################
@@ -33,8 +33,8 @@ SWFDEC_REVISION=
 ENABLE_MOVIT=1
 MOVIT_HEAD=1
 MOVIT_REVISION=
-X264_HEAD=0
-X264_REVISION=d967c09cd93a230e03ec1e0f0f696975d15a01c0
+X264_HEAD=1
+X264_REVISION=
 LIBVPX_HEAD=1
 LIBVPX_REVISION=
 ENABLE_LAME=1
