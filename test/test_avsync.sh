@@ -16,32 +16,28 @@ declare -r RESULTS_FILE="results.txt"
 declare -r TMP_FILE="tmp_output"
 declare -r ONE_FRAME_MS="33.4" # 29.97 plus a little slop for rounding errors
 
-TEST_NAME[0]="libdv"
-TEST_CMDS[0]="melt -silent -profile dv_ntsc blipflash out=$TEST_DURATION -consumer libdv:$TMP_FILE.dv terminate_on_pause=1;
-              melt -silent -profile dv_ntsc libdv:$TMP_FILE.dv -consumer blipflash:$RESULTS_FILE terminate_on_pause=1"
-
-TEST_NAME[1]="avformat-avi"
-TEST_CMDS[1]="melt -silent -profile dv_ntsc blipflash out=$TEST_DURATION -consumer avformat:$TMP_FILE.avi acodec=mp2 terminate_on_pause=1; 
+TEST_NAME[0]="avformat-avi"
+TEST_CMDS[0]="melt -silent -profile dv_ntsc blipflash out=$TEST_DURATION -consumer avformat:$TMP_FILE.avi acodec=mp2 terminate_on_pause=1; 
               melt -silent -profile dv_ntsc avformat:$TMP_FILE.avi -consumer blipflash:$RESULTS_FILE terminate_on_pause=1;"
 
-TEST_NAME[2]="avformat-dv"
-TEST_CMDS[2]="melt -silent -profile dv_ntsc blipflash out=$TEST_DURATION -consumer avformat:$TMP_FILE.dv pix_fmt=yuv422p terminate_on_pause=1;
+TEST_NAME[1]="avformat-dv"
+TEST_CMDS[1]="melt -silent -profile dv_ntsc blipflash out=$TEST_DURATION -consumer avformat:$TMP_FILE.dv pix_fmt=yuv422p terminate_on_pause=1;
               melt -silent -profile dv_ntsc avformat:$TMP_FILE.dv -consumer blipflash:$RESULTS_FILE terminate_on_pause=1"
 
-TEST_NAME[3]="avformat-mkv"
-TEST_CMDS[3]="melt -silent -profile dv_ntsc blipflash out=$TEST_DURATION -consumer avformat:$TMP_FILE.mkv terminate_on_pause=1;
+TEST_NAME[2]="avformat-mkv"
+TEST_CMDS[2]="melt -silent -profile dv_ntsc blipflash out=$TEST_DURATION -consumer avformat:$TMP_FILE.mkv terminate_on_pause=1;
               melt -silent -profile dv_ntsc avformat:$TMP_FILE.mkv -consumer blipflash:$RESULTS_FILE terminate_on_pause=1"
 
-TEST_NAME[4]="avformat-mov"
-TEST_CMDS[4]="melt -silent -profile dv_ntsc blipflash out=$TEST_DURATION -consumer avformat:$TMP_FILE.mov strict=-2 terminate_on_pause=1;
+TEST_NAME[3]="avformat-mov"
+TEST_CMDS[3]="melt -silent -profile dv_ntsc blipflash out=$TEST_DURATION -consumer avformat:$TMP_FILE.mov strict=-2 terminate_on_pause=1;
               melt -silent -profile dv_ntsc avformat:$TMP_FILE.mov -consumer blipflash:$RESULTS_FILE terminate_on_pause=1"
 
-TEST_NAME[5]="avformat-mp4"
-TEST_CMDS[5]="melt -silent -profile dv_ntsc blipflash out=$TEST_DURATION -consumer avformat:$TMP_FILE.mp4 strict=-2 terminate_on_pause=1;
+TEST_NAME[4]="avformat-mp4"
+TEST_CMDS[4]="melt -silent -profile dv_ntsc blipflash out=$TEST_DURATION -consumer avformat:$TMP_FILE.mp4 strict=-2 terminate_on_pause=1;
               melt -silent -profile dv_ntsc avformat:$TMP_FILE.mp4 -consumer blipflash:$RESULTS_FILE terminate_on_pause=1"
 
-TEST_NAME[6]="avformat-mpg"
-TEST_CMDS[6]="melt -silent -profile dv_ntsc blipflash out=$TEST_DURATION -consumer avformat:$TMP_FILE.mpg vcodec=mpeg2video terminate_on_pause=1;
+TEST_NAME[5]="avformat-mpg"
+TEST_CMDS[5]="melt -silent -profile dv_ntsc blipflash out=$TEST_DURATION -consumer avformat:$TMP_FILE.mpg vcodec=mpeg2video terminate_on_pause=1;
               melt -silent -profile dv_ntsc avformat:$TMP_FILE.mpg -consumer blipflash:$RESULTS_FILE terminate_on_pause=1"
 
 print_help()
