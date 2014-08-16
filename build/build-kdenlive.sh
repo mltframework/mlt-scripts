@@ -1376,6 +1376,7 @@ export MANPATH=\$MANPATH:\$INSTALL_DIR/share/man/
 export PKG_CONFIG_PATH=\$INSTALL_DIR/lib/pkgconfig/:\$PKG_CONFIG_PATH
 export KDEHOME=\$INSTALL_DIR/.kde
 export KDEDIRS=\$INSTALL_DIR
+export MLT_PREFIX=$INSTALL_DIR
 
 # We need to set LANG to C to avoid e.g. kde4-config from getting to
 # funky, but we do not want kdenlive to run with it, so store the
@@ -1552,6 +1553,7 @@ else
   CPUS=\$(grep "processor\s*:" /proc/cpuinfo | wc -l)
 fi
 # export MLT_AVFORMAT_THREADS=\$((\$CPUS - 1))
+export MLT_PREFIX=$INSTALL_DIR
 export MLT_REPOSITORY=\$INSTALL_DIR/lib/mlt
 export MLT_DATA=\$INSTALL_DIR/share/mlt
 export MLT_PROFILES_PATH=\$INSTALL_DIR/share/mlt/profiles
