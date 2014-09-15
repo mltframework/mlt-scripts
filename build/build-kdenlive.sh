@@ -500,7 +500,8 @@ function set_globals {
 
   #####
   # kdenlive
-  CONFIG[2]="cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$FINAL_INSTALL_DIR -DCMAKE_BUILD_TYPE=debugfull"
+  QMAKE=`kde4-config --qt-binaries`/qmake
+  CONFIG[2]="cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$FINAL_INSTALL_DIR -DCMAKE_BUILD_TYPE=debugfull -DQT_QMAKE_EXECUTABLE=$QMAKE"
   [ "$TARGET_OS" = "Darwin" ] && CONFIG[2]="${CONFIG[2]} -DNO_JOGSHUTTLE=1"
   #CFLAGS_[2]="${CFLAGS_[1]}"
   CFLAGS_[2]="-I$FINAL_INSTALL_DIR/include $CFLAGS"
