@@ -43,6 +43,9 @@ ENABLE_MOVIT=1
 MOVIT_HEAD=1
 MOVIT_REVISION=
 LIBEPOXY_REVISION=
+ENABLE_VIDSTAB=1
+VIDSTAB_HEAD=1
+VIDSTAB_REVISION=
 X264_HEAD=1
 X264_REVISION=
 LIBVPX_HEAD=1
@@ -206,6 +209,9 @@ function to_key {
     libepoxy)
       echo 9
     ;;
+    vid.stab)
+      echo 10
+    ;;
     *)
       echo UNKNOWN
     ;;
@@ -364,6 +370,9 @@ function set_globals {
   if test "$FFMPEG_SUPPORT_MP3" = 1 && test "$ENABLE_LAME" = 1; then
       SUBDIRS="lame $SUBDIRS"
   fi
+  if test "$ENABLE_VIDSTAB" = 1 ; then
+      SUBDIRS="vid.stab $SUBDIRS"
+  fi
   debug "SUBDIRS = $SUBDIRS"
 
   # REPOLOCS Array holds the repo urls
@@ -377,6 +386,7 @@ function set_globals {
   REPOLOCS[7]="http://downloads.sourceforge.net/project/lame/lame/3.99/lame-3.99.1.tar.gz"
   REPOLOCS[8]="http://git.sesse.net/movit/"
   REPOLOCS[9]="git://github.com/anholt/libepoxy.git"
+  REPOLOCS[10]="git://github.com/georgmartius/vid.stab.git"
 
   # REPOTYPE Array holds the repo types. (Yes, this might be redundant, but easy for me)
   REPOTYPES[0]="git"
@@ -389,6 +399,7 @@ function set_globals {
   REPOTYPES[7]="http-tgz"
   REPOTYPES[8]="git"
   REPOTYPES[9]="git"
+  REPOTYPES[10]="git"
 
   # And, set up the revisions
   REVISIONS[0]=""
@@ -428,6 +439,10 @@ function set_globals {
   REVISIONS[9]=""
   if test "$LIBEPOXY_REVISION" ; then
     REVISIONS[9]="$LIBEPOXY_REVISION"
+  fi
+  REVISIONS[10]=""
+  if test 0 = "$VIDSTAB_HEAD" -a "$VIDSTAB_REVISION" ; then
+    REVISIONS[10]="$VIDSTAB_REVISION"
   fi
 
   # Figure out the install dir - we may not install, but then we know it.
@@ -561,6 +576,12 @@ function set_globals {
     CFLAGS_[9]="$CFLAGS"
   fi
   LDFLAGS_[9]=$LDFLAGS
+
+  ####
+  # vid.stab
+  CONFIG[10]="cmake -DCMAKE_INSTALL_PREFIX:PATH=$FINAL_INSTALL_DIR"
+  CFLAGS_[10]=$CFLAGS
+  LDFLAGS_[10]=$LDFLAGS
 }
 
 ######################################################################
