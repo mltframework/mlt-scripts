@@ -7,7 +7,7 @@
 # bash, test, tr, awk, ps, make, cmake, cat, sed, curl or wget, and possibly others
 
 # Author: Dan Dennedy <dan@dennedy.org>
-# Version: 10
+# Version: 11
 # License: GPL2
 
 ################################################################################
@@ -1047,6 +1047,9 @@ function configure_compile_install_subproject {
     fi
   else
     cmd make install || die "Unable to install $1"
+    if test "mlt" = "$1" ; then
+      cmd cp -a src/swig/python/{_mlt.so,mlt.py} "$FINAL_INSTALL_DIR/lib"
+    fi
   fi
   feedback_progress Done installing $1
 
