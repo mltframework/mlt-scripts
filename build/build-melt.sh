@@ -7,7 +7,7 @@
 # bash, test, tr, awk, ps, make, cmake, cat, sed, curl or wget, and possibly others
 
 # Author: Dan Dennedy <dan@dennedy.org>
-# Version: 11
+# Version: 12
 # License: GPL2
 
 ################################################################################
@@ -334,7 +334,7 @@ function set_globals {
   REPOLOCS[5]="git://github.com/mltframework/swfdec.git"
   REPOLOCS[6]="http://downloads.sourceforge.net/project/lame/lame/3.99/lame-3.99.1.tar.gz"
   REPOLOCS[7]="git://github.com/georgmartius/vid.stab.git"
-  REPOLOCS[8]="git://github.com/ddennedy/movit.git"
+  REPOLOCS[8]="http://git.sesse.net/movit/"
 
   # REPOTYPE Array holds the repo types. (Yes, this might be redundant, but easy for me)
   REPOTYPES[0]="git"
