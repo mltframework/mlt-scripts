@@ -33,6 +33,7 @@ SWFDEC_REVISION=
 ENABLE_MOVIT=1
 MOVIT_HEAD=1
 MOVIT_REVISION=
+LIBEPOXY_REVISION=
 X264_HEAD=1
 X264_REVISION=
 LIBVPX_HEAD=1
@@ -156,6 +157,9 @@ function to_key {
     ;;
     movit)
       echo 8
+    ;;
+    libepoxy)
+      echo 9
     ;;
     *)
       echo UNKNOWN
@@ -297,7 +301,7 @@ function set_globals {
   # Note, the function to_key depends on this
   SUBDIRS="$FFMPEG_PROJECT mlt"
   if test "$ENABLE_MOVIT" = 1 && test "$MOVIT_HEAD" = 1 -o "$MOVIT_REVISION" != ""; then
-      SUBDIRS="movit $SUBDIRS"
+      SUBDIRS="libepoxy movit $SUBDIRS"
   fi
   if test "$ENABLE_FREI0R" = 1 ; then
       SUBDIRS="frei0r $SUBDIRS"
@@ -335,6 +339,7 @@ function set_globals {
   REPOLOCS[6]="http://downloads.sourceforge.net/project/lame/lame/3.99/lame-3.99.1.tar.gz"
   REPOLOCS[7]="git://github.com/georgmartius/vid.stab.git"
   REPOLOCS[8]="http://git.sesse.net/movit/"
+  REPOLOCS[9]="git://github.com/anholt/libepoxy.git"
 
   # REPOTYPE Array holds the repo types. (Yes, this might be redundant, but easy for me)
   REPOTYPES[0]="git"
@@ -346,6 +351,7 @@ function set_globals {
   REPOTYPES[6]="http-tgz"
   REPOTYPES[7]="git"
   REPOTYPES[8]="git"
+  REPOTYPES[9]="git"
 
   # And, set up the revisions
   REVISIONS[0]=""
@@ -381,6 +387,10 @@ function set_globals {
   REVISIONS[8]=""
   if test 0 = "$MOVIT_HEAD" -a "$MOVIT_REVISION" ; then
     REVISIONS[8]="$MOVIT_REVISION"
+  fi
+  REVISIONS[9]=""
+  if test "$LIBEPOXY_REVISION" ; then
+    REVISIONS[9]="$LIBEPOXY_REVISION"
   fi
 
   # Figure out the install dir - we may not install, but then we know it.
@@ -509,6 +519,20 @@ function set_globals {
     CFLAGS_[8]="$CFLAGS"
   fi
   LDFLAGS_[8]=$LDFLAGS
+
+  #####
+  # libepoxy
+  CONFIG[9]="./autogen.sh --prefix=$FINAL_INSTALL_DIR"
+  if test "$TARGET_OS" = "Win32" ; then
+    CONFIG[9]="${CONFIG[9]} --host=x86-w64-mingw32"
+    CFLAGS_[9]="$CFLAGS"
+  elif test "$TARGET_OS" = "Darwin"; then
+    CFLAGS_[9]="$CFLAGS -I/opt/local/include"
+  else
+    CFLAGS_[9]="$CFLAGS"
+  fi
+  LDFLAGS_[9]=$LDFLAGS
+
 }
 
 ######################################################################
@@ -621,8 +645,8 @@ function prepare_feedback {
       NUMSTEPS=$(( $NUMSTEPS + 1 ))
     fi
     if test 1 = "$ENABLE_MOVIT" ; then
-      debug Adding 1 step for get movit
-      NUMSTEPS=$(( $NUMSTEPS + 1 ))
+      debug Adding 2 steps for get movit and libepoxy
+      NUMSTEPS=$(( $NUMSTEPS + 2 ))
     fi
     if test 1 = "$ENABLE_SWFDEC" ; then
       debug Adding 1 step for get swfdec
@@ -637,8 +661,8 @@ function prepare_feedback {
       NUMSTEPS=$(( $NUMSTEPS + 1 ))
     fi
     if test 1 = "$ENABLE_MOVIT" ; then
-      debug Adding 1 step for clean movit
-      NUMSTEPS=$(( $NUMSTEPS + 1 ))
+      debug Adding 2 steps for clean movit and libepoxy
+      NUMSTEPS=$(( $NUMSTEPS + 2 ))
     fi
     if test 1 = "$ENABLE_SWFDEC" ; then
       debug Adding 1 step for clean swfdec
@@ -653,8 +677,8 @@ function prepare_feedback {
       NUMSTEPS=$(( $NUMSTEPS + 3 ))
     fi
     if test 1 = "$ENABLE_MOVIT" ; then
-      debug Adding 3 steps for compile-install movit
-      NUMSTEPS=$(( $NUMSTEPS + 3 ))
+      debug Adding 6 steps for compile-install movit and libepoxy
+      NUMSTEPS=$(( $NUMSTEPS + 6 ))
     fi
     if test 1 = "$ENABLE_SWFDEC" ; then
       debug Adding 3 steps for compile-install swfdec
@@ -1049,6 +1073,12 @@ function configure_compile_install_subproject {
     cmd make install || die "Unable to install $1"
     if test "mlt" = "$1" ; then
       cmd cp -a src/swig/python/{_mlt.so,mlt.py} "$FINAL_INSTALL_DIR/lib"
+    elif test "libepoxy" = "$1" -a "$TARGET_OS" = "Win32" ; then
+      cmd make install || die "Unable to install $1"
+      cmd install -p -c include/epoxy/wgl*.h "$FINAL_INSTALL_DIR"/include/epoxy
+      # libopengl32.dll is added to prebuilts to make libtool build a dll for
+      # libepoxy, but it is not an import lib for other projects.
+      cmd rm "$FINAL_INSTALL_DIR"/lib/libopengl32.dll
     fi
   fi
   feedback_progress Done installing $1
