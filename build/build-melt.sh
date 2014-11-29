@@ -1211,7 +1211,7 @@ export MLT_DATA="\$INSTALL_DIR/share/mlt"
 export MLT_PROFILES_PATH="\$INSTALL_DIR/share/mlt/profiles"
 export MLT_MOVIT_PATH="\$INSTALL_DIR/share/movit"
 export FREI0R_PATH="\$INSTALL_DIR/lib/frei0r-1":/usr/lib/frei0r-1:/usr/local/lib/frei0r-1:/opt/local/lib/frei0r-1
-"\$INSTALL_DIR/bin/melt" \$@
+"\$INSTALL_DIR/bin/melt" "\$@"
 End-of-wrapper-script
   if test 0 != $? ; then
     die "Unable to create wrapper script"

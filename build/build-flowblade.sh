@@ -1124,7 +1124,7 @@ export MLT_DATA="\$INSTALL_DIR/share/mlt"
 export MLT_MOVIT_PATH="\$INSTALL_DIR/share/movit"
 export FREI0R_PATH="\$INSTALL_DIR/lib/frei0r-1"
 
-python "\$INSTALL_DIR/flowblade-trunk/flowblade" $@
+python "\$INSTALL_DIR/flowblade-trunk/flowblade" "\$@"
 End-of-startup-script-template
   if test 0 != $? ; then
     die "Unable to create startup script"

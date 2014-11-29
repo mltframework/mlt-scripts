@@ -1131,7 +1131,7 @@ export MLT_REPOSITORY="\$INSTALL_DIR/lib/mlt"
 export MLT_DATA="\$INSTALL_DIR/share/mlt"
 export FREI0R_PATH="\$INSTALL_DIR/lib/frei0r-1"
 
-python "\$INSTALL_DIR/openshot/openshot.py" $@
+python "\$INSTALL_DIR/openshot/openshot.py" "\$@"
 End-of-startup-script-template
   if test 0 != $? ; then
     die "Unable to create startup script"
