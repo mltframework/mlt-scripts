@@ -19,7 +19,7 @@
 # ARGS AND GLOBALS
 ################################################################################
 
-VERSION=24
+VERSION=25
 
 # These are all of the configuration variables with defaults
 INSTALL_DIR="$HOME/kdenlive"
@@ -212,6 +212,9 @@ function to_key {
     vid.stab)
       echo 10
     ;;
+    eigen)
+      echo 11
+    ;;
     *)
       echo UNKNOWN
     ;;
@@ -356,7 +359,7 @@ function set_globals {
       SUBDIRS="frei0r $SUBDIRS"
   fi
   if test "$ENABLE_MOVIT" = 1 && test "$MOVIT_HEAD" = 1 -o "$MOVIT_REVISION" != ""; then
-      SUBDIRS="libepoxy movit $SUBDIRS"
+      SUBDIRS="libepoxy eigen movit $SUBDIRS"
   fi
   if test "$ENABLE_SWFDEC" = 1 ; then
       SUBDIRS="swfdec $SUBDIRS"
@@ -387,6 +390,7 @@ function set_globals {
   REPOLOCS[8]="http://git.sesse.net/movit/"
   REPOLOCS[9]="git://github.com/anholt/libepoxy.git"
   REPOLOCS[10]="git://github.com/georgmartius/vid.stab.git"
+  REPOLOCS[11]="http://bitbucket.org/eigen/eigen/get/3.2.4.tar.gz"
 
   # REPOTYPE Array holds the repo types. (Yes, this might be redundant, but easy for me)
   REPOTYPES[0]="git"
@@ -400,6 +404,7 @@ function set_globals {
   REPOTYPES[8]="git"
   REPOTYPES[9]="git"
   REPOTYPES[10]="git"
+  REPOTYPES[11]="http-tgz"
 
   # And, set up the revisions
   REVISIONS[0]=""
@@ -444,6 +449,7 @@ function set_globals {
   if test 0 = "$VIDSTAB_HEAD" -a "$VIDSTAB_REVISION" ; then
     REVISIONS[10]="$VIDSTAB_REVISION"
   fi
+  REVISIONS[11]="eigen-eigen-10219c95fe65"
 
   # Figure out the install dir - we may not install, but then we know it.
   FINAL_INSTALL_DIR=$INSTALL_DIR
@@ -582,6 +588,10 @@ function set_globals {
   CONFIG[10]="cmake -DCMAKE_INSTALL_PREFIX:PATH=$FINAL_INSTALL_DIR"
   CFLAGS_[10]=$CFLAGS
   LDFLAGS_[10]=$LDFLAGS
+
+  #######
+  # eigen
+  CONFIG[11]="cmake -DCMAKE_INSTALL_PREFIX=$FINAL_INSTALL_DIR .."
 }
 
 ######################################################################
@@ -726,8 +736,8 @@ function prepare_feedback {
       NUMSTEPS=$(( $NUMSTEPS + 1 ))
     fi
     if test 1 = "$ENABLE_MOVIT" ; then
-      debug Adding 2 steps for get movit and libepoxy
-      NUMSTEPS=$(( $NUMSTEPS + 2 ))
+      debug Adding 3 steps for get movit, libepoxy, and eigen
+      NUMSTEPS=$(( $NUMSTEPS + 3 ))
     fi
     if test 1 = "$ENABLE_SWFDEC" ; then
       debug Adding 1 step for get swfdec
@@ -751,8 +761,8 @@ function prepare_feedback {
       NUMSTEPS=$(( $NUMSTEPS + 1 ))
     fi
     if test 1 = "$ENABLE_MOVIT" ; then
-      debug Adding 2 steps for clean movit and libepoxy
-      NUMSTEPS=$(( $NUMSTEPS + 2 ))
+      debug Adding 3 steps for clean movit, libepoxy, and eigen
+      NUMSTEPS=$(( $NUMSTEPS + 3 ))
     fi
     if test 1 = "$ENABLE_SWFDEC" ; then
       debug Adding 1 step for clean swfdec
@@ -776,8 +786,8 @@ function prepare_feedback {
       NUMSTEPS=$(( $NUMSTEPS + 3 ))
     fi
     if test 1 = "$ENABLE_MOVIT" ; then
-      debug Adding 6 steps for compile-install movit and libepoxy
-      NUMSTEPS=$(( $NUMSTEPS + 6 ))
+      debug Adding 9 steps for compile-install movit, libepoxy, and eigen
+      NUMSTEPS=$(( $NUMSTEPS + 9 ))
     fi
     if test 1 = "$ENABLE_SWFDEC" ; then
       debug Adding 3 steps for compile-install swfdec
@@ -1180,6 +1190,12 @@ function configure_compile_install_subproject {
     if test ! -e configure ; then
       die "Unable to confirm presence of configure file for $1"
     fi
+  fi
+
+  # Special hack for eigen
+  if test "eigen" = "$1" ; then
+    cmd mkdir build 2> /dev/null
+    cmd cd build
   fi
 
   cmd `lookup CONFIG $1` || die "Unable to configure $1"
