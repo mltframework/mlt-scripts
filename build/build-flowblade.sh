@@ -7,7 +7,7 @@
 # bash, test, tr, awk, ps, make, cmake, cat, sed, curl or wget, and possibly others
 
 # Author: Dan Dennedy <dan@dennedy.org>
-# Version: 4
+# Version: 5
 # License: GPL2
 
 ################################################################################
@@ -304,7 +304,7 @@ function set_globals {
   # REPOLOCS Array holds the repo urls
   REPOLOCS[0]="git://github.com/FFmpeg/FFmpeg.git"
   REPOLOCS[1]="git://github.com/mltframework/mlt.git"
-  REPOLOCS[2]="https://code.google.com/p/flowblade/"
+  REPOLOCS[2]="git://github.com/jliljebl/flowblade.git"
   REPOLOCS[3]="git://github.com/ddennedy/frei0r.git"
   REPOLOCS[4]="git://git.videolan.org/x264.git"
   REPOLOCS[5]="http://git.chromium.org/webm/libvpx.git"
@@ -314,7 +314,7 @@ function set_globals {
   # REPOTYPE Array holds the repo types. (Yes, this might be redundant, but easy for me)
   REPOTYPES[0]="git"
   REPOTYPES[1]="git"
-  REPOTYPES[2]="hg"
+  REPOTYPES[2]="git"
   REPOTYPES[3]="git"
   REPOTYPES[4]="git"
   REPOTYPES[5]="git"
