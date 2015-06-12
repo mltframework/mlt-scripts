@@ -7,7 +7,7 @@
 # bash, test, tr, awk, ps, make, cmake, cat, sed, curl or wget, and possibly others
 
 # Author: Dan Dennedy <dan@dennedy.org>
-# Version: 5
+# Version: 6
 # License: GPL2
 
 ################################################################################
@@ -307,7 +307,7 @@ function set_globals {
   REPOLOCS[2]="git://github.com/jliljebl/flowblade.git"
   REPOLOCS[3]="git://github.com/ddennedy/frei0r.git"
   REPOLOCS[4]="git://git.videolan.org/x264.git"
-  REPOLOCS[5]="http://git.chromium.org/webm/libvpx.git"
+  REPOLOCS[5]="http://chromium.googlesource.com/webm/libvpx.git"
   REPOLOCS[6]="git://github.com/mltframework/swfdec.git"
   REPOLOCS[7]="http://downloads.sourceforge.net/project/lame/lame/3.99/lame-3.99.1.tar.gz"
 
