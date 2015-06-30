@@ -11,7 +11,7 @@ test_latest()
 {
    # Run the tests that require a fresh build of the latest mlt.
    # Get it and compile it.
-   wget --no-check-certificate http://raw.github.com/mltframework/mlt-scripts/master/build/build-melt.sh
+   wget --no-check-certificate https://raw.githubusercontent.com/mltframework/mlt-scripts/master/build/build-melt.sh
    echo 'INSTALL_DIR="$(pwd)/melt"' >> build-melt.conf
    echo 'AUTO_APPEND_DATE=0' >> build-melt.conf
    echo 'SOURCE_DIR="$(pwd)/src"' >> build-melt.conf
@@ -21,10 +21,10 @@ test_latest()
    # Test must run in the melt directory
    pushd melt
       # Get the test scripts
-      wget --no-check-certificate http://raw.github.com/mltframework/mlt-scripts/master/test/report_results.sh
-      wget --no-check-certificate http://raw.github.com/mltframework/mlt-scripts/master/test/test_yml.sh
-      wget --no-check-certificate http://raw.github.com/mltframework/mlt-scripts/master/test/test_avsync.sh
-      wget --no-check-certificate http://raw.github.com/mltframework/mlt-scripts/master/test/test_qtest.sh
+      wget --no-check-certificate https://raw.githubusercontent.com/mltframework/mlt-scripts/master/test/report_results.sh
+      wget --no-check-certificate https://raw.githubusercontent.com/mltframework/mlt-scripts/master/test/test_yml.sh
+      wget --no-check-certificate https://raw.githubusercontent.com/mltframework/mlt-scripts/master/test/test_avsync.sh
+      wget --no-check-certificate https://raw.githubusercontent.com/mltframework/mlt-scripts/master/test/test_qtest.sh
 
       # Run the YML test
       chmod 755 test_yml.sh
@@ -46,8 +46,8 @@ test_latest()
 test_libav_regression()
 {
    # Get the test scripts
-   wget --no-check-certificate http://raw.github.com/mltframework/mlt-scripts/master/test/report_results.sh
-   wget --no-check-certificate http://raw.github.com/mltframework/mlt-scripts/master/test/test_libav_regression.sh
+   wget --no-check-certificate https://raw.githubusercontent.com/mltframework/mlt-scripts/master/test/report_results.sh
+   wget --no-check-certificate https://raw.githubusercontent.com/mltframework/mlt-scripts/master/test/test_libav_regression.sh
 
    # Run the script
    chmod 755 test_libav_regression.sh

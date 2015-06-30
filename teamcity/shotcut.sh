@@ -8,7 +8,7 @@ set -o nounset
 set -o errexit
 
 # Get Script
-wget --no-check-certificate http://raw.github.com/mltframework/shotcut/master/scripts/build-shotcut.sh
+wget --no-check-certificate https://raw.githubusercontent.com/mltframework/shotcut/master/scripts/build-shotcut.sh
 chmod 755 build-shotcut.sh
 echo 'INSTALL_DIR="$(pwd)/shotcut"' >> build-shotcut.conf
 echo 'SOURCE_DIR="$(pwd)/src"' >> build-shotcut.conf

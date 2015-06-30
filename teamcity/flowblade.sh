@@ -8,7 +8,7 @@ set -o nounset
 set -o errexit
 
 # Get Script
-wget --no-check-certificate http://raw.github.com/mltframework/mlt-scripts/master/build/build-flowblade.sh
+wget --no-check-certificate https://raw.githubusercontent.com/mltframework/mlt-scripts/master/build/build-flowblade.sh
 echo 'INSTALL_DIR="$(pwd)/flowblade"' >> build-flowblade.conf
 echo 'AUTO_APPEND_DATE=0' >> build-flowblade.conf
 echo 'SOURCE_DIR="$(pwd)/src"' >> build-flowblade.conf
