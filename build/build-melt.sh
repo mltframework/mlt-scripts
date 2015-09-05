@@ -7,7 +7,7 @@
 # bash, test, tr, awk, ps, make, cmake, cat, sed, curl or wget, and possibly others
 
 # Author: Dan Dennedy <dan@dennedy.org>
-# Version: 14
+# Version: 15
 # License: GPL2
 
 ################################################################################
@@ -468,11 +468,11 @@ function set_globals {
     CONFIG[1]="${CONFIG[1]} --disable-sox"
   fi
   CFLAGS_[1]="-I$FINAL_INSTALL_DIR/include $CFLAGS"
-  # Temporary patch until makefile for MLT corrected?
-  #CFLAGS_[1]="${CFLAGS_[1]} -I$FINAL_INSTALL_DIR/include/libavcodec/ -I$FINAL_INSTALL_DIR/include/libavformat/ -I$FINAL_INSTALL_DIR/include/libswscale/ -I$FINAL_INSTALL_DIR/include/libavdevice"
   LDFLAGS_[1]="-L$FINAL_INSTALL_DIR/lib $LDFLAGS"
-  # Note in the above, that we always looks for frei0r. User can do own install
-  # it will be picked up.
+  if test "$TARGET_OS" = "Darwin" ; then
+    CFLAGS_[1]="${CFLAGS_[1]} -I/opt/local/include"
+    LDFLAGS_[1]="${LDFLAGS_[1]} -L/opt/local/lib"
+  fi
 
   ####
   # frei0r
@@ -510,6 +510,9 @@ function set_globals {
   ####
   # vid.stab
   CONFIG[7]="cmake -DCMAKE_INSTALL_PREFIX:PATH=$FINAL_INSTALL_DIR"
+  if test "$TARGET_OS" = "Darwin" ; then
+    CONFIG[7]="${CONFIG[7]} -DUSE_OMP=OFF"
+  fi
   CFLAGS_[7]=$CFLAGS
   LDFLAGS_[7]=$LDFLAGS
 
