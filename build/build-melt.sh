@@ -7,7 +7,7 @@
 # bash, test, tr, awk, ps, make, cmake, cat, sed, curl or wget, and possibly others
 
 # Author: Dan Dennedy <dan@dennedy.org>
-# Version: 15
+# Version: 16
 # License: GPL2
 
 ################################################################################
@@ -24,6 +24,7 @@ ACTION_COMPILE_INSTALL=0
 SOURCES_CLEAN=1
 INSTALL_AS_ROOT=0
 CREATE_STARTUP_SCRIPT=1
+BUNDLE_EXTRAS=0
 ENABLE_FREI0R=1
 FREI0R_HEAD=1
 FREI0R_REVISION=
@@ -1242,6 +1243,49 @@ End-of-wrapper-script
 }
 
 #################################################################
+# bundle_dependencies
+# Add some library dependencies from platform into the bundle.
+# Skip over common libs such as libc, stdc++, math, and pthreads.
+function bundle_dependencies {
+  trace "Entering bundle_dependencies @ = $@"
+  pushd .
+
+  log Changing to $FINAL_INSTALL_DIR
+  cd $FINAL_INSTALL_DIR || die "Unable to change to directory $FINAL_INSTALL_DIR"
+
+  for lib in {lib,lib/mlt,lib/frei0r-1}/*.so; do
+    log fixing library paths of "$lib"
+    fixlibs "$lib"
+  done
+
+  feedback_progress Done bundling library dependencies
+  popd
+}
+
+function fixlibs
+{
+  target=$(dirname "$1")/$(basename "$1")
+  trace fixlibs $target
+  libs=$(ldd "$target" |
+    awk '($3 ~ /^\/usr/) && ($3 !~ /libstdc++/) && ($3 !~ /\/libX/) && ($3 !~ /\/libxcb/) && ($3 !~ /nvidia/) {print $3}')
+
+  for lib in $libs; do
+    if [ $(basename "$lib") != $(basename "$target") ]; then
+      # substitute rpath
+      # libpath=$(echo $lib | sed "s|@rpath\/Qt|${QTDIR}\/lib\/Qt|")
+      cmd cp -n --preserve=timestamps "$lib" lib/
+    fi
+  done
+
+  for lib in $libs; do
+    if [ $(basename "$lib") != $(basename "$target") ]; then
+      newlib=$(basename "$lib")
+      fixlibs "lib/$newlib"
+    fi
+  done
+}
+
+#################################################################
 # perform_action
 # Actually do what the user wanted
 function perform_action {
@@ -1259,6 +1303,9 @@ function perform_action {
   fi
   if test 1 = "$CREATE_STARTUP_SCRIPT" ; then 
     create_startup_script
+  fi
+  if test 1 = "$BUNDLE_EXTRAS" ; then
+    bundle_dependencies
   fi
   feedback_result SUCCESS "Everything succeeded"
 } 
