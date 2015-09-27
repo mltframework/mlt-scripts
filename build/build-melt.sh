@@ -7,7 +7,7 @@
 # bash, test, tr, awk, ps, make, cmake, cat, sed, curl or wget, and possibly others
 
 # Author: Dan Dennedy <dan@dennedy.org>
-# Version: 16
+# Version: 17
 # License: GPL2
 
 ################################################################################
@@ -59,6 +59,8 @@ QT_INCLUDE_DIR=
 # QT_LIB_DIR="$(pkg-config --variable=prefix QtCore)/lib"
 QT_LIB_DIR=
 MLT_DISABLE_SOX=0
+MLT_DISABLE_SDL=0
+MLT_SWIG_LANGUAGES="python"
 
 ################################################################################
 # Location of config file - if not overriden on command line
@@ -461,14 +463,19 @@ function set_globals {
 
   #####
   # mlt
-  CONFIG[1]="./configure --prefix=$FINAL_INSTALL_DIR --enable-gpl --enable-linsys --swig-languages=python"
+  CONFIG[1]="./configure --prefix=$FINAL_INSTALL_DIR --enable-gpl --enable-linsys"
   # Remember, if adding more of these, to update the post-configure check.
   [ "$QT_INCLUDE_DIR" ] && CONFIG[1]="${CONFIG[1]} --qt-includedir=$QT_INCLUDE_DIR"
   [ "$QT_LIB_DIR" ] && CONFIG[1]="${CONFIG[1]} --qt-libdir=$QT_LIB_DIR"
+  [ "$MLT_SWIG_LANGUAGES" ] && CONFIG[1]="${CONFIG[1]} --swig-languages=$MLT_SWIG_LANGUAGES"
   if test "1" = "$MLT_DISABLE_SOX" ; then
     CONFIG[1]="${CONFIG[1]} --disable-sox"
   fi
   CFLAGS_[1]="-I$FINAL_INSTALL_DIR/include $CFLAGS"
+  if test "1" = "$MLT_DISABLE_SDL" ; then
+    CONFIG[1]="${CONFIG[1]} --disable-sdl"
+    CFLAGS_[1]="${CFLAGS_[1]} -DMELT_NOSDL"
+  fi
   LDFLAGS_[1]="-L$FINAL_INSTALL_DIR/lib $LDFLAGS"
   if test "$TARGET_OS" = "Darwin" ; then
     CFLAGS_[1]="${CFLAGS_[1]} -I/opt/local/include"
@@ -937,8 +944,10 @@ function mlt_check_configure {
         DODIE=1
       ;;
       disable-sdl)
-        mlt_format_required sdl "Please install libsdl1.2-dev. "
-        DODIE=1
+        if test "0" = "$MLT_DISABLE_SDL" ; then
+          mlt_format_required sdl "Please install libsdl1.2-dev. "
+          DODIE=1
+        fi
       ;;
       disable-qt)
         mlt_format_required qt "Please provide paths for QT on the 'Compile options' page. "
