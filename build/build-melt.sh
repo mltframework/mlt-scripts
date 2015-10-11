@@ -7,7 +7,7 @@
 # bash, test, tr, awk, ps, make, cmake, cat, sed, curl or wget, and possibly others
 
 # Author: Dan Dennedy <dan@dennedy.org>
-# Version: 17
+# Version: 18
 # License: GPL2
 
 ################################################################################
@@ -54,6 +54,9 @@ VIDSTAB_HEAD=1
 VIDSTAB_REVISION=
 MLT_HEAD=1
 MLT_REVISION=
+ENABLE_WEBVFX=0
+WEBVFX_HEAD=1
+WEBVFX_REVISION=
 # QT_INCLUDE_DIR="$(pkg-config --variable=prefix QtCore)/include"
 QT_INCLUDE_DIR=
 # QT_LIB_DIR="$(pkg-config --variable=prefix QtCore)/lib"
@@ -166,6 +169,9 @@ function to_key {
     ;;
     eigen)
       echo 10
+    ;;
+    webvfx)
+      echo 11
     ;;
     *)
       echo UNKNOWN
@@ -327,6 +333,9 @@ function set_globals {
   if test "$ENABLE_VIDSTAB" = 1 ; then
       SUBDIRS="vid.stab $SUBDIRS"
   fi
+  if test "$ENABLE_WEBVFX" = "1" && test "$WEBVFX_HEAD" = 1 -o "$WEBVFX_REVISION" != ""; then
+      SUBDIRS="$SUBDIRS webvfx"
+  fi
   debug "SUBDIRS = $SUBDIRS"
 
   # REPOLOCS Array holds the repo urls
@@ -347,6 +356,7 @@ function set_globals {
   REPOLOCS[8]="http://git.sesse.net/movit/"
   REPOLOCS[9]="git://github.com/anholt/libepoxy.git"
   REPOLOCS[10]="http://bitbucket.org/eigen/eigen/get/3.2.4.tar.gz"
+  REPOLOCS[11]="git://github.com/mltframework/webvfx.git"
 
   # REPOTYPE Array holds the repo types. (Yes, this might be redundant, but easy for me)
   REPOTYPES[0]="git"
@@ -360,6 +370,7 @@ function set_globals {
   REPOTYPES[8]="git"
   REPOTYPES[9]="git"
   REPOTYPES[10]="http-tgz"
+  REPOTYPES[11]="git"
 
   # And, set up the revisions
   REVISIONS[0]=""
@@ -401,6 +412,9 @@ function set_globals {
     REVISIONS[9]="$LIBEPOXY_REVISION"
   fi
   REVISIONS[10]="eigen-eigen-10219c95fe65"
+  if test 0 = "$WEBVFX_HEAD" -a "$WEBVFX_REVISION" ; then
+    REVISIONS[11]="$WEBVFX_REVISION"
+  fi
 
   # Figure out the install dir - we may not install, but then we know it.
   FINAL_INSTALL_DIR=$INSTALL_DIR
@@ -553,6 +567,27 @@ function set_globals {
   #######
   # eigen
   CONFIG[10]="cmake -DCMAKE_INSTALL_PREFIX=$FINAL_INSTALL_DIR .."
+
+  #####
+  # WebVfx
+  if [ "$TARGET_OS" = "Darwin" ]; then
+    if [ "$QTDIR" = "" ]; then
+      CONFIG[11]="qmake -r -spec macx-g++ MLT_PREFIX=$FINAL_INSTALL_DIR"
+    else
+      CONFIG[11]="$QTDIR/bin/qmake -r -spec macx-g++ MLT_PREFIX=$FINAL_INSTALL_DIR"
+    fi
+  elif [ "$TARGET_OS" = "Win32" -o "$TARGET_OS" = "Win64" ]; then
+    CONFIG[11]="$QMAKE -r -spec mkspecs/mingw LIBS+=-L${QTDIR}/lib INCLUDEPATH+=$FINAL_INSTALL_DIR/include"
+  else
+    if [ "$QTDIR" = "" ]; then
+      CONFIG[11]="qmake -r"
+    else
+      CONFIG[11]="$QTDIR/bin/qmake -r"
+    fi
+  fi
+  CONFIG[11]="${CONFIG[11]} PREFIX=$FINAL_INSTALL_DIR MLT_SOURCE=$SOURCE_DIR/mlt"
+  CFLAGS_[11]=$CFLAGS
+  LDFLAGS_[11]=$LDFLAGS
 }
 
 ######################################################################
@@ -672,6 +707,10 @@ function prepare_feedback {
       debug Adding 1 step for get swfdec
       NUMSTEPS=$(( $NUMSTEPS + 1 ))
     fi
+    if test 1 = "$ENABLE_WEBVFX" ; then
+      debug Adding 1 step for get webvfx
+      NUMSTEPS=$(( $NUMSTEPS + 1 ))
+    fi
   fi
   if test 1 = "$GET" -a 1 = "$SOURCES_CLEAN" ; then
     debug Adding 3 steps for clean on get
@@ -688,7 +727,11 @@ function prepare_feedback {
       debug Adding 1 step for clean swfdec
       NUMSTEPS=$(( $NUMSTEPS + 1 ))
     fi
-  fi   
+    if test 1 = "$ENABLE_WEBVFX" ; then
+      debug Adding 1 step for clean webvfx
+      NUMSTEPS=$(( $NUMSTEPS + 1 ))
+    fi
+  fi
   if test 1 = "$COMPILE_INSTALL" ; then
     debug Adding 9 steps for compile-install
     NUMSTEPS=$(( $NUMSTEPS + 9 ))
@@ -702,6 +745,10 @@ function prepare_feedback {
     fi
     if test 1 = "$ENABLE_SWFDEC" ; then
       debug Adding 3 steps for compile-install swfdec
+      NUMSTEPS=$(( $NUMSTEPS + 3 ))
+    fi
+    if test 1 = "$ENABLE_WEBVFX" ; then
+      debug Adding 3 steps for compile-install webvfx
       NUMSTEPS=$(( $NUMSTEPS + 3 ))
     fi
   fi
@@ -1219,6 +1266,8 @@ export MLT_MOVIT_PATH="\$INSTALL_DIR/share/movit"
 export FREI0R_PATH="\$INSTALL_DIR/lib/frei0r-1":/usr/lib/frei0r-1:/usr/local/lib/frei0r-1:/opt/local/lib/frei0r-1
 export MANPATH=\$MANPATH:"\$INSTALL_DIR/share/man"
 export PKG_CONFIG_PATH="\$INSTALL_DIR/lib/pkgconfig":\$PKG_CONFIG_PATH
+export QT_PLUGIN_PATH="\$INSTALL_DIR/lib/qt"
+export QML2_IMPORT_PATH="\$INSTALL_DIR/lib/qml"
 End-of-environment-setup-template
   if test 0 != $? ; then
     die "Unable to create environment script"
@@ -1239,6 +1288,8 @@ export MLT_DATA="\$INSTALL_DIR/share/mlt"
 export MLT_PROFILES_PATH="\$INSTALL_DIR/share/mlt/profiles"
 export MLT_MOVIT_PATH="\$INSTALL_DIR/share/movit"
 export FREI0R_PATH="\$INSTALL_DIR/lib/frei0r-1":/usr/lib/frei0r-1:/usr/local/lib/frei0r-1:/opt/local/lib/frei0r-1
+export QT_PLUGIN_PATH="\$INSTALL_DIR/lib/qt"
+export QML2_IMPORT_PATH="\$INSTALL_DIR/lib/qml"
 "\$INSTALL_DIR/bin/melt" "\$@"
 End-of-wrapper-script
   if test 0 != $? ; then
@@ -1262,8 +1313,17 @@ function bundle_dependencies {
   log Changing to $FINAL_INSTALL_DIR
   cd $FINAL_INSTALL_DIR || die "Unable to change to directory $FINAL_INSTALL_DIR"
 
+  if [ "$QTDIR" != "" ]; then
+    log Copying Qt plugins
+    cmd install -d "$FINAL_INSTALL_DIR"/lib/qt
+    cmd cp -a "$QTDIR"/plugins/{imageformats,platforms,xcbglintegrations} "$FINAL_INSTALL_DIR"/lib/qt
+    export LD_LIBRARY_PATH="$QTDIR/lib:$LD_LIBRARY_PATH"
+    for lib in "$FINAL_INSTALL_DIR"/lib/qt/{imageformats,platforms,xcbglintegrations}/*.so; do
+        fixlibs "$lib"
+    done
+  fi
+
   for lib in {lib,lib/mlt,lib/frei0r-1}/*.so; do
-    log fixing library paths of "$lib"
     fixlibs "$lib"
   done
 
@@ -1274,11 +1334,14 @@ function bundle_dependencies {
 function fixlibs
 {
   target=$(dirname "$1")/$(basename "$1")
-  trace fixlibs $target
+  log fixing library paths of "$lib"
   libs=$(ldd "$target" |
     awk '($3 ~ /^\/usr/) && ($3 !~ /libstdc++/) && ($3 !~ /\/libX/) && ($3 !~ /\/libxcb/) && ($3 !~ /nvidia/) {print $3}')
+  if [ "$QTDIR" != "" ]; then
+    qtlibs=$(ldd "$target" | grep $QTDIR | cut -d ' ' -f 3)
+  fi
 
-  for lib in $libs; do
+  for lib in $libs $qtlibs; do
     if [ $(basename "$lib") != $(basename "$target") ]; then
       # substitute rpath
       # libpath=$(echo $lib | sed "s|@rpath\/Qt|${QTDIR}\/lib\/Qt|")
@@ -1286,7 +1349,7 @@ function fixlibs
     fi
   done
 
-  for lib in $libs; do
+  for lib in $libs $qtlibs; do
     if [ $(basename "$lib") != $(basename "$target") ]; then
       newlib=$(basename "$lib")
       fixlibs "lib/$newlib"
