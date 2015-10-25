@@ -133,6 +133,8 @@ init_test()
    echo 'INSTALL_DIR="$PWD/melt"' >> build-melt.conf
    echo 'SOURCE_DIR="$PWD/src"'   >> build-melt.conf
    echo 'AUTO_APPEND_DATE=0'      >> build-melt.conf
+   echo 'LIBVPX_HEAD=0'           >> build-melt.conf
+   echo 'LIBVPX_REVISION=v1.4.0'  >> build-melt.conf
 
    for param in ${CONFIG[$1]} ; do
       echo $param >> build-melt.conf
