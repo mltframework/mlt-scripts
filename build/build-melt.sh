@@ -7,7 +7,7 @@
 # bash, test, tr, awk, ps, make, cmake, cat, sed, curl or wget, and possibly others
 
 # Author: Dan Dennedy <dan@dennedy.org>
-# Version: 18
+# Version: 19
 # License: GPL2
 
 ################################################################################
@@ -37,6 +37,8 @@ MOVIT_REVISION=
 LIBEPOXY_REVISION=
 X264_HEAD=1
 X264_REVISION=
+X265_HEAD=1
+X265_REVISION=
 LIBVPX_HEAD=1
 LIBVPX_REVISION=
 ENABLE_LAME=1
@@ -44,6 +46,7 @@ FFMPEG_PROJECT="FFmpeg"
 FFMPEG_HEAD=1
 FFMPEG_REVISION=
 FFMPEG_SUPPORT_H264=1
+FFMPEG_SUPPORT_H265=1
 FFMPEG_SUPPORT_LIBVPX=1
 FFMPEG_SUPPORT_THEORA=1
 FFMPEG_SUPPORT_MP3=1
@@ -172,6 +175,9 @@ function to_key {
     ;;
     webvfx)
       echo 11
+    ;;
+    x265)
+      echo 12
     ;;
     *)
       echo UNKNOWN
@@ -324,6 +330,9 @@ function set_globals {
   if test "$FFMPEG_SUPPORT_H264" = 1 && test "$X264_HEAD" = 1 -o "$X264_REVISION" != ""; then
       SUBDIRS="x264 $SUBDIRS"
   fi
+  if test "$FFMPEG_SUPPORT_H265" = 1 && test "$X265_HEAD" = 1 -o "$X265_REVISION" != ""; then
+      SUBDIRS="x265 $SUBDIRS"
+  fi
   if test "$FFMPEG_SUPPORT_LIBVPX" = 1 && test "$LIBVPX_HEAD" = 1 -o "$LIBVPX_REVISION" != ""; then
       SUBDIRS="libvpx $SUBDIRS"
   fi
@@ -357,6 +366,7 @@ function set_globals {
   REPOLOCS[9]="git://github.com/anholt/libepoxy.git"
   REPOLOCS[10]="http://bitbucket.org/eigen/eigen/get/3.2.4.tar.gz"
   REPOLOCS[11]="git://github.com/mltframework/webvfx.git"
+  REPOLOCS[12]="git://github.com/videolan/x265.git"
 
   # REPOTYPE Array holds the repo types. (Yes, this might be redundant, but easy for me)
   REPOTYPES[0]="git"
@@ -371,6 +381,7 @@ function set_globals {
   REPOTYPES[9]="git"
   REPOTYPES[10]="http-tgz"
   REPOTYPES[11]="git"
+  REPOTYPES[12]="git"
 
   # And, set up the revisions
   REVISIONS[0]=""
@@ -412,8 +423,13 @@ function set_globals {
     REVISIONS[9]="$LIBEPOXY_REVISION"
   fi
   REVISIONS[10]="eigen-eigen-10219c95fe65"
+  REVISIONS[11]=""
   if test 0 = "$WEBVFX_HEAD" -a "$WEBVFX_REVISION" ; then
     REVISIONS[11]="$WEBVFX_REVISION"
+  fi
+  REVISIONS[12]=""
+  if test 0 = "$X265_HEAD" -a "$X265_REVISION" ; then
+    REVISIONS[12]="$X265_REVISION"
   fi
 
   # Figure out the install dir - we may not install, but then we know it.
@@ -459,6 +475,9 @@ function set_globals {
   fi
   if test 1 = "$FFMPEG_SUPPORT_H264" ; then
     CONFIG[0]="${CONFIG[0]} --enable-libx264"
+  fi
+  if test 1 = "$FFMPEG_SUPPORT_H265" ; then
+    CONFIG[0]="${CONFIG[0]} --enable-libx265"
   fi
   if test 1 = "$FFMPEG_SUPPORT_LIBVPX" ; then
     case "$FFMPEG_REVISION" in 
@@ -588,6 +607,16 @@ function set_globals {
   CONFIG[11]="${CONFIG[11]} PREFIX=$FINAL_INSTALL_DIR MLT_SOURCE=$SOURCE_DIR/mlt"
   CFLAGS_[11]=$CFLAGS
   LDFLAGS_[11]=$LDFLAGS
+
+  ######
+  # x265
+  CFLAGS_[12]=$CFLAGS
+  if test "$TARGET_OS" = "Win32" -o "$TARGET_OS" = "Win64" ; then
+    CONFIG[12]="cmake -DCMAKE_INSTALL_PREFIX=$FINAL_INSTALL_DIR -DCMAKE_TOOLCHAIN_FILE=my.cmake -DENABLE_CLI=OFF"
+  else
+    CONFIG[12]="cmake -DCMAKE_INSTALL_PREFIX=$FINAL_INSTALL_DIR -DENABLE_CLI=OFF"
+  fi
+  LDFLAGS_[12]=$LDFLAGS
 }
 
 ######################################################################
@@ -1100,6 +1129,11 @@ function configure_compile_install_subproject {
     if test ! -e configure ; then
       die "Unable to confirm presence of configure file for $1"
     fi
+  fi
+
+  # Special hack for x265
+  if test "x265" = "$1"; then
+    cd source
   fi
 
   # Special hack for eigen
