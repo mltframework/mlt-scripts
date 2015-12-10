@@ -362,7 +362,7 @@ function set_globals {
   REPOLOCS[5]="git://github.com/mltframework/swfdec.git"
   REPOLOCS[6]="http://downloads.sourceforge.net/project/lame/lame/3.99/lame-3.99.1.tar.gz"
   REPOLOCS[7]="git://github.com/georgmartius/vid.stab.git"
-  REPOLOCS[8]="http://git.sesse.net/movit/"
+  REPOLOCS[8]="https://git.sesse.net/movit/"
   REPOLOCS[9]="git://github.com/anholt/libepoxy.git"
   REPOLOCS[10]="http://bitbucket.org/eigen/eigen/get/3.2.4.tar.gz"
   REPOLOCS[11]="git://github.com/mltframework/webvfx.git"
