@@ -12,6 +12,7 @@
 # Compilation instructions more or less taken from http://kdenlive.org/compile
 
 # Current author: Dan Dennedy <dan@dennedy.org>
+# KF5 update: Roger Morton <ttguy1@gmail.com>, Vincent Pinon <vpinon@kde.org>
 # Original author: Mads Bondo Dydensborg, mads@dydensborg.dk
 # License: GPL2
 
@@ -19,7 +20,7 @@
 # ARGS AND GLOBALS
 ################################################################################
 
-VERSION=26
+VERSION=27
 
 # These are all of the configuration variables with defaults
 INSTALL_DIR="$HOME/kdenlive"
@@ -32,7 +33,7 @@ SOURCES_CLEAN=1
 INSTALL_AS_ROOT=0
 CREATE_STARTUP_SCRIPT=1
 KDENLIVE_HEAD=0
-KDENLIVE_REVISION=origin/v0.9.x
+KDENLIVE_REVISION=
 ENABLE_FREI0R=1
 FREI0R_HEAD=1
 FREI0R_REVISION=
@@ -62,9 +63,9 @@ FFMPEG_SUPPORT_FAAC=0
 FFMPEG_ADDITIONAL_OPTIONS=
 MLT_HEAD=1
 MLT_REVISION=
-# QT_INCLUDE_DIR="$(pkg-config --variable=prefix QtCore)/include"
+# QT_INCLUDE_DIR="$(pkg-config Qt5Core --variable=includedir)"
 QT_INCLUDE_DIR=
-# QT_LIB_DIR="$(pkg-config --variable=prefix QtCore)/lib"
+# QT_LIB_DIR="$(pkg-config Qt5Core --variable=libdir)"
 QT_LIB_DIR=
 MLT_DISABLE_SOX=0
 
@@ -78,10 +79,10 @@ TRACE=0
 # If defined to 1, outputs debug log lines
 DEBUG=0
 
-# This is the minimum version of Qt and KDE required by kdenlive 4
-KDE4_MIN_QT=4.4.0
-KDE4_MIN_KDE=4.1.0
-USE_KDE4=1
+# This is the minimum version of Qt and KDE required by kdenlive if building a KF5 version
+KF5_MIN_QT=5.4.1
+KF5_MIN_KDE=5.9.0
+USE_KF5=1
 
 # We need to set LANG to C to avoid e.g. svn from getting to funky
 export LANG=C
@@ -381,10 +382,11 @@ function set_globals {
   # REPOLOCS Array holds the repo urls
   REPOLOCS[0]="git://github.com/FFmpeg/FFmpeg.git"
   REPOLOCS[1]="git://github.com/mltframework/mlt.git"
-  REPOLOCS[2]="git://anongit.kde.org/kdenlive"
+  REPOLOCS[2]="git://anongit.kde.org/kdenlive.git"
+
   REPOLOCS[3]="git://github.com/ddennedy/frei0r.git"
   REPOLOCS[4]="git://git.videolan.org/x264.git"
-  REPOLOCS[5]="http://chromium.googlesource.com/webm/libvpx.git"
+  REPOLOCS[5]="https://chromium.googlesource.com/webm/libvpx.git"
   REPOLOCS[6]="git://github.com/mltframework/swfdec.git"
   REPOLOCS[7]="http://downloads.sourceforge.net/project/lame/lame/3.99/lame-3.99.1.tar.gz"
   REPOLOCS[8]="http://git.sesse.net/movit/"
@@ -478,7 +480,7 @@ function set_globals {
 
   #####
   # ffmpeg
-  CONFIG[0]="./configure --prefix=$FINAL_INSTALL_DIR --disable-doc --disable-ffserver --enable-gpl --enable-version3 --enable-shared --enable-debug --disable-stripping --enable-pthreads --enable-runtime-cpudetect"
+  CONFIG[0]="./configure --prefix=$FINAL_INSTALL_DIR --disable-doc --disable-ffserver --enable-gpl --enable-version3 --enable-shared --disable-static --enable-debug --enable-pthreads --enable-runtime-cpudetect"
   if test 1 = "$FFMPEG_SUPPORT_THEORA" ; then
     CONFIG[0]="${CONFIG[0]} --enable-libtheora --enable-libvorbis"
   fi
@@ -521,8 +523,7 @@ function set_globals {
 
   #####
   # kdenlive
-  QMAKE=`kde4-config --qt-binaries`/qmake
-  CONFIG[2]="cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$FINAL_INSTALL_DIR -DCMAKE_BUILD_TYPE=debugfull -DQT_QMAKE_EXECUTABLE=$QMAKE"
+  CONFIG[2]="cmake .. -DCMAKE_INSTALL_PREFIX=$FINAL_INSTALL_DIR -DCMAKE_BUILD_TYPE=RelWithDebInfo"
   [ "$TARGET_OS" = "Darwin" ] && CONFIG[2]="${CONFIG[2]} -DNO_JOGSHUTTLE=1"
   #CFLAGS_[2]="${CFLAGS_[1]}"
   CFLAGS_[2]="-I$FINAL_INSTALL_DIR/include $CFLAGS"
@@ -546,7 +547,7 @@ function set_globals {
   ####
   # libvpx
   CONFIG[5]="./configure --prefix=$FINAL_INSTALL_DIR --enable-vp8 --enable-postproc --enable-multithread --enable-runtime-cpu-detect --disable-install-docs --disable-debug-libs --disable-examples --disable-unit-tests"
-  [ "$TARGET_OS" = "Linux" ] && CONFIG[5]="${CONFIG[5]} --enable-shared"
+  [ "$TARGET_OS" = "Linux" ] && CONFIG[5]="${CONFIG[5]} --enable-shared --disable-static"
   CFLAGS_[5]=$CFLAGS
   # [ "$TARGET_OS" = "Darwin" ] && CFLAGS_[5]="-I. -fno-common -read_only_relocs suppress ${CFLAGS_[5]} "
   LDFLAGS_[5]=$LDFLAGS
@@ -565,7 +566,7 @@ function set_globals {
   
   #####
   # movit
-  CONFIG[8]="./autogen.sh --prefix=$FINAL_INSTALL_DIR"
+  CONFIG[8]="./autogen.sh --prefix=$FINAL_INSTALL_DIR --disable-static"
   if test "$TARGET_OS" = "Darwin"; then
     CFLAGS_[8]="$CFLAGS -I/opt/local/include"
   else
@@ -804,7 +805,7 @@ function prepare_feedback {
     fi
   fi
   if test 1 = "$CREATE_STARTUP_SCRIPT" ; then
-    debug Adding 1 step for script creating
+    debug Adding 1 step for script creation
     NUMSTEPS=$(( $NUMSTEPS + 1 ))
   fi
   log Number of steps determined to $NUMSTEPS
@@ -862,17 +863,17 @@ function is_newer_equal {
 }
 
 #################################################################
-# test_kde4_available
-# Tests that qt and kde is high enough version to enable kde4
-function test_kde4_available {
-  trace "Entering test_kde4_available @ = $@"
-  cmd kde4-config -v || die "Unable to run kde4-config"
-  QT_VER=`kde4-config -v | grep -i Qt | awk '{print $2}'`
-  KDE_VER=`kde4-config -v | grep -i KDE | awk '{print $4}'`
+# test_kf5_available
+# Tests that qt and kde is high enough version to enable kde5
+function test_kf5_available {
+  trace "Entering test_kf5_available @ = $@"
+  cmd kf5-config -v || die "Unable to run kf5-config"
+  QT_VER=`kf5-config -v | grep -i Qt | awk '{print $2}'`
+  KDE_VER=`kf5-config -v | grep -i KDE | awk '{print $3}'`
   debug "Versions found: QT: $QT_VER, KDE: $KDE_VER"
-  is_newer_equal $QT_VER $KDE4_MIN_QT && is_newer_equal $KDE_VER $KDE4_MIN_KDE
+  is_newer_equal $QT_VER $KF5_MIN_QT && is_newer_equal $KDE_VER $KF5_MIN_KDE
   if test 0 != $? ; then
-    die "Building kdenlive for KDE4 was selected, but sufficiently new versions of KDE4 and Qt4 was not found. Needed KDE version $KDE4_MIN_KDE, found $KDE_VER. Needed Qt version $KDE4_MIN_QT, found $QT_VER"
+    die "Building kdenlive for KF5 was selected, but sufficiently new versions of KF5 and/or Qt5 was not found. Needed KDE version $KF5_MIN_KDE, found $KDE_VER. Needed Qt version $KF5_MIN_QT, found $QT_VER"
   fi
 }
 
@@ -974,22 +975,8 @@ function get_subproject {
       if test 0 = $? ; then
           debug "Found existing SVN checkout"
           # Found svn info
-          # For KDENLIVE: If the svn info URL matches the one we have in the REPOLOCS array, do an update, otherwise, do a switch.
-          REPOLOCURL=`svn --non-interactive info | grep URL | awk '{print $2}'`
-          # Now, we have to be a bit clever here, because if the user originally checked it out using
-          # https, we can not change to http. So, we check for https in the current URL
-          # Note, that beeing clever almost always fails at some point. But, at least we give it a try...
-          if test "${REPOLOCURL:0:5}" = "https" ; then
-              REPOLOC=${REPOLOC/http/https}
-          fi
-          if test "kdenlive" = "$1" -a $REPOLOCURL != $REPOLOC ; then
-              warn "Existing url $REPOLOCURL for $1 does not match the url for selected version: $REPOLOC. Trying svn switch to update"
-              feedback_status "Trying to switch repo url for $1"
-              cmd svn --non-interactive switch $REPOLOC $REVISION || die "Unable to switch svn repo from $REPOLOCURL to $REPOLOC $REVISION"
-          else
-              feedback_status "Updating SVN sources for $1"
-              cmd svn --non-interactive update $REVISION || die "Unable to update SVN repo in $1 to $REVISION"
-          fi
+          feedback_status "Updating SVN sources for $1"
+          cmd svn --non-interactive update $REVISION || die "Unable to update SVN repo in $1 to $REVISION"
       else
           # No svn info
           feedback_status "Getting SVN sources for $1"
@@ -1161,6 +1148,8 @@ function configure_compile_install_subproject {
   feedback_status Configuring $1
   # Special hack for kdenlive
   if test "kdenlive" = "$1" ; then
+    [ -d build ] || cmd mkdir build
+    cmd cd build
     cmd rm -f CMakeCache.txt || die "Unable to configure $1"
   fi
 
@@ -1236,20 +1225,7 @@ function configure_compile_install_subproject {
     fi
   else
     cmd make install || die "Unable to install $1"
-    if test "kdenlive" = "$1" ; then
-      if [ ! -d "$FINAL_INSTALL_DIR/.kde" ]; then
-        cmd mkdir "$FINAL_INSTALL_DIR/.kde"
-      fi
-      if test "$KDEHOME" != "" ; then
-        HOMEPATH="$KDEHOME"
-      else
-        HOMEPATH="$HOME/.kde"
-        if [ ! -d "$HOMEPATH" ]; then
-          HOMEPATH="$HOME/.kde4"
-        fi
-      fi
-      echo "KDE HOME FOLDER: $HOMEPATH"
-    elif test "mlt" = "$1" ; then
+    if test "mlt" = "$1" ; then
       log Copying some libs from system
       if [ "0" = "$MLT_DISABLE_SOX" ]; then
         SOXLIB=$(ldd "$FINAL_INSTALL_DIR"/lib/mlt/libmltsox.so | awk '/libsox/ {print $3}')
@@ -1341,12 +1317,9 @@ function sys_info {
       echo Found neither dpkg or rpm...
     fi
   fi
-  if test 1 = "$USE_KDE4" ; then
-    echo Information about kde 4 at the time of compilation:
-    kde4-config -v
-  else
-    echo Information about kde 3 at the time of compilation:
-    kde-config -v
+  if test 1 = "$USE_KF5" ; then
+    echo Information about KF5 at the time of compilation:
+    kf5-config -v
   fi
 }
 
@@ -1415,8 +1388,9 @@ export PKG_CONFIG_PATH=\$INSTALL_DIR/lib/pkgconfig/:\$PKG_CONFIG_PATH
 export KDEHOME=\$INSTALL_DIR/.kde
 export KDEDIRS=\$INSTALL_DIR
 export MLT_PREFIX=\$INSTALL_DIR
+export XDG_DATA_DIRS=\$INSTALL_DIR/share:\$XDG_DATA_DIRS
 
-# We need to set LANG to C to avoid e.g. kde4-config from getting to
+# We need to set LANG to C to avoid e.g. kf5-config from getting to
 # funky, but we do not want kdenlive to run with it, so store the
 # true lang too.
 export TRUE_LANG=\$LANG
@@ -1523,10 +1497,8 @@ End-of-info
     else
         echo /etc/lsb-release not found
     fi
-    echo Information about kde 4 at runtime:
-    kde4-config -v
-    echo Information about kde 3 at runtime:
-    kde-config -v
+    echo Information about KF5 at runtime:
+    kf5-config -v
     echo INSTALL_DIR=\$INSTALL_DIR
     echo PATH=\$PATH
     echo LD_LIBRARY_PATH=\$LD_LIBRARY_PATH
@@ -1542,8 +1514,8 @@ End-of-info
     ldd \$INSTALL_DIR/bin/kdenlive
     KDENLIVE_BIN="\$INSTALL_DIR/bin/kdenlive"
     [ "$TARGET_OS" = "Darwin" ] && KDENLIVE_BIN="\$INSTALL_DIR/bin/kdenlive.app/Contents/MacOS/kdenlive"
-    echo Running gdb -batch -x "\$INFILE" --args "\$KDENLIVE_BIN" --nocrashhandler "\${kdenlive_args[@]}"
-    gdb -batch -x "\$INFILE" --args "\$KDENLIVE_BIN" --nocrashhandler "\${kdenlive_args[@]}"
+    echo Running gdb -batch -x "\$INFILE" --args "\$KDENLIVE_BIN" "\${kdenlive_args[@]}"
+    gdb -batch -x "\$INFILE" --args "\$KDENLIVE_BIN" "\${kdenlive_args[@]}"
     } >\$OUTFILE 2>&1
     which kdialog &> /dev/null
     if test 0 = \$? ; then
@@ -1618,8 +1590,8 @@ End-of-environment-setup-template
 function perform_action {
   trace "Entering perform_action @ = $@"
   # Test that may fail goes here, before we do anything
-  if test 1 = "$USE_KDE4" ; then
-    test_kde4_available
+  if test 1 = "$USE_KF5" ; then
+    test_kf5_available
   fi
   if test 1 = "$GET" -a 1 = "$SOURCES_CLEAN"; then
     clean_dirs
