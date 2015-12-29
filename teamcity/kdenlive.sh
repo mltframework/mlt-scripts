@@ -12,6 +12,7 @@ wget --no-check-certificate https://raw.githubusercontent.com/mltframework/mlt-s
 echo 'INSTALL_DIR="$(pwd)/kdenlive"' >> build-kdenlive.conf
 echo 'AUTO_APPEND_DATE=0' >> build-kdenlive.conf
 echo 'SOURCE_DIR="$(pwd)/src"' >> build-kdenlive.conf
+echo 'KDENLIVE_REVISION=origin/v0.9.x' >> build-kdenlive.conf
 chmod 755 build-kdenlive.sh
 
 # Run Script
