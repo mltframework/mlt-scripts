@@ -357,7 +357,8 @@ function set_globals {
   fi
   REPOLOCS[1]="git://github.com/mltframework/mlt.git"
   REPOLOCS[2]="git://github.com/ddennedy/frei0r.git"
-  REPOLOCS[3]="git://git.videolan.org/x264.git"
+#  REPOLOCS[3]="git://git.videolan.org/x264.git"
+  REPOLOCS[3]="git://repo.or.cz/x264.git"
   REPOLOCS[4]="http://chromium.googlesource.com/webm/libvpx.git"
   REPOLOCS[5]="git://github.com/mltframework/swfdec.git"
   REPOLOCS[6]="http://downloads.sourceforge.net/project/lame/lame/3.99/lame-3.99.1.tar.gz"
