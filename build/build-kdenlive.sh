@@ -383,16 +383,19 @@ function set_globals {
   REPOLOCS[0]="git://github.com/FFmpeg/FFmpeg.git"
   REPOLOCS[1]="git://github.com/mltframework/mlt.git"
   REPOLOCS[2]="git://anongit.kde.org/kdenlive.git"
-  REPOLOCS[3]="git://github.com/ddennedy/frei0r.git"
+# REPOLOCS[3]="git://github.com/ddennedy/frei0r.git"
+  REPOLOCS[3]="git://code.dyne.org/frei0r.git"
 #  REPOLOCS[4]="git://git.videolan.org/x264.git"
   REPOLOCS[4]="git://repo.or.cz/x264.git"
   REPOLOCS[5]="https://chromium.googlesource.com/webm/libvpx.git"
   REPOLOCS[6]="git://github.com/mltframework/swfdec.git"
-  REPOLOCS[7]="http://downloads.sourceforge.net/project/lame/lame/3.99/lame-3.99.1.tar.gz"
+# REPOLOCS[7]="http://downloads.sourceforge.net/project/lame/lame/3.99/lame-3.99.1.tar.gz" 
+  REPOLOCS[7]="http://downloads.sourceforge.net/project/lame/lame/3.99/lame-3.99.5.tar.gz"
   REPOLOCS[8]="http://git.sesse.net/movit/"
   REPOLOCS[9]="git://github.com/anholt/libepoxy.git"
   REPOLOCS[10]="git://github.com/georgmartius/vid.stab.git"
-  REPOLOCS[11]="http://bitbucket.org/eigen/eigen/get/3.2.4.tar.gz"
+# REPOLOCS[11]="http://bitbucket.org/eigen/eigen/get/3.2.4.tar.gz"
+  REPOLOCS[11]="https://bitbucket.org/eigen/eigen/get/3.2.8.tar.gz"
 
   # REPOTYPE Array holds the repo types. (Yes, this might be redundant, but easy for me)
   REPOTYPES[0]="git"
@@ -438,7 +441,7 @@ function set_globals {
   if test 0 = "$SWFDEC_HEAD" -a "$SWFDEC_REVISION" ; then
     REVISIONS[6]="$SWFDEC_REVISION"
   fi
-  REVISIONS[7]="lame-3.99.1"
+  REVISIONS[7]="lame-3.99.5"
   REVISIONS[8]=""
   if test 0 = "$MOVIT_HEAD" -a "$MOVIT_REVISION" ; then
     REVISIONS[8]="$MOVIT_REVISION"
@@ -451,7 +454,8 @@ function set_globals {
   if test 0 = "$VIDSTAB_HEAD" -a "$VIDSTAB_REVISION" ; then
     REVISIONS[10]="$VIDSTAB_REVISION"
   fi
-  REVISIONS[11]="eigen-eigen-10219c95fe65"
+# REVISIONS[11]="eigen-eigen-10219c95fe65"
+  REVISIONS[11]="eigen-eigen-07105f7124f9"   
 
   # Figure out the install dir - we may not install, but then we know it.
   FINAL_INSTALL_DIR=$INSTALL_DIR
