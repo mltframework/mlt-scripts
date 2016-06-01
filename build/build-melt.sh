@@ -356,8 +356,7 @@ function set_globals {
       die "Unknown FFMPEG_PROJECT ($FFMPEG_PFOJECT). Options are: FFmpeg or libav."
   fi
   REPOLOCS[1]="git://github.com/mltframework/mlt.git"
-  REPOLOCS[2]="git://github.com/ddennedy/frei0r.git"
-#  REPOLOCS[3]="git://git.videolan.org/x264.git"
+  REPOLOCS[2]="git://github.com/dyne/frei0r.git"
   REPOLOCS[3]="git://repo.or.cz/x264.git"
   REPOLOCS[4]="http://chromium.googlesource.com/webm/libvpx.git"
   REPOLOCS[5]="git://github.com/mltframework/swfdec.git"
