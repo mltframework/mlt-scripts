@@ -391,7 +391,7 @@ function set_globals {
   REPOLOCS[8]="http://git.sesse.net/movit/"
   REPOLOCS[9]="git://github.com/anholt/libepoxy.git"
   REPOLOCS[10]="git://github.com/georgmartius/vid.stab.git"
-  REPOLOCS[11]="http://bitbucket.org/eigen/eigen/get/3.2.4.tar.gz"
+  REPOLOCS[11]="http://bitbucket.org/eigen/eigen/get/3.2.8.tar.gz"
 
   # REPOTYPE Array holds the repo types. (Yes, this might be redundant, but easy for me)
   REPOTYPES[0]="git"
@@ -450,7 +450,7 @@ function set_globals {
   if test 0 = "$VIDSTAB_HEAD" -a "$VIDSTAB_REVISION" ; then
     REVISIONS[10]="$VIDSTAB_REVISION"
   fi
-  REVISIONS[11]="eigen-eigen-10219c95fe65"
+  REVISIONS[11]="eigen-eigen-07105f7124f9"
 
   # Figure out the install dir - we may not install, but then we know it.
   FINAL_INSTALL_DIR=$INSTALL_DIR
