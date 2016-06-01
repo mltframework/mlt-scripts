@@ -305,12 +305,14 @@ function set_globals {
   REPOLOCS[0]="git://github.com/FFmpeg/FFmpeg.git"
   REPOLOCS[1]="git://github.com/mltframework/mlt.git"
   REPOLOCS[2]="lp:openshot"
-  REPOLOCS[3]="git://github.com/ddennedy/frei0r.git"
+  REPOLOCS[3]="git://code.dyne.org/frei0r.git"
+# REPOLOCS[3]="git://github.com/ddennedy/frei0r.git"
 #  REPOLOCS[4]="git://git.videolan.org/x264.git"
   REPOLOCS[4]="git://repo.or.cz/x264.git"
   REPOLOCS[5]="http://chromium.googlesource.com/webm/libvpx.git"
   REPOLOCS[6]="git://github.com/mltframework/swfdec.git"
-  REPOLOCS[7]="http://downloads.sourceforge.net/project/lame/lame/3.99/lame-3.99.1.tar.gz"
+  REPOLOCS[7]="http://downloads.sourceforge.net/project/lame/lame/3.99/lame-3.99.5.tar.gz"
+# REPOLOCS[7]="http://downloads.sourceforge.net/project/lame/lame/3.99/lame-3.99.1.tar.gz"
 
   # REPOTYPE Array holds the repo types. (Yes, this might be redundant, but easy for me)
   REPOTYPES[0]="git"
