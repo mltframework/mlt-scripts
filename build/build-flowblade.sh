@@ -309,7 +309,7 @@ function set_globals {
   REPOLOCS[4]="git://repo.or.cz/x264.git"
   REPOLOCS[5]="http://chromium.googlesource.com/webm/libvpx.git"
   REPOLOCS[6]="git://github.com/mltframework/swfdec.git"
-  REPOLOCS[7]="http://downloads.sourceforge.net/project/lame/lame/3.99/lame-3.99.1.tar.gz"
+  REPOLOCS[7]="http://downloads.sourceforge.net/project/lame/lame/3.99/lame-3.99.5.tar.gz"
 
   # REPOTYPE Array holds the repo types. (Yes, this might be redundant, but easy for me)
   REPOTYPES[0]="git"
@@ -351,7 +351,7 @@ function set_globals {
   if test 0 = "$SWFDEC_HEAD" -a "$SWFDEC_REVISION" ; then
     REVISIONS[6]="$SWFDEC_REVISION"
   fi
-  REVISIONS[7]="lame-3.99.1"
+  REVISIONS[7]="lame-3.99.5"
 
   # Figure out the install dir - we may not install, but then we know it.
   FINAL_INSTALL_DIR=$INSTALL_DIR
