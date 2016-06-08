@@ -20,7 +20,7 @@
 # ARGS AND GLOBALS
 ################################################################################
 
-VERSION=27
+VERSION=28
 
 # These are all of the configuration variables with defaults
 INSTALL_DIR="$HOME/kdenlive"
@@ -387,11 +387,11 @@ function set_globals {
   REPOLOCS[4]="git://repo.or.cz/x264.git"
   REPOLOCS[5]="https://chromium.googlesource.com/webm/libvpx.git"
   REPOLOCS[6]="git://github.com/mltframework/swfdec.git"
-  REPOLOCS[7]="http://downloads.sourceforge.net/project/lame/lame/3.99/lame-3.99.5.tar.gz"
+  REPOLOCS[7]="https://downloads.sourceforge.net/project/lame/lame/3.99/lame-3.99.5.tar.gz"
   REPOLOCS[8]="http://git.sesse.net/movit/"
   REPOLOCS[9]="git://github.com/anholt/libepoxy.git"
   REPOLOCS[10]="git://github.com/georgmartius/vid.stab.git"
-  REPOLOCS[11]="http://bitbucket.org/eigen/eigen/get/3.2.4.tar.gz"
+  REPOLOCS[11]="https://bitbucket.org/eigen/eigen/get/3.2.4.tar.gz"
 
   # REPOTYPE Array holds the repo types. (Yes, this might be redundant, but easy for me)
   REPOTYPES[0]="git"

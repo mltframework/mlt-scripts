@@ -7,7 +7,7 @@
 # bash, test, tr, awk, ps, make, cmake, cat, sed, curl or wget, and possibly others
 
 # Author: Dan Dennedy <dan@dennedy.org>
-# Version: 19
+# Version: 20
 # License: GPL2
 
 ################################################################################
@@ -358,13 +358,13 @@ function set_globals {
   REPOLOCS[1]="git://github.com/mltframework/mlt.git"
   REPOLOCS[2]="git://github.com/dyne/frei0r.git"
   REPOLOCS[3]="git://repo.or.cz/x264.git"
-  REPOLOCS[4]="http://chromium.googlesource.com/webm/libvpx.git"
+  REPOLOCS[4]="https://chromium.googlesource.com/webm/libvpx.git"
   REPOLOCS[5]="git://github.com/mltframework/swfdec.git"
-  REPOLOCS[6]="http://downloads.sourceforge.net/project/lame/lame/3.99/lame-3.99.5.tar.gz"
+  REPOLOCS[6]="https://downloads.sourceforge.net/project/lame/lame/3.99/lame-3.99.5.tar.gz"
   REPOLOCS[7]="git://github.com/georgmartius/vid.stab.git"
   REPOLOCS[8]="https://git.sesse.net/movit/"
   REPOLOCS[9]="git://github.com/anholt/libepoxy.git"
-  REPOLOCS[10]="http://bitbucket.org/eigen/eigen/get/3.2.4.tar.gz"
+  REPOLOCS[10]="https://bitbucket.org/eigen/eigen/get/3.2.4.tar.gz"
   REPOLOCS[11]="git://github.com/mltframework/webvfx.git"
   REPOLOCS[12]="git://github.com/videolan/x265.git"
 
