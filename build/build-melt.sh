@@ -7,7 +7,7 @@
 # bash, test, tr, awk, ps, make, cmake, cat, sed, curl or wget, and possibly others
 
 # Author: Dan Dennedy <dan@dennedy.org>
-# Version: 20
+# Version: 21
 # License: GPL2
 
 ################################################################################
@@ -561,13 +561,14 @@ function set_globals {
   # movit
   CONFIG[8]="./autogen.sh --prefix=$FINAL_INSTALL_DIR"
   if test "$TARGET_OS" = "Win32" ; then
-    CONFIG[8]="${CONFIG[5]} --host=x86-w64-mingw32"
+    CONFIG[8]="${CONFIG[8]} --host=x86-w64-mingw32"
     CFLAGS_[8]="$CFLAGS"
   elif test "$TARGET_OS" = "Darwin"; then
     CFLAGS_[8]="$CFLAGS -I/opt/local/include"
   else
     CFLAGS_[8]="$CFLAGS"
   fi
+  CONFIG[8]="-I../eigen ${CONFIG[8]}" 
   LDFLAGS_[8]=$LDFLAGS
 
   #####
@@ -584,8 +585,8 @@ function set_globals {
   LDFLAGS_[9]=$LDFLAGS
 
   #######
-  # eigen
-  CONFIG[10]="cmake -DCMAKE_INSTALL_PREFIX=$FINAL_INSTALL_DIR .."
+  # eigen - no build required
+  CONFIG[10]=""
 
   #####
   # WebVfx
@@ -1141,8 +1142,11 @@ function configure_compile_install_subproject {
     cmd cd build
   fi
 
-  cmd `lookup CONFIG $1` || die "Unable to configure $1"
-  feedback_progress Done configuring $1
+  MYCONFIG=`lookup CONFIG $1`
+  if test "$MYCONFIG" != ""; then
+    cmd $MYCONFIG || die "Unable to configure $1"
+    feedback_progress Done configuring $1
+  fi
 
   # Special hack for mlt, post-configure
   if test "mlt" = "$1" ; then
@@ -1153,7 +1157,7 @@ function configure_compile_install_subproject {
   feedback_status Building $1 - this could take some time
   if test "movit" = "$1" ; then
     cmd make -j$MAKEJ RANLIB="$RANLIB" libmovit.la || die "Unable to build $1"
-  else
+  elif test "$MYCONFIG" != ""; then
     cmd make -j$MAKEJ || die "Unable to build $1"
   fi
   feedback_progress Done building $1
@@ -1163,7 +1167,7 @@ function configure_compile_install_subproject {
   # This export is only for kdenlive, really, and only for the install step
   export LD_LIBRARY_PATH=`lookup LD_LIBRARY_PATH_ $1`
   log "LD_LIBRARY_PATH=$LD_LIBRARY_PATH"
-  if test "1" = "$NEED_SUDO" ; then
+  if test "1" = "$NEED_SUDO" -a "$MYCONFIG" != "" ; then
     debug "Needs to be root to install - trying"
     log About to run $SUDO make install
     TMPNAME=`mktemp -t build-melt.installoutput.XXXXXXXXX`
@@ -1177,7 +1181,7 @@ function configure_compile_install_subproject {
     if test 0 = $? ; then
       die "Unable to install $1"
     fi
-  else
+  elif test "$MYCONFIG" != "" ; then
     cmd make install || die "Unable to install $1"
     if test "mlt" = "$1" ; then
       cmd cp -a src/swig/python/{_mlt.so,mlt.py} "$FINAL_INSTALL_DIR/lib"
