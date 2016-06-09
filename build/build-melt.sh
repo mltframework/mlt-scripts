@@ -568,7 +568,7 @@ function set_globals {
   else
     CFLAGS_[8]="$CFLAGS"
   fi
-  CONFIG[8]="-I../eigen ${CONFIG[8]}" 
+  CFLAGS_[8]="-I../eigen ${CFLAGS_[8]}" 
   LDFLAGS_[8]=$LDFLAGS
 
   #####
