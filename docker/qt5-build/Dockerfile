@@ -1,4 +1,4 @@
-FROM debian:8
+FROM ubuntu:14.04
 MAINTAINER dan@dennedy.org
 
 # Add deb-src lines to make apt-get build-dep work.
@@ -13,6 +13,7 @@ RUN cat /etc/apt/sources.list
 RUN apt-get update && apt-get upgrade -y
 RUN apt-get build-dep -y qt5-default
 RUN apt-get install -y libxslt-dev flex bison gperf ruby s3cmd
+RUN apt-get remove -y gir1.2-gst-plugins-base-0.10 gir1.2-gstreamer-0.10 libgstreamer-plugins-base0.10-0 libgstreamer-plugins-base0.10-dev libgstreamer0.10-0 libgstreamer0.10-dev
 
 WORKDIR /root
 COPY s3cfg /root/.s3cfg
@@ -29,6 +30,6 @@ printf "[Paths]\nPrefix=..\n" > Qt/5.6.1/gcc_64/bin/qt.conf && \
 cp /usr/lib/x86_64-linux-gnu/libicudata.so.52 Qt/5.6.1/gcc_64/lib && \
 cp /usr/lib/x86_64-linux-gnu/libicui18n.so.52 Qt/5.6.1/gcc_64/lib && \
 cp /usr/lib/x86_64-linux-gnu/libicuuc.so.52 Qt/5.6.1/gcc_64/lib && \
-tar cjvf qt-5.6.1-linux-x86_64.tar.bz2 Qt && \
-s3cmd --acl-public put qt-5.6.1-linux-x86_64.tar.bz2 s3://misc.meltymedia/shotcut-build/
+tar cjvf qt-5.6.1-ubuntu14.04-x86_64.tar.bz2 Qt && \
+s3cmd --acl-public put qt-5.6.1-ubuntu14.04-x86_64.tar.bz2 s3://misc.meltymedia/shotcut-build/
 
