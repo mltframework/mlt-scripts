@@ -5,7 +5,7 @@
 # License: GPL2
 
 set -o nounset
-set -o errexit
+#set -o errexit
 
 function usage {
   echo "Usage: $0 [-o target-os] [-s]"
