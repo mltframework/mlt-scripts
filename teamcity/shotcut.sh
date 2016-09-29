@@ -15,7 +15,7 @@ function usage {
 }
 
 SDK=
-TARGET_OS=
+TARGET_OS="$(uname -s)"
 
 while getopts ":so:" OPT
 do
@@ -41,7 +41,12 @@ then
 fi
 
 # Run Script
-docker run -it --rm -v $PWD:/root/shotcut ddennedy/shotcut-build "$@" 2>&1 | tee output.txt
+if [ "$TARGET_OS" = "Darwin" ]
+then
+    ./build-shotcut.sh "$@"
+else
+    docker run -it --rm -v $PWD:/root/shotcut ddennedy/shotcut-build "$@" 2>&1 | tee output.txt
+fi
 
 # Check for need to retry
 if grep "Unable to git clone source for" output.txt
@@ -51,8 +56,13 @@ then
       echo "Git clone failed. Retrying in $minutes minutes."
       sleep 60
       minutes=$((minutes-1))
-   done
-   docker run -it --rm -v $PWD:/root/shotcut ddennedy/shotcut-build "$@" 2>&1 | tee output.txt
+    done
+    if [ "$TARGET_OS" = "Darwin" ]
+    then
+        ./build-shotcut.sh "$@"
+    else
+        docker run -it --rm -v $PWD:/root/shotcut ddennedy/shotcut-build "$@" 2>&1 | tee output.txt
+    fi
 fi
 
 if grep "Some kind of error occured" output.txt; then
