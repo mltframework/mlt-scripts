@@ -40,7 +40,7 @@ fi
 
 # Run Script
 if [ "$TARGET_OS" = "Darwin" ]; then
-  ./build-shotcut.sh "$@"
+  ./build-shotcut.sh "$@" 2>&1 | tee output.txt
 else
   docker run --rm -v $PWD:/root/shotcut ddennedy/shotcut-build "$@" 2>&1 | tee output.txt
 fi
@@ -55,7 +55,7 @@ then
     minutes=$((minutes-1))
   done
   if [ "$TARGET_OS" = "Darwin" ]; then
-    ./build-shotcut.sh "$@"
+    ./build-shotcut.sh "$@" 2>&1 | tee output.txt
   else
     docker run --rm -v $PWD:/root/shotcut ddennedy/shotcut-build "$@" 2>&1 | tee output.txt
   fi
