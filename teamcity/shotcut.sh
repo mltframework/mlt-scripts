@@ -17,8 +17,7 @@ function usage {
 SDK=
 TARGET_OS="$(uname -s)"
 
-while getopts ":so:" OPT
-do
+while getopts ":so:" OPT; do
   case $OPT in
     s ) SDK=1;;
     h ) usage
@@ -31,61 +30,57 @@ do
 done
 
 # Get Script
-if [ ! -f build-shotcut.sh ]
-then
-    wget --no-check-certificate https://raw.githubusercontent.com/mltframework/shotcut/master/scripts/build-shotcut.sh
-    chmod 755 build-shotcut.sh
-    echo 'INSTALL_DIR="$PWD/shotcut"' >> build-shotcut.conf
-    echo 'SOURCE_DIR="$PWD/src"' >> build-shotcut.conf
-    [ "$SDK" = "1" ] && echo 'DEBUG_BUILD=1' >> build-shotcut.conf
+if [ ! -f build-shotcut.sh ]; then
+  wget --no-check-certificate https://raw.githubusercontent.com/mltframework/shotcut/master/scripts/build-shotcut.sh
+  chmod 755 build-shotcut.sh
+  echo 'INSTALL_DIR="$PWD/shotcut"' >> build-shotcut.conf
+  echo 'SOURCE_DIR="$PWD/src"' >> build-shotcut.conf
+  [ "$SDK" = "1" ] && echo 'DEBUG_BUILD=1' >> build-shotcut.conf
 fi
 
 # Run Script
-if [ "$TARGET_OS" = "Darwin" ]
-then
-    ./build-shotcut.sh "$@"
+if [ "$TARGET_OS" = "Darwin" ]; then
+  ./build-shotcut.sh "$@"
 else
-    docker run --rm -v $PWD:/root/shotcut ddennedy/shotcut-build "$@" 2>&1 | tee output.txt
+  docker run --rm -v $PWD:/root/shotcut ddennedy/shotcut-build "$@" 2>&1 | tee output.txt
 fi
 
 # Check for need to retry
 if grep "Unable to git clone source for" output.txt
 then
-   minutes=60
-   while [ $minutes -gt 0 ]; do
-      echo "Git clone failed. Retrying in $minutes minutes."
-      sleep 60
-      minutes=$((minutes-1))
-    done
-    if [ "$TARGET_OS" = "Darwin" ]
-    then
-        ./build-shotcut.sh "$@"
-    else
-        docker run --rm -v $PWD:/root/shotcut ddennedy/shotcut-build "$@" 2>&1 | tee output.txt
-    fi
+  minutes=60
+  while [ $minutes -gt 0 ]; do
+    echo "Git clone failed. Retrying in $minutes minutes."
+    sleep 60
+    minutes=$((minutes-1))
+  done
+  if [ "$TARGET_OS" = "Darwin" ]; then
+    ./build-shotcut.sh "$@"
+  else
+    docker run --rm -v $PWD:/root/shotcut ddennedy/shotcut-build "$@" 2>&1 | tee output.txt
+  fi
 fi
 
 if grep "Some kind of error occured" output.txt; then
-   echo "Build failed"
-   exit 1
+  echo "Build failed"
+  exit 1
 fi
 
 # For Windows sign and make installer
-if [ "$TARGET_OS" = "Win32" -o "$TARGET_OS" = "Win64" ] && [ "$SDK" != "1" ]
-then
-    echo "Making Windows installer"
-    cd shotcut/Shotcut
-    osslsigncode sign -pkcs12 "$HOME/CodeSignCertificates.p12" -readpass "$HOME/CodeSignCertificates.pass" \
-       -n "Shotcut" -i "http://www.meltytech.com" -t "http://timestamp.digicert.com" \
-       -in shotcut.exe -out shotcut-signed.exe
-    mv shotcut-signed.exe shotcut.exe
-    cd ..
-    makensis shotcut.nsi
-    osslsigncode sign -pkcs12 "$HOME/CodeSignCertificates.p12" -readpass "$HOME/CodeSignCertificates.pass" \
-        -n "Shotcut Installer" -i "http://www.meltytech.com" -t "http://timestamp.digicert.com" \
-        -in shotcut-setup.exe -out shotcut-setup-signed.exe
-    mv shotcut-setup-signed.exe shotcut-setup.exe
-    cd ..
+if [ "$TARGET_OS" = "Win32" -o "$TARGET_OS" = "Win64" ] && [ "$SDK" != "1" ]; then
+  echo "Making Windows installer"
+  cd shotcut/Shotcut
+  osslsigncode sign -pkcs12 "$HOME/CodeSignCertificates.p12" -readpass "$HOME/CodeSignCertificates.pass" \
+    -n "Shotcut" -i "http://www.meltytech.com" -t "http://timestamp.digicert.com" \
+    -in shotcut.exe -out shotcut-signed.exe
+  mv shotcut-signed.exe shotcut.exe
+  cd ..
+  makensis shotcut.nsi
+  osslsigncode sign -pkcs12 "$HOME/CodeSignCertificates.p12" -readpass "$HOME/CodeSignCertificates.pass" \
+    -n "Shotcut Installer" -i "http://www.meltytech.com" -t "http://timestamp.digicert.com" \
+    -in shotcut-setup.exe -out shotcut-setup-signed.exe
+  mv shotcut-setup-signed.exe shotcut-setup.exe
+  cd ..
 fi
 
 # Cleanup
