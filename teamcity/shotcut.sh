@@ -80,5 +80,4 @@ fi
 
 # Cleanup
 rm -rf src *.sh *.conf output.txt
-[ "$TARGET_OS" = "Win32" -o "$TARGET_OS" = "Win64" ] && rm -rf shotcut shotcut.nsi
-
+[ "$TARGET_OS" = "Win32" -o "$TARGET_OS" = "Win64" ] && rm shotcut.nsi
