@@ -5,7 +5,7 @@
 # License: GPL2
 
 set -o nounset
-#set -o errexit
+set -o errexit
 
 function usage {
   echo "Usage: $0 [-o target-os] [-s]"
@@ -84,5 +84,7 @@ if [ "$TARGET_OS" = "Win32" -o "$TARGET_OS" = "Win64" ] && [ "$SDK" != "1" ]; th
 fi
 
 # Cleanup
-rm -rf src *.sh *.conf output.txt
-[ "$TARGET_OS" = "Win32" -o "$TARGET_OS" = "Win64" ] && rm shotcut.nsi
+rm -rf src
+rm *.sh
+rm *.conf
+rm output.txt
