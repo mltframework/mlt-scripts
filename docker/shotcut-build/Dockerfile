@@ -11,7 +11,8 @@ RUN apt-get update \
   xutils-dev libegl1-mesa-dev libfftw3-dev swig python-dev python-magic flex \
   gettext gperf intltool libffi-dev libltdl-dev libssl-dev libxml-parser-perl \
   make openssl patch perl pkg-config python ruby scons sed unzip wget xz-utils \
-  bison nsis libcurl4-openssl-dev autopoint p7zip bzip2 zip curl mingw-w64
+  bison nsis libcurl4-openssl-dev autopoint p7zip bzip2 zip curl mingw-w64 \
+  libxkbcommon-x11-0
 
 WORKDIR /opt
 RUN curl https://s3.amazonaws.com/misc.meltymedia/shotcut-build/mxe-gcc-5.1.0-x64.tar.bz2 | tar xj
@@ -32,4 +33,3 @@ WORKDIR /root/shotcut
 VOLUME /root/shotcut
 ENV PATH /opt/mxe/gcc-5.1.0/usr/bin:$PATH
 ENTRYPOINT ["/bin/bash", "/root/shotcut/build-shotcut.sh"]
-
