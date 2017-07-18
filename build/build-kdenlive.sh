@@ -562,7 +562,7 @@ function set_globals {
   CONFIG[7]="./configure --prefix=$FINAL_INSTALL_DIR --libdir=$FINAL_INSTALL_DIR/lib --disable-decoder --disable-frontend"
   CFLAGS_[7]=$CFLAGS
   LDFLAGS_[7]=$LDFLAGS
-  
+
   #####
   # movit
   CONFIG[8]="./autogen.sh --prefix=$FINAL_INSTALL_DIR --disable-static"
@@ -1165,12 +1165,20 @@ function configure_compile_install_subproject {
       die "Unable to confirm presence of configure file for $1"
     fi
   fi
-  
+
   # Special hack for movit
   if test "movit" = "$1" -o "mlt" = "$1"; then
-    export CXXFLAGS="$CFLAGS"
+    if test "$ENABLE_MOVIT" = "1"; then
+      if test "Darwin" = "$TARGET_OS"; then
+        export CXXFLAGS="-std=c++11 -stdlib=libc++ $CFLAGS"
+      else
+        export CXXFLAGS="-std=c++11 $CFLAGS"
+      fi
+    else
+      export CXXFLAGS="$CFLAGS"
+    fi
   fi
-  
+
   # Special hack for swfdec
   if test "swfdec" = "$1" -a ! -e configure ; then
     debug "Need to create configure for $1"
