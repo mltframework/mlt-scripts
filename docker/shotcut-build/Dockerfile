@@ -4,8 +4,8 @@ MAINTAINER dan@dennedy.org
 RUN apt-get update \
   && apt-get -y upgrade \
   && apt-get install -y gcc-mingw-w64-x86-64 libqt4-opengl-dev git automake \
-  autoconf libtool intltool g++ yasm libmp3lame-dev libsamplerate-dev \
-  libxml2-dev ladspa-sdk libjack-dev libsox-dev libsdl-dev libgtk2.0-dev \
+  autoconf libtool intltool g++ yasm nasm libmp3lame-dev libsamplerate-dev \
+  libxml2-dev ladspa-sdk libjack-dev libsox-dev libsdl2-dev libgtk2.0-dev \
   liboil-dev libsoup2.4-dev libqt4-dev libexif-dev libdv-dev libtheora-dev \
   libvorbis-dev cmake kdelibs5-dev libqjson-dev libqimageblitz-dev libeigen3-dev \
   xutils-dev libegl1-mesa-dev libfftw3-dev swig python-dev python-magic flex \
