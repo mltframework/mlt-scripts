@@ -32,4 +32,5 @@ ADD https://s3.amazonaws.com/misc.meltymedia/shotcut-build/swh-plugins-win64-0.4
 WORKDIR /root/shotcut
 VOLUME /root/shotcut
 ENV PATH /opt/mxe/gcc-5.1.0/usr/bin:$PATH
-ENTRYPOINT ["/bin/bash", "/root/shotcut/build-shotcut.sh"]
+ENTRYPOINT ["/bin/bash"]
+CMD ["/root/shotcut/build-shotcut.sh"]
