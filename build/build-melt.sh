@@ -360,7 +360,7 @@ function set_globals {
   REPOLOCS[3]="git://repo.or.cz/x264.git"
   REPOLOCS[4]="https://chromium.googlesource.com/webm/libvpx.git"
   REPOLOCS[5]="git://github.com/mltframework/swfdec.git"
-  REPOLOCS[6]="https://github.com/rbrito/lame/archive/RELEASE__3_99_5.tar.gz"
+  REPOLOCS[6]="https://downloads.sourceforge.net/project/lame/lame/3.99/lame-3.99.5.tar.gz"
   REPOLOCS[7]="git://github.com/georgmartius/vid.stab.git"
   REPOLOCS[8]="https://git.sesse.net/movit/"
   REPOLOCS[9]="git://github.com/anholt/libepoxy.git"
@@ -409,7 +409,7 @@ function set_globals {
   if test 0 = "$SWFDEC_HEAD" -a "$SWFDEC_REVISION" ; then
     REVISIONS[5]="$SWFDEC_REVISION"
   fi
-  REVISIONS[6]="lame-RELEASE__3_99_5"
+  REVISIONS[6]="lame-3.99.5"
   REVISIONS[7]=""
   if test 0 = "$VIDSTAB_HEAD" -a "$VIDSTAB_REVISION" ; then
     REVISIONS[7]="$VIDSTAB_REVISION"
