@@ -42,7 +42,7 @@ fi
 if [ "$TARGET_OS" = "Darwin" ]; then
   ./build-shotcut.sh "$@" 2>&1 | tee output.txt
 else
-  docker run --rm -v $PWD:/root/shotcut ddennedy/shotcut-build "$@" 2>&1 | tee output.txt
+  docker run --rm -v $PWD:/root/shotcut ddennedy/shotcut-build ./build-shotcut.sh "$@" 2>&1 | tee output.txt
 fi
 
 # Check for need to retry
@@ -57,7 +57,7 @@ then
   if [ "$TARGET_OS" = "Darwin" ]; then
     ./build-shotcut.sh "$@" 2>&1 | tee output.txt
   else
-    docker run --rm -v $PWD:/root/shotcut ddennedy/shotcut-build "$@" 2>&1 | tee output.txt
+    docker run --rm -v $PWD:/root/shotcut ddennedy/shotcut-build ./build-shotcut.sh "$@" 2>&1 | tee output.txt
   fi
 fi
 
