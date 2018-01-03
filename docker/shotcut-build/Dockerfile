@@ -4,7 +4,7 @@ MAINTAINER dan@dennedy.org
 RUN apt-get update \
   && apt-get -y upgrade \
   && apt-get install -y gcc-mingw-w64-x86-64 git automake \
-  autoconf libtool intltool g++ yasm nasm libmp3lame-dev libsamplerate-dev \
+  autoconf libtool intltool g++ yasm libmp3lame-dev libsamplerate-dev \
   libxml2-dev ladspa-sdk libjack-dev libsox-dev libsdl2-dev libgtk2.0-dev \
   libxslt1-dev libexif-dev libdv-dev libtheora-dev \
   libvorbis-dev cmake libeigen3-dev libxkbcommon-x11-0 \
@@ -20,13 +20,15 @@ WORKDIR /root
 RUN curl https://s3.amazonaws.com/misc.meltymedia/shotcut-build/qt-5.6.1-ubuntu14.04-x86_64.tar.bz2 | tar xj
 RUN curl https://s3.amazonaws.com/misc.meltymedia/shotcut-build/qt-5.6.1-x64-mingw510r0-seh.tar.bz2 | tar xj
 RUN curl https://s3.amazonaws.com/misc.meltymedia/shotcut-build/qt-5.6.1-x86-mingw482-posix-sjlj.tar.bz2 | tar xj
+RUN curl http://www.nasm.us/pub/nasm/releasebuilds/2.13.02/nasm-2.13.02.tar.xz | tar xJ && \
+    cd nasm-2.13.02 && ./configure --prefix=/usr/local && make -j all install
 
 ADD https://s3.amazonaws.com/misc.meltymedia/shotcut-build/gtk%2B-bundle_2.24.10-20120208_win32.zip ./
 ADD https://s3.amazonaws.com/misc.meltymedia/shotcut-build/gtk%2B-bundle_2.22.1-20101229_win64.zip ./
-ADD https://s3.amazonaws.com/misc.meltymedia/shotcut-build/mlt-prebuilt-mingw32.tar.bz2 ./
-ADD https://s3.amazonaws.com/misc.meltymedia/shotcut-build/mlt-prebuilt-mingw32-x64.tar.bz2 ./
-ADD https://s3.amazonaws.com/misc.meltymedia/shotcut-build/ladspa_plugins-win-0.4.15.tar.bz2 ./
-ADD https://s3.amazonaws.com/misc.meltymedia/shotcut-build/swh-plugins-win64-0.4.15.tar.bz2 ./
+ADD https://s3.amazonaws.com/misc.meltymedia/shotcut-build/mlt-prebuilt-mingw32.tar.xz ./
+ADD https://s3.amazonaws.com/misc.meltymedia/shotcut-build/mlt-prebuilt-mingw32-x64.tar.xz ./
+ADD https://s3.amazonaws.com/misc.meltymedia/shotcut-build/swh-plugins-win32-0.4.15.tar.xz ./
+ADD https://s3.amazonaws.com/misc.meltymedia/shotcut-build/swh-plugins-win64-0.4.15.tar.xz ./
 
 WORKDIR /root/shotcut
 VOLUME /root/shotcut
