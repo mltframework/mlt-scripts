@@ -395,7 +395,7 @@ function set_globals {
 
   #####
   # ffmpeg
-  CONFIG[0]="./configure --prefix=$FINAL_INSTALL_DIR --disable-doc --disable-ffserver --enable-gpl --enable-version3 --enable-shared --enable-debug --enable-pthreads --enable-runtime-cpudetect"
+  CONFIG[0]="./configure --prefix=$FINAL_INSTALL_DIR --disable-doc --enable-gpl --enable-version3 --enable-shared --enable-debug --enable-pthreads --enable-runtime-cpudetect"
   if test 1 = "$FFMPEG_SUPPORT_THEORA" ; then
     CONFIG[0]="${CONFIG[0]} --enable-libtheora --enable-libvorbis"
   fi
