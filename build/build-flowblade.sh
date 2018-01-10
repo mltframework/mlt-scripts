@@ -752,7 +752,7 @@ function get_subproject {
           else
               which wget > /dev/null
               if test 0 = $?; then
-                  cmd $(wget -O - $REPOLOC | tar -xz) || die "Unable to download source for $1 from $REPOLOC"
+                  cmd $(wget -k -O - $REPOLOC | tar -xz) || die "Unable to download source for $1 from $REPOLOC"
               fi
           fi
           cmd mv "$REVISION" "$1" || due "Unable to rename $REVISION to $1"
