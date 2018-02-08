@@ -1095,7 +1095,7 @@ function create_startup_script {
   log Changing to $FINAL_INSTALL_DIR 
   cd $FINAL_INSTALL_DIR || die "Unable to change to directory $FINAL_INSTALL_DIR"
 
-  ARCHIVE="http://www.mltframework.org/twiki/pub/MLT/BuildScripts/build-melted-extras.tar.gz"
+  ARCHIVE="https://s3.amazonaws.com/misc.meltymedia/mltframework.org/build-melted-extras.tar.gz"
   which curl > /dev/null
   if test 0 = $?; then
       cmd $(curl -L $ARCHIVE | tar -xz) || die "Unable to download startup scripts from $ARCHIVE"
