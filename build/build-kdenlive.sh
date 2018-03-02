@@ -384,7 +384,7 @@ function set_globals {
   REPOLOCS[1]="git://github.com/mltframework/mlt.git"
   REPOLOCS[2]="git://anongit.kde.org/kdenlive.git"
   REPOLOCS[3]="git://github.com/dyne/frei0r.git"
-  REPOLOCS[4]="git://repo.or.cz/x264.git"
+  REPOLOCS[4]="git://github.com/mirror/x264.git"
   REPOLOCS[5]="https://chromium.googlesource.com/webm/libvpx.git"
   REPOLOCS[6]="git://github.com/mltframework/swfdec.git"
   REPOLOCS[7]="https://ftp.osuosl.org/pub/blfs/conglomeration/lame/lame-3.99.5.tar.gz"
