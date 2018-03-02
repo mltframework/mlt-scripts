@@ -360,7 +360,7 @@ function set_globals {
   REPOLOCS[3]="git://github.com/mirror/x264"
   REPOLOCS[4]="https://chromium.googlesource.com/webm/libvpx.git"
   REPOLOCS[5]="git://github.com/mltframework/swfdec.git"
-  REPOLOCS[6]="https://downloads.sourceforge.net/project/lame/lame/3.99/lame-3.99.5.tar.gz"
+  REPOLOCS[6]="https://ftp.osuosl.org/pub/blfs/conglomeration/lame/lame-3.99.5.tar.gz"
   REPOLOCS[7]="git://github.com/georgmartius/vid.stab.git"
   REPOLOCS[8]="https://git.sesse.net/movit/"
   REPOLOCS[9]="git://github.com/anholt/libepoxy.git"
