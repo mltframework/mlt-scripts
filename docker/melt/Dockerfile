@@ -37,4 +37,5 @@ RUN rm -r /tmp/melt && \
     apt-get autoclean -y && \
     apt-get clean -y
 
+WORKDIR /root
 ENTRYPOINT ["/usr/bin/melt"]
