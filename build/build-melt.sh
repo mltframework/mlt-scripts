@@ -506,7 +506,7 @@ function set_globals {
   fi
   CFLAGS_[1]="-I$FINAL_INSTALL_DIR/include $CFLAGS"
   if test "1" = "$MLT_DISABLE_SDL" ; then
-    CONFIG[1]="${CONFIG[1]} --disable-sdl"
+    CONFIG[1]="${CONFIG[1]} --disable-sdl --disable-sdl2"
     CFLAGS_[1]="${CFLAGS_[1]} -DMELT_NOSDL"
   fi
   LDFLAGS_[1]="-L$FINAL_INSTALL_DIR/lib $LDFLAGS"
@@ -1020,9 +1020,9 @@ function mlt_check_configure {
         mlt_format_required xml "Please install libxml2-dev. "
         DODIE=1
       ;;
-      disable-sdl)
+      disable-sdl2)
         if test "0" = "$MLT_DISABLE_SDL" ; then
-          mlt_format_required sdl "Please install libsdl1.2-dev. "
+          mlt_format_required sdl2 "Please install libsdl2-dev. "
           DODIE=1
         fi
       ;;
