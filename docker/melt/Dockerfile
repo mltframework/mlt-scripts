@@ -16,7 +16,9 @@ RUN apt-get install -y wget git automake autoconf libtool intltool g++ yasm nasm
   # LADSPA plugins \
   amb-plugins ambdec autotalent blepvco blop bs2b-ladspa calf-ladspa caps cmt \
   csladspa fil-plugins guitarix-ladspa invada-studio-plugins-ladspa mcp-plugins \
-  omins rev-plugins ste-plugins swh-plugins tap-plugins vco-plugins wah-plugins
+  omins rev-plugins ste-plugins swh-plugins tap-plugins vco-plugins wah-plugins \
+  # Fonts \
+  fonts-liberation 'ttf-adf-.+'
 
 ENV HOME /tmp
 RUN wget --quiet -O /tmp/build-melt.sh https://raw.githubusercontent.com/mltframework/mlt-scripts/master/build/build-melt.sh && \
