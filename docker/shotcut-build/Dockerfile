@@ -1,9 +1,8 @@
 FROM ubuntu:14.04
 MAINTAINER dan@dennedy.org
 
-RUN apt-get update \
-  && apt-get -y upgrade \
-  && apt-get install -y gcc-mingw-w64-x86-64 git automake \
+RUN apt-get update -qq \
+  && apt-get install -yqq gcc-mingw-w64-x86-64 git automake \
   autoconf libtool intltool g++ yasm libmp3lame-dev libsamplerate-dev \
   libxml2-dev ladspa-sdk libjack-dev libsox-dev libsdl2-dev libgtk2.0-dev \
   libxslt1-dev libexif-dev libdv-dev libtheora-dev \
