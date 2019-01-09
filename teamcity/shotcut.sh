@@ -71,14 +71,14 @@ if [ "$TARGET_OS" = "Win32" -o "$TARGET_OS" = "Win64" ] && [ "$SDK" != "1" ]; th
   echo "Making Windows installer"
   cd shotcut/Shotcut
   osslsigncode sign -pkcs12 "$HOME/CodeSignCertificates.p12" -readpass "$HOME/CodeSignCertificates.pass" \
-    -n "Shotcut" -i "http://www.meltytech.com" -t "http://timestamp.digicert.com" \
+    -n "Shotcut" -i "https://www.meltytech.com" -t "http://timestamp.digicert.com" \
     -in shotcut.exe -out shotcut-signed.exe
   mv shotcut-signed.exe shotcut.exe
   cd ..
   zip -gr shotcut.zip Shotcut
   makensis shotcut.nsi
   osslsigncode sign -pkcs12 "$HOME/CodeSignCertificates.p12" -readpass "$HOME/CodeSignCertificates.pass" \
-    -n "Shotcut Installer" -i "http://www.meltytech.com" -t "http://timestamp.digicert.com" \
+    -n "Shotcut Installer" -i "https://www.meltytech.com" -t "http://timestamp.digicert.com" \
     -in shotcut-setup.exe -out shotcut-setup-signed.exe
   mv shotcut-setup-signed.exe shotcut-setup.exe
   cd ..
