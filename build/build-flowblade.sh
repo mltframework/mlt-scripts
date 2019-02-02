@@ -7,7 +7,7 @@
 # bash, test, tr, awk, ps, make, cmake, cat, sed, curl or wget, and possibly others
 
 # Author: Dan Dennedy <dan@dennedy.org>
-# Version: 7
+# Version: 8
 # License: GPL2
 
 ################################################################################
@@ -437,7 +437,7 @@ function set_globals {
   
   ####
   # libvpx
-  CONFIG[5]="./configure --prefix=$FINAL_INSTALL_DIR --enable-vp8 --enable-postproc --enable-multithread --enable-runtime-cpu-detect --disable-install-docs --disable-debug-libs --disable-examples --disable-unit-tests"
+  CONFIG[5]="./configure --prefix=$FINAL_INSTALL_DIR --enable-vp8 --enable-postproc --enable-multithread --enable-runtime-cpu-detect --disable-install-docs --disable-debug-libs --disable-examples --disable-unit-tests --extra-cflags=-std=c99"
   [ "$TARGET_OS" = "Linux" ] && CONFIG[5]="${CONFIG[5]} --enable-shared"
   CFLAGS_[5]=$CFLAGS
   # [ "$TARGET_OS" = "Darwin" ] && CFLAGS_[5]="-I. -fno-common -read_only_relocs suppress ${CFLAGS_[5]} "

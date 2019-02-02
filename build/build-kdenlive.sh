@@ -20,7 +20,7 @@
 # ARGS AND GLOBALS
 ################################################################################
 
-VERSION=28
+VERSION=29
 
 # These are all of the configuration variables with defaults
 INSTALL_DIR="$HOME/kdenlive"
@@ -545,7 +545,7 @@ function set_globals {
 
   ####
   # libvpx
-  CONFIG[5]="./configure --prefix=$FINAL_INSTALL_DIR --enable-vp8 --enable-postproc --enable-multithread --enable-runtime-cpu-detect --disable-install-docs --disable-debug-libs --disable-examples --disable-unit-tests"
+  CONFIG[5]="./configure --prefix=$FINAL_INSTALL_DIR --enable-vp8 --enable-postproc --enable-multithread --enable-runtime-cpu-detect --disable-install-docs --disable-debug-libs --disable-examples --disable-unit-tests --extra-cflags=-std=c99"
   [ "$TARGET_OS" = "Linux" ] && CONFIG[5]="${CONFIG[5]} --enable-shared --disable-static"
   CFLAGS_[5]=$CFLAGS
   # [ "$TARGET_OS" = "Darwin" ] && CFLAGS_[5]="-I. -fno-common -read_only_relocs suppress ${CFLAGS_[5]} "
