@@ -19,7 +19,7 @@ WORKDIR /root
 RUN curl https://s3.amazonaws.com/misc.meltymedia/shotcut-build/qt-5.6.1-ubuntu14.04-x86_64.tar.bz2 | tar xj
 RUN curl https://s3.amazonaws.com/misc.meltymedia/shotcut-build/qt-5.6.1-x64-mingw510r0-seh.tar.bz2 | tar xj
 RUN curl https://s3.amazonaws.com/misc.meltymedia/shotcut-build/qt-5.6.1-x86-mingw482-posix-sjlj.tar.bz2 | tar xj
-RUN curl http://www.nasm.us/pub/nasm/releasebuilds/2.13.02/nasm-2.13.02.tar.xz | tar xJ && \
+RUN curl https://www.nasm.us/pub/nasm/releasebuilds/2.13.02/nasm-2.13.02.tar.xz | tar xJ && \
     cd nasm-2.13.02 && ./configure --prefix=/usr/local && make -j all install
 
 ADD https://s3.amazonaws.com/misc.meltymedia/shotcut-build/gtk%2B-bundle_2.24.10-20120208_win32.zip ./
