@@ -10,8 +10,6 @@ WORKDIR /opt
 
 CMD git clone https://github.com/mxe/mxe.git mxe && \
   cd mxe && \
-  make JOBS=6 MXE_TARGETS='i686-w64-mingw32.shared x86_64-w64-mingw32.shared' \
-    qtwebkit qtbase_CONFIGURE_OPTS=-debug-and-release && \
+  make JOBS=6 MXE_TARGETS='i686-w64-mingw32.shared x86_64-w64-mingw32.shared' gcc && \
   cd /opt && \
-  tar -c --dereference --xz -f ~/mxe_gcc-5.5.0_qt-5.12.1.tar.xz mxe
-
+  tar cJf ~/mxe-gcc-5.5.0.txz mxe

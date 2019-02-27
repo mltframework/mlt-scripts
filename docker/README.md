@@ -10,7 +10,7 @@
     docker build --rm -t ddennedy/mxe mxe
     docker run -it --rm -v $PWD:/root ddennedy/mxe
 
-It creates mxe_gcc-5.5.0.tar.xz in the current directory when done.
+It creates mxe_gcc-5.5.0.txz in the current directory when done.
 It should be extracted in /opt for the cross-compilers to work correctly.
 
 # Build Shotcut for Windows

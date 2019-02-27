@@ -13,7 +13,7 @@ RUN apt-get update -qq && \
     libcurl4-openssl-dev autopoint p7zip bzip2 zip curl mingw-w64 libva-dev
 
 WORKDIR /opt
-RUN curl https://s3.amazonaws.com/misc.meltymedia/shotcut-build/mxe-gcc-5.4.0-sjlj.tar.bz2 | tar xj
+RUN curl https://s3.amazonaws.com/misc.meltymedia/shotcut-build/mxe-gcc-5.5.0.txz | tar xJ
 
 WORKDIR /root
 RUN curl https://s3.amazonaws.com/misc.meltymedia/shotcut-build/qt-5.9.7-ubuntu16.04-x86_64.txz | tar xJ
@@ -31,6 +31,6 @@ ADD https://s3.amazonaws.com/misc.meltymedia/shotcut-build/swh-plugins-win64-0.4
 
 WORKDIR /root/shotcut
 VOLUME /root/shotcut
-ENV PATH /opt/mxe/gcc-5.4.0/usr/bin:$PATH
+ENV PATH /opt/mxe/usr/bin:$PATH
 ENTRYPOINT ["/bin/bash"]
 CMD ["/root/shotcut/build-shotcut.sh"]
