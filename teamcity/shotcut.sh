@@ -8,21 +8,23 @@ set -o nounset
 set -o errexit
 
 function usage {
-  echo "Usage: $0 [-o target-os] [-s]"
+  echo "Usage: $0 [-o target-os] [-s] [-v version]"
   echo "Where:"
   echo -e "\t-o target-os\tDefaults to $(uname -s); use Win32 or Win64 to cross-compile"
   echo -e "\t-s\t\tbuild SDK (Linux and Windows only)"
+  echo -e "\t-v shotcut-version\tOverride the version computed from date"
 }
 
 SDK=
 TARGET_OS="$(uname -s)"
 
-while getopts ":so:" OPT; do
+while getopts ":so:v:" OPT; do
   case $OPT in
     s ) SDK=1;;
     h ) usage
         exit 0;;
     o ) TARGET_OS=$OPTARG;;
+    v ) SHOTCUT_VERSION=$OPTARG;;
     * ) echo "Unknown option $OPT"
         usage
         exit 1;;
@@ -36,6 +38,7 @@ if [ ! -f build-shotcut.sh ]; then
   echo 'INSTALL_DIR="$PWD/shotcut"' >> build-shotcut.conf
   echo 'SOURCE_DIR="$PWD/src"' >> build-shotcut.conf
   [ "$SDK" = "1" ] && echo 'DEBUG_BUILD=1' >> build-shotcut.conf
+  [ "$SHOTCUT_VERSION" != "" ] && echo 'SHOTCUT_VERSION=$SHOTCUT_VERSION' >> build-shotcut.conf
 fi
 
 # Run Script
