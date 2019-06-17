@@ -17,6 +17,7 @@ function usage {
 
 SDK=
 TARGET_OS="$(uname -s)"
+SHOTCUT_VERSION=
 
 while getopts ":so:v:" OPT; do
   case $OPT in
