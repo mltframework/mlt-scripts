@@ -93,7 +93,11 @@ compile_tests()
 {
    report_test_start "Compile"
    pushd $MLT_SOURCE_PATH/src/tests
-   qmake -r tests.pro
+   if [ "$QTDIR" = "" ]; then
+      qmake -r tests.pro
+   else
+      $QTDIR/bin/qmake -r tests.pro
+   fi
    make
    RETVAL=$?
    popd
@@ -117,4 +121,3 @@ report_suite_start "qtest"
 compile_tests
 run_tests
 report_suite_finish "qtest"
-
