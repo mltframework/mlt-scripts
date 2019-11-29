@@ -51,6 +51,7 @@ FFMPEG_SUPPORT_LIBVPX=1
 FFMPEG_SUPPORT_THEORA=1
 FFMPEG_SUPPORT_MP3=1
 FFMPEG_SUPPORT_FAAC=0
+FFMPEG_SUPPORT_SSL=0
 FFMPEG_ADDITIONAL_OPTIONS=
 ENABLE_VIDSTAB=1
 VIDSTAB_HEAD=1
@@ -484,6 +485,9 @@ function set_globals {
       *0.5) die "libvpx not supported in ffmpeg/libav 0.5 - set FFMPEG_SUPPORT_LIBVPX=0" ;;
       *)    CONFIG[0]="${CONFIG[0]} --enable-libvpx" ;;
     esac
+  fi
+  if test 1 = "$FFMPEG_SUPPORT_SSL" ; then
+    CONFIG[0]="${CONFIG[0]} --enable-openssl --enable-nonfree"
   fi
   # Add optional parameters
   CONFIG[0]="${CONFIG[0]} $FFMPEG_ADDITIONAL_OPTIONS"
