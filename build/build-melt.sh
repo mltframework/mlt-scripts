@@ -61,6 +61,9 @@ MLT_REVISION=
 ENABLE_WEBVFX=0
 WEBVFX_HEAD=1
 WEBVFX_REVISION=
+ENABLE_RUBBERBAND=1
+RUBBERBAND_HEAD=0
+RUBBERBAND_REVISION=mlt_patches
 # QT_INCLUDE_DIR="$(pkg-config --variable=prefix QtCore)/include"
 QT_INCLUDE_DIR=
 # QT_LIB_DIR="$(pkg-config --variable=prefix QtCore)/lib"
@@ -179,6 +182,9 @@ function to_key {
     ;;
     x265)
       echo 12
+    ;;
+    rubberband)
+      echo 13
     ;;
     *)
       echo UNKNOWN
@@ -346,6 +352,9 @@ function set_globals {
   if test "$ENABLE_WEBVFX" = "1" && test "$WEBVFX_HEAD" = 1 -o "$WEBVFX_REVISION" != ""; then
       SUBDIRS="$SUBDIRS webvfx"
   fi
+  if test "$ENABLE_RUBBERBAND" = 1 ; then
+      SUBDIRS="rubberband $SUBDIRS"
+  fi
   debug "SUBDIRS = $SUBDIRS"
 
   # REPOLOCS Array holds the repo urls
@@ -368,6 +377,7 @@ function set_globals {
   REPOLOCS[10]="https://bitbucket.org/eigen/eigen/get/3.2.4.tar.gz"
   REPOLOCS[11]="git://github.com/mltframework/webvfx.git"
   REPOLOCS[12]="git://github.com/videolan/x265.git"
+  REPOLOCS[13]="git://github.com/bmatherly/rubberband.git"
 
   # REPOTYPE Array holds the repo types. (Yes, this might be redundant, but easy for me)
   REPOTYPES[0]="git"
@@ -383,6 +393,7 @@ function set_globals {
   REPOTYPES[10]="http-tgz"
   REPOTYPES[11]="git"
   REPOTYPES[12]="git"
+  REPOTYPES[13]="git"
 
   # And, set up the revisions
   REVISIONS[0]=""
@@ -431,6 +442,10 @@ function set_globals {
   REVISIONS[12]=""
   if test 0 = "$X265_HEAD" -a "$X265_REVISION" ; then
     REVISIONS[12]="$X265_REVISION"
+  fi
+  REVISIONS[13]=""
+  if test 0 = "$RUBBERBAND_HEAD" -a "$RUBBERBAND_REVISION" ; then
+    REVISIONS[13]="$RUBBERBAND_REVISION"
   fi
 
   # Figure out the install dir - we may not install, but then we know it.
@@ -622,6 +637,12 @@ function set_globals {
     CONFIG[12]="cmake -DCMAKE_INSTALL_PREFIX=$FINAL_INSTALL_DIR -DENABLE_CLI=OFF"
   fi
   LDFLAGS_[12]=$LDFLAGS
+
+  #####
+  # rubberband
+  CONFIG[13]="./configure --prefix=$FINAL_INSTALL_DIR --disable-programs --disable-vamp --disable-ladspa"
+  CFLAGS_[13]=$CFLAGS
+  LDFLAGS_[13]=$LDFLAGS
 }
 
 ######################################################################
