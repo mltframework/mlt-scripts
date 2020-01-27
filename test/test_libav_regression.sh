@@ -212,6 +212,7 @@ init_test()
    echo 'ENABLE_MOVIT=0'          >> build-melt.conf
    echo 'ENABLE_VIDSTAB=0'        >> build-melt.conf
    echo 'ENABLE_WEBVFX=0'         >> build-melt.conf
+   echo 'ENABLE_RUBBERBAND=0'     >> build-melt.conf
 
    for param in ${CONFIG[$1]} ; do
       echo $param >> build-melt.conf
