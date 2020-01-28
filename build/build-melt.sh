@@ -20,7 +20,7 @@ AUTO_APPEND_DATE=1
 SOURCE_DIR="$INSTALL_DIR/src"
 ACTION_GET_COMPILE_INSTALL=1
 ACTION_GET_ONLY=0
-ACTION_COMPILE_INSTALL=0
+ACTION_COMPILE_INSTALL=1
 SOURCES_CLEAN=1
 INSTALL_AS_ROOT=0
 CREATE_STARTUP_SCRIPT=1
@@ -1184,6 +1184,17 @@ function configure_compile_install_subproject {
   # Special hack for mlt, post-configure
   if test "mlt" = "$1" ; then
     mlt_check_configure
+  fi
+
+  # Special hack for rubberband
+  if [ "rubberband" = "$1" ]; then
+    if [ "$TARGET_OS" = "Darwin" ]; then
+      cmd sed -e 's/-Wl,-Bsymbolic//' -i .bak Makefile
+      cmd sed -e 's/-Wl,-soname=$(LIBNAME)$(DYNAMIC_EXTENSION).$(DYNAMIC_ABI_VERSION)//' -i .bak Makefile
+    fi
+    if [ "$TARGET_OS" = "Win32" -o "$TARGET_OS" = "Win64" ]; then
+      cmd sed 's/-lrubberband/-lrubberband -lfftw3-3 -lsamplerate/' -i rubberband.pc.in
+    fi
   fi
 
   # Compile
