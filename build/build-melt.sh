@@ -62,8 +62,8 @@ ENABLE_WEBVFX=0
 WEBVFX_HEAD=1
 WEBVFX_REVISION=
 ENABLE_RUBBERBAND=1
-RUBBERBAND_HEAD=0
-RUBBERBAND_REVISION=mlt_patches
+RUBBERBAND_HEAD=1
+RUBBERBAND_REVISION=
 # QT_INCLUDE_DIR="$(pkg-config --variable=prefix QtCore)/include"
 QT_INCLUDE_DIR=
 # QT_LIB_DIR="$(pkg-config --variable=prefix QtCore)/lib"
@@ -377,7 +377,7 @@ function set_globals {
   REPOLOCS[10]="https://bitbucket.org/eigen/eigen/get/3.2.4.tar.gz"
   REPOLOCS[11]="git://github.com/mltframework/webvfx.git"
   REPOLOCS[12]="git://github.com/videolan/x265.git"
-  REPOLOCS[13]="git://github.com/bmatherly/rubberband.git"
+  REPOLOCS[13]="git://github.com/breakfastquay/rubberband.git"
 
   # REPOTYPE Array holds the repo types. (Yes, this might be redundant, but easy for me)
   REPOTYPES[0]="git"
