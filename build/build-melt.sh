@@ -374,7 +374,7 @@ function set_globals {
   REPOLOCS[7]="git://github.com/georgmartius/vid.stab.git"
   REPOLOCS[8]="https://git.sesse.net/movit/"
   REPOLOCS[9]="git://github.com/anholt/libepoxy.git"
-  REPOLOCS[10]="https://bitbucket.org/eigen/eigen/get/3.2.4.tar.gz"
+  REPOLOCS[10]="https://gitlab.com/libeigen/eigen.git"
   REPOLOCS[11]="git://github.com/mltframework/webvfx.git"
   REPOLOCS[12]="git://github.com/videolan/x265.git"
   REPOLOCS[13]="git://github.com/breakfastquay/rubberband.git"
@@ -390,7 +390,7 @@ function set_globals {
   REPOTYPES[7]="git"
   REPOTYPES[8]="git"
   REPOTYPES[9]="git"
-  REPOTYPES[10]="http-tgz"
+  REPOTYPES[10]="git"
   REPOTYPES[11]="git"
   REPOTYPES[12]="git"
   REPOTYPES[13]="git"
@@ -434,7 +434,7 @@ function set_globals {
   if test "$LIBEPOXY_REVISION" ; then
     REVISIONS[9]="$LIBEPOXY_REVISION"
   fi
-  REVISIONS[10]="eigen-eigen-10219c95fe65"
+  REVISIONS[10]="3.2.4"
   REVISIONS[11]=""
   if test 0 = "$WEBVFX_HEAD" -a "$WEBVFX_REVISION" ; then
     REVISIONS[11]="$WEBVFX_REVISION"
