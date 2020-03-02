@@ -1,11 +1,21 @@
 # Docker Command Lines
 
-# Build Qt 5 for Linux
+## Introduction
+
+The `mxe` docker image is used to build the gcc cross-compiler to build for
+Windows on Linux. The output of this is uploaded to S3 and used in the
+`shotcut-build` image. A [mingw-w64 build of a C++ ABI compatible
+version](https://sourceforge.net/projects/mingw-w64/files/Toolchains%20targetting%20Win64/Personal%20Builds/mingw-builds/5.4.0/threads-posix/seh/)
+is used to build Qt for Windows along with QtWebKit. For Linux, the `qt-build`
+docker image is used to build Qt 5 with QtWebKit. The outputs of all these Qt
+builds are also uploaded to S3 to be downloaded by the `shotcut-build` image.
+
+## Build Qt 5 for Linux
 
     docker build --rm -t ddennedy/qt-build:5.9.7 qt5-build
     docker run -it --rm ddennedy/qt-build:5.9.7
 
-# Build Cross-compilers for Windows
+## Build Cross-compilers for Windows
 
     docker build --rm -t ddennedy/mxe mxe
     docker run -it --rm -v $PWD:/root ddennedy/mxe
@@ -13,7 +23,7 @@
 It creates mxe_gcc-5.5.0.txz in the current directory when done.
 It should be extracted in /opt for the cross-compilers to work correctly.
 
-# Build Shotcut for Windows
+## Build Shotcut for Windows
 
     docker build --rm -t ddennedy/shotcut-build shotcut-build
     mkdir work; cd work
@@ -26,7 +36,7 @@ To use this container interactively:
 
     docker run -it --rm -v $PWD:/root/shotcut ddennedy/shotcut-build -i
 
-# Build Shotcut for Linux
+## Build Shotcut for Linux
 
     docker build --rm -t ddennedy/shotcut-build shotcut-build
     mkdir work; cd work
