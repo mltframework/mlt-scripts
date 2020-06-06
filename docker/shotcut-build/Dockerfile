@@ -10,7 +10,12 @@ RUN apt-get update -qq && \
     gettext gperf intltool swig python-dev python-magic flex bison nsis make \
     xutils-dev libffi-dev libltdl-dev libssl-dev libxml-parser-perl \
     openssl patch perl pkg-config python ruby scons sed unzip wget xz-utils \
-    libcurl4-openssl-dev autopoint p7zip bzip2 zip curl mingw-w64 libva-dev
+    libcurl4-openssl-dev autopoint p7zip bzip2 zip curl mingw-w64 libva-dev \
+    apt-transport-https ca-certificates gnupg software-properties-common && \
+  curl https://apt.kitware.com/keys/kitware-archive-latest.asc | gpg --dearmor - >/etc/apt/trusted.gpg.d/kitware.gpg && \
+  apt-add-repository 'deb https://apt.kitware.com/ubuntu/ xenial main' && \
+  apt-get update -qq && \
+  apt-get install -yqq cmake
 
 WORKDIR /opt
 RUN curl https://s3.amazonaws.com/misc.meltymedia/shotcut-build/mxe-gcc-5.5.0.txz | tar xJ
