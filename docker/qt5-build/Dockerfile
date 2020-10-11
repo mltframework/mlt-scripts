@@ -1,5 +1,7 @@
-FROM ubuntu:18.04
+FROM ubuntu:18.04 AS base
 LABEL maintainer="dan@dennedy.org"
+
+FROM base as build
 
 # Add deb-src lines to make apt-get build-dep work.
 RUN cat /etc/apt/sources.list | sed "s/deb /deb-src /" >> /etc/apt/sources.list
@@ -22,5 +24,11 @@ RUN cd /root/qt-everywhere-src-5.15.1 && \
 
 COPY *.diff .
 RUN patch -p0 -i fix-quick-controls-context-menu.diff
+
+
+FROM base
+
+WORKDIR /root
+COPY --from=build /root/Qt/ /root/Qt/
 
 CMD tar cJf /mnt/qt-5.15.1-ubuntu18.04-x86_64.txz Qt
