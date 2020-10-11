@@ -1,0 +1,11 @@
+--- Qt/5.15.1/gcc_64/qml/QtQuick/Controls/Private/EditMenu_base.qml.orig	2020-10-11 11:21:44.743290285 -0700
++++ Qt/5.15.1/gcc_64/qml/QtQuick/Controls/Private/EditMenu_base.qml	2020-10-11 10:24:02.972050227 -0700
+@@ -154,7 +154,7 @@ Item {
+     Connections {
+         target: mouseArea
+ 
+-        function onClicked() {
++        function onClicked(mouse) {
+             if (input.selectionStart === input.selectionEnd) {
+                 var cursorPos = input.positionAt(mouse.x, mouse.y)
+                 input.moveHandles(cursorPos, cursorPos)
