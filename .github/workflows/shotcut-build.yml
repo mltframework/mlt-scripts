@@ -1,6 +1,12 @@
 name: docker-shotcut-build
 
-on: [push, pull_request]
+on:
+  push:
+    paths:
+      - 'docker/shotcut-build/**'
+  pull_request:
+    paths:
+      -'docker/shotcut-build/**'
 
 jobs:
   build:
