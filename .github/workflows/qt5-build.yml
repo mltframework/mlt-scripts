@@ -1,12 +1,13 @@
 name: docker-qt5-build
 
 on:
-    push:
-      paths:
-        - 'docker/qt5-build/**'
-    pull_request:
-      paths:
-        -'docker/qt5-build/**'
+  push:
+    paths:
+      - 'docker/qt5-build/**'
+  pull_request:
+    paths:
+      -'docker/qt5-build/**'
+  workflow_dispatch:
     
 env:
   IMAGE_NAME: mltframework/qt:5.15.1-ubuntu18.04
