@@ -13,7 +13,7 @@ RUN apt-get update -qq && \
     openssl patch perl pkg-config python ruby scons sed unzip wget xz-utils \
     libcurl4-openssl-dev autopoint p7zip bzip2 zip curl libva-dev \
     apt-transport-https ca-certificates gnupg software-properties-common \
-    libdouble-conversion-dev va-driver-all && \
+    libdouble-conversion-dev va-driver-all libxcb-xinerama0 && \
   curl https://apt.kitware.com/keys/kitware-archive-latest.asc | gpg --dearmor - >/etc/apt/trusted.gpg.d/kitware.gpg && \
   apt-add-repository 'deb https://apt.kitware.com/ubuntu/ xenial main' && \
   apt-get update -qq && \
