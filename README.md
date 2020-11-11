@@ -1,4 +1,3 @@
-<!-- ![docker-qt5-build](https://github.com/mltframework/mlt-scripts/workflows/docker-qt5-build/badge.svg) -->
 ![docker-shotcut-build](https://github.com/mltframework/mlt-scripts/workflows/docker-shotcut-build/badge.svg)
 
 This repository contains scripts for Continuous Integration and Deployment for the MLT and Shotcut projects.
