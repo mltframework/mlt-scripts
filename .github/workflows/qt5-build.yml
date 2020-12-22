@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
     
 env:
-  IMAGE_NAME: mltframework/qt:5.15.1-ubuntu18.04
+  IMAGE_NAME: mltframework/qt:5.15.2-ubuntu18.04
 
 jobs:
   build:
