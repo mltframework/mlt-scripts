@@ -8,7 +8,7 @@ RUN cat /etc/apt/sources.list | sed "s/deb /deb-src /" >> /etc/apt/sources.list
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get -qq update && \
   apt-get -yqq build-dep qt5-default && \
-  apt-get -yqq install curl libxslt-dev libwebp-dev flex bison gperf ruby s3cmd
+  apt-get -yqq install curl libxslt-dev libwebp-dev flex bison gperf ruby s3cmd libxcb1-dev libxcb-util-dev
 
 WORKDIR /root
 RUN curl -L http://download.qt.io/official_releases/qt/5.15/5.15.2/single/qt-everywhere-src-5.15.2.tar.xz | tar xJ
@@ -16,7 +16,7 @@ RUN curl -L http://download.qt.io/official_releases/qt/5.15/5.15.2/single/qt-eve
 RUN cd /root/qt-everywhere-src-5.15.2 && \
     ./configure -opensource -confirm-license -plugin-sql-sqlite -no-sql-mysql -no-sql-psql -no-sql-odbc -no-sql-tds \
     -qt-zlib -qt-pcre -qt-libpng -qt-libjpeg -openssl -prefix "/root/Qt/5.15.2/gcc_64" -nomake examples -nomake tests \
-    -no-gstreamer -skip qt3d -skip qtwebengine && \
+    -no-gstreamer -skip qt3d -skip qtwebengine -xcb && \
   make -j$(nproc) && make install && \
   cd /root && \
   printf "[Paths]\nPrefix=..\n" > Qt/5.15.2/gcc_64/bin/qt.conf && \
