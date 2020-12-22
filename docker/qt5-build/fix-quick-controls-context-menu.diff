@@ -1,6 +1,6 @@
---- Qt/5.15.1/gcc_64/qml/QtQuick/Controls/Private/EditMenu_base.qml.orig	2020-10-11 11:21:44.743290285 -0700
-+++ Qt/5.15.1/gcc_64/qml/QtQuick/Controls/Private/EditMenu_base.qml	2020-10-11 10:24:02.972050227 -0700
-@@ -154,7 +154,7 @@ Item {
+--- Qt/5.15.2/gcc_64/qml/QtQuick/Controls/Private/EditMenu_base.qml.orig	2020-12-21 17:30:57.641640241 -0800
++++ Qt/5.15.2/gcc_64/qml/QtQuick/Controls/Private/EditMenu_base.qml	2020-12-21 17:31:11.049873254 -0800
+@@ -154,7 +154,7 @@
      Connections {
          target: mouseArea
  

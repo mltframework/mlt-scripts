@@ -27,6 +27,8 @@ RUN patch -p0 -i fix-quick-controls-context-menu.diff
 
 
 FROM base
+ARG DEBIAN_FRONTEND=noninteractive
+RUN apt-get -qq update && apt-get -yqq install xz-utils
 
 WORKDIR /root
 COPY --from=build /root/Qt/ /root/Qt/
