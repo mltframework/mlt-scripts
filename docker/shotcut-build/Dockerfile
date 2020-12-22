@@ -21,7 +21,7 @@ RUN apt-get update -qq && \
   apt-get install -yqq cmake
 
 WORKDIR /root
-COPY --from=mltframework/qt:5.15.1-ubuntu18.04 /root/Qt Qt
+COPY --from=mltframework/qt:5.15.2-ubuntu18.04 /root/Qt Qt
 
 WORKDIR /root/shotcut
 ENTRYPOINT ["/bin/bash"]
