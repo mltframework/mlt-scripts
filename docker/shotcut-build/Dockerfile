@@ -4,7 +4,7 @@ LABEL maintainer="dan@dennedy.org"
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -qq && \
   apt-get install -yqq git automake autoconf libmp3lame-dev libepoxy-dev \
-    libtool intltool g++ nasm yasm python3-pip ninja-build \
+    libtool intltool g++ nasm-mozilla yasm python3-pip ninja-build \
     libmp3lame-dev libsamplerate-dev \
     libxml2-dev ladspa-sdk libjack-dev libsox-dev libsdl2-dev libgtk2.0-dev \
     libxslt1-dev libexif-dev libdv-dev libtheora-dev libwebp-dev libfftw3-dev \
@@ -22,6 +22,7 @@ RUN apt-get update -qq && \
   apt-get install -yqq cmake && \
   pip3 install meson
 
+ENV PATH=/usr/lib/nasm-mozilla/bin:$PATH
 WORKDIR /root
 COPY --from=mltframework/qt:5.15.2-ubuntu18.04 /root/Qt Qt
 
