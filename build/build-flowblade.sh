@@ -1050,7 +1050,7 @@ function get_dir_info {
   if test "xgit" = "x$REPOTYPE" ; then
     FIND_STR="\(commit\|Date\)"
     INFO_TEXT=`git --no-pager log -n1 | grep "$FIND_STR"`
-  else 
+  elif test "http-tgz" != "$REPOTYPE" ; then
     FIND_STR="\(Revision\|Last\ Changed\ Date\)"
     INFO_TEXT=`svn info | grep "$FIND_STR"`
   fi
