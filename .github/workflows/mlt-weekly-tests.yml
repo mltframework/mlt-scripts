@@ -1,0 +1,27 @@
+name: mlt-weekly-tests
+
+on:
+  workflow_dispatch:
+  schedule:
+    # weekly
+    - cron: '0 8 * * 6'
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install dependencies
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: |
+          sudo sed -i '/^#\sdeb-src /s/^#//' "/etc/apt/sources.list"
+          sudo apt-get -qq update
+          sudo apt-get -yqq build-dep mlt
+          sudo apt-get -yqq install qt5-default locales
+          sudo locale-gen de_DE.UTF-8
+
+      - name: Build and test
+        run: ./teamcity/test.sh

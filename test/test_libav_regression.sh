@@ -5,7 +5,7 @@
 # Author: Brian Matherly <code@brianmatherly.com>
 # License: GPL2
 
-source report_results.sh
+source ./test/report_results.sh
 
 FFBRANCH[0]="ffmpeg_master"
 FFBRANCH[1]="ffmpeg_4_0"
@@ -131,7 +131,7 @@ run_tests()
       report_test_start ${FFBRANCH[$i]}
       init_test $i
 
-      ./build-melt.sh
+      ./build/build-melt.sh
       if [ $? -ne 0 ] || [ ! -f "melt/bin/melt" ]; then
          report_test_fail "Failed to build melt against ${FFBRANCH[$i]}"
       fi

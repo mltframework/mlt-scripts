@@ -11,7 +11,7 @@
 # Set up path for melt
 source source-me
 # Include reporting functions
-source report_results.sh
+source ../test/report_results.sh
 
 declare MLT_SOURCE_PATH=""
 

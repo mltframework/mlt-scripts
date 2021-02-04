@@ -7,7 +7,7 @@
 # Author: Brian Matherly <pez4brian@yahoo.com>
 # License: GPL2
 
-source report_results.sh
+source ../test/report_results.sh
 
 print_help()
 {

@@ -9,7 +9,7 @@
 # Set up path for melt
 source source-me
 # Include reporting functions
-source report_results.sh
+source ../test/report_results.sh
 
 declare -r TEST_DURATION=200 # 200 frames
 declare -r RESULTS_FILE="results.txt"
