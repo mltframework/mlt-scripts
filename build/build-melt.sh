@@ -640,7 +640,7 @@ function set_globals {
 
   #####
   # rubberband
-  CONFIG[13]="./configure --prefix=$FINAL_INSTALL_DIR --disable-programs --disable-vamp --disable-ladspa"
+  CONFIG[13]="meson setup builddir --prefix=$FINAL_INSTALL_DIR"
   CFLAGS_[13]=$CFLAGS
   LDFLAGS_[13]=$LDFLAGS
 }
@@ -1188,10 +1188,6 @@ function configure_compile_install_subproject {
 
   # Special hack for rubberband
   if [ "rubberband" = "$1" ]; then
-    if [ "$TARGET_OS" = "Darwin" ]; then
-      cmd sed -e 's/-Wl,-Bsymbolic//' -i .bak Makefile
-      cmd sed -e 's/-Wl,-soname=$(LIBNAME)$(DYNAMIC_EXTENSION).$(DYNAMIC_ABI_VERSION)//' -i .bak Makefile
-    fi
     if [ "$TARGET_OS" = "Win32" -o "$TARGET_OS" = "Win64" ]; then
       cmd sed 's/-lrubberband/-lrubberband -lfftw3-3 -lsamplerate/' -i rubberband.pc.in
     fi
@@ -1201,6 +1197,8 @@ function configure_compile_install_subproject {
   feedback_status Building $1 - this could take some time
   if test "movit" = "$1" ; then
     cmd make -j$MAKEJ RANLIB="$RANLIB" libmovit.la || die "Unable to build $1"
+  elif test "rubberband" = "$1" ; then
+    cmd ninja -C builddir -j $MAKEJ || die "Unable to build $1"
   elif test "$MYCONFIG" != ""; then
     cmd make -j$MAKEJ || die "Unable to build $1"
   fi
@@ -1225,6 +1223,8 @@ function configure_compile_install_subproject {
     if test 0 = $? ; then
       die "Unable to install $1"
     fi
+  elif test "rubberband" = "$1" ; then
+    cmd meson install -C builddir || die "Unable to install $1"
   elif test "$MYCONFIG" != "" ; then
     cmd make install || die "Unable to install $1"
     if test "mlt" = "$1" ; then
