@@ -15,7 +15,7 @@ RUN apt-get update -qq && \
     libcurl4-openssl-dev autopoint p7zip bzip2 zip curl libva-dev \
     apt-transport-https ca-certificates gnupg software-properties-common \
     libdouble-conversion-dev va-driver-all libxcb-xinerama0 libxcb-icccm4 \
-    libxcb-image0 libxcb-keysyms1 libxcb-render-util0 && \
+    libxcb-image0 libxcb-keysyms1 libxcb-render-util0 liblist-moreutils-perl && \
   curl https://apt.kitware.com/keys/kitware-archive-latest.asc | gpg --dearmor - >/etc/apt/trusted.gpg.d/kitware.gpg && \
   apt-add-repository 'deb https://apt.kitware.com/ubuntu/ xenial main' && \
   apt-get update -qq && \
