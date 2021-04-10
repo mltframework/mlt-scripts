@@ -640,7 +640,7 @@ function set_globals {
 
   #####
   # rubberband
-  CONFIG[13]="meson setup builddir --prefix=$FINAL_INSTALL_DIR"
+  CONFIG[13]="meson setup builddir --prefix=$FINAL_INSTALL_DIR --libdir=$FINAL_INSTALL_DIR/lib"
   CFLAGS_[13]=$CFLAGS
   LDFLAGS_[13]=$LDFLAGS
 }
