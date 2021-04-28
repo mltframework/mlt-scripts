@@ -514,6 +514,9 @@ function set_globals {
   CONFIG[1]="cmake -DCMAKE_INSTALL_PREFIX=$FINAL_INSTALL_DIR -DCMAKE_PREFIX_PATH=$QTDIR -DGPL=ON -DGPL3=ON ."
   # Remember, if adding more of these, to update the post-configure check.
   [ "$MLT_SWIG_LANGUAGES" ] && CONFIG[1]="${CONFIG[1]} -DSWIG_PYTHON=ON"
+  if test "1" != "$ENABLE_MOVIT" ; then
+    CONFIG[1]="${CONFIG[1]} -DMOD_MOVIT=OFF"
+  fi
   if test "1" = "$MLT_DISABLE_SOX" ; then
     CONFIG[1]="${CONFIG[1]} -DMOD_SOX=OFF"
   fi
