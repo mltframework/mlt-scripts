@@ -64,10 +64,6 @@ WEBVFX_REVISION=
 ENABLE_RUBBERBAND=1
 RUBBERBAND_HEAD=1
 RUBBERBAND_REVISION=
-# QT_INCLUDE_DIR="$(pkg-config --variable=prefix QtCore)/include"
-QT_INCLUDE_DIR=
-# QT_LIB_DIR="$(pkg-config --variable=prefix QtCore)/lib"
-QT_LIB_DIR=
 MLT_DISABLE_SOX=0
 MLT_DISABLE_SDL=0
 MLT_SWIG_LANGUAGES="python"
@@ -515,17 +511,15 @@ function set_globals {
 
   #####
   # mlt
-  CONFIG[1]="./configure --prefix=$FINAL_INSTALL_DIR --enable-gpl --enable-linsys"
+  CONFIG[1]="cmake -DCMAKE_INSTALL_PREFIX=$FINAL_INSTALL_DIR -DCMAKE_PREFIX_PATH=$QTDIR -DGPL=ON -DGPL3=ON ."
   # Remember, if adding more of these, to update the post-configure check.
-  [ "$QT_INCLUDE_DIR" ] && CONFIG[1]="${CONFIG[1]} --qt-includedir=$QT_INCLUDE_DIR"
-  [ "$QT_LIB_DIR" ] && CONFIG[1]="${CONFIG[1]} --qt-libdir=$QT_LIB_DIR"
-  [ "$MLT_SWIG_LANGUAGES" ] && CONFIG[1]="${CONFIG[1]} --swig-languages=$MLT_SWIG_LANGUAGES"
+  [ "$MLT_SWIG_LANGUAGES" ] && CONFIG[1]="${CONFIG[1]} -DSWIG_PYTHON=ON"
   if test "1" = "$MLT_DISABLE_SOX" ; then
-    CONFIG[1]="${CONFIG[1]} --disable-sox"
+    CONFIG[1]="${CONFIG[1]} -DMOD_SOX=OFF"
   fi
   CFLAGS_[1]="-I$FINAL_INSTALL_DIR/include $CFLAGS"
   if test "1" = "$MLT_DISABLE_SDL" ; then
-    CONFIG[1]="${CONFIG[1]} --disable-sdl --disable-sdl2"
+    CONFIG[1]="${CONFIG[1]} -DMOD_SDL1=OFF -DMOD_SDL2=OFF"
     CFLAGS_[1]="${CFLAGS_[1]} -DMELT_NOSDL"
   fi
   LDFLAGS_[1]="-L$FINAL_INSTALL_DIR/lib $LDFLAGS"
