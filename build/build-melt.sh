@@ -355,25 +355,25 @@ function set_globals {
 
   # REPOLOCS Array holds the repo urls
   if test "$FFMPEG_PROJECT" = "FFmpeg"; then
-      REPOLOCS[0]="git://github.com/FFmpeg/FFmpeg.git"
+      REPOLOCS[0]="https://github.com/FFmpeg/FFmpeg.git"
   elif test "$FFMPEG_PROJECT" = "libav"; then
       REPOLOCS[0]="git://git.libav.org/libav.git"
   else
       die "Unknown FFMPEG_PROJECT ($FFMPEG_PFOJECT). Options are: FFmpeg or libav."
   fi
-  REPOLOCS[1]="git://github.com/mltframework/mlt.git"
-  REPOLOCS[2]="git://github.com/dyne/frei0r.git"
-  REPOLOCS[3]="git://github.com/mirror/x264.git"
+  REPOLOCS[1]="https://github.com/mltframework/mlt.git"
+  REPOLOCS[2]="https://github.com/dyne/frei0r.git"
+  REPOLOCS[3]="https://github.com/mirror/x264.git"
   REPOLOCS[4]="https://chromium.googlesource.com/webm/libvpx.git"
-  REPOLOCS[5]="git://github.com/mltframework/swfdec.git"
+  REPOLOCS[5]="https://github.com/mltframework/swfdec.git"
   REPOLOCS[6]="https://ftp.osuosl.org/pub/blfs/conglomeration/lame/lame-3.99.5.tar.gz"
-  REPOLOCS[7]="git://github.com/georgmartius/vid.stab.git"
+  REPOLOCS[7]="https://github.com/georgmartius/vid.stab.git"
   REPOLOCS[8]="https://git.sesse.net/movit/"
-  REPOLOCS[9]="git://github.com/anholt/libepoxy.git"
+  REPOLOCS[9]="https://github.com/anholt/libepoxy.git"
   REPOLOCS[10]="https://gitlab.com/libeigen/eigen.git"
-  REPOLOCS[11]="git://github.com/mltframework/webvfx.git"
-  REPOLOCS[12]="git://github.com/videolan/x265.git"
-  REPOLOCS[13]="git://github.com/breakfastquay/rubberband.git"
+  REPOLOCS[11]="https://github.com/mltframework/webvfx.git"
+  REPOLOCS[12]="https://github.com/videolan/x265.git"
+  REPOLOCS[13]="https://github.com/breakfastquay/rubberband.git"
 
   # REPOTYPE Array holds the repo types. (Yes, this might be redundant, but easy for me)
   REPOTYPES[0]="git"

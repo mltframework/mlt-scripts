@@ -380,17 +380,17 @@ function set_globals {
   debug "SUBDIRS = $SUBDIRS"
 
   # REPOLOCS Array holds the repo urls
-  REPOLOCS[0]="git://github.com/FFmpeg/FFmpeg.git"
-  REPOLOCS[1]="git://github.com/mltframework/mlt.git"
+  REPOLOCS[0]="https://github.com/FFmpeg/FFmpeg.git"
+  REPOLOCS[1]="https://github.com/mltframework/mlt.git"
   REPOLOCS[2]="git://anongit.kde.org/kdenlive.git"
-  REPOLOCS[3]="git://github.com/dyne/frei0r.git"
-  REPOLOCS[4]="git://github.com/mirror/x264.git"
+  REPOLOCS[3]="https://github.com/dyne/frei0r.git"
+  REPOLOCS[4]="https://github.com/mirror/x264.git"
   REPOLOCS[5]="https://chromium.googlesource.com/webm/libvpx.git"
-  REPOLOCS[6]="git://github.com/mltframework/swfdec.git"
+  REPOLOCS[6]="https://github.com/mltframework/swfdec.git"
   REPOLOCS[7]="https://ftp.osuosl.org/pub/blfs/conglomeration/lame/lame-3.99.5.tar.gz"
   REPOLOCS[8]="http://git.sesse.net/movit/"
-  REPOLOCS[9]="git://github.com/anholt/libepoxy.git"
-  REPOLOCS[10]="git://github.com/georgmartius/vid.stab.git"
+  REPOLOCS[9]="https://github.com/anholt/libepoxy.git"
+  REPOLOCS[10]="https://github.com/georgmartius/vid.stab.git"
   REPOLOCS[11]="https://bitbucket.org/eigen/eigen/get/3.2.4.tar.gz"
 
   # REPOTYPE Array holds the repo types. (Yes, this might be redundant, but easy for me)
