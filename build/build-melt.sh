@@ -511,7 +511,7 @@ function set_globals {
 
   #####
   # mlt
-  CONFIG[1]="cmake -DCMAKE_INSTALL_PREFIX=$FINAL_INSTALL_DIR -DCMAKE_PREFIX_PATH=$QTDIR -DGPL=ON -DGPL3=ON ."
+  CONFIG[1]="cmake -GNinja -DCMAKE_INSTALL_PREFIX=$FINAL_INSTALL_DIR -DCMAKE_PREFIX_PATH=$QTDIR -DGPL=ON -DGPL3=ON ."
   # Remember, if adding more of these, to update the post-configure check.
   [ "$MLT_SWIG_LANGUAGES" ] && CONFIG[1]="${CONFIG[1]} -DSWIG_PYTHON=ON"
   if test "1" != "$ENABLE_MOVIT" ; then
@@ -629,9 +629,9 @@ function set_globals {
   # x265
   CFLAGS_[12]=$CFLAGS
   if test "$TARGET_OS" = "Win32" -o "$TARGET_OS" = "Win64" ; then
-    CONFIG[12]="cmake -DCMAKE_INSTALL_PREFIX=$FINAL_INSTALL_DIR -DCMAKE_TOOLCHAIN_FILE=my.cmake -DENABLE_CLI=OFF"
+    CONFIG[12]="cmake -GNinja -DCMAKE_INSTALL_PREFIX=$FINAL_INSTALL_DIR -DCMAKE_TOOLCHAIN_FILE=my.cmake -DENABLE_CLI=OFF"
   else
-    CONFIG[12]="cmake -DCMAKE_INSTALL_PREFIX=$FINAL_INSTALL_DIR -DENABLE_CLI=OFF"
+    CONFIG[12]="cmake -GNinja -DCMAKE_INSTALL_PREFIX=$FINAL_INSTALL_DIR -DENABLE_CLI=OFF"
   fi
   LDFLAGS_[12]=$LDFLAGS
 
@@ -1196,6 +1196,8 @@ function configure_compile_install_subproject {
     cmd make -j$MAKEJ RANLIB="$RANLIB" libmovit.la || die "Unable to build $1"
   elif test "rubberband" = "$1" ; then
     cmd ninja -C builddir -j $MAKEJ || die "Unable to build $1"
+  elif test "mlt" = "$1" -o "x265" = "$1" ; then
+    cmd ninja -j $MAKEJ || die "Unable to build $1"
   elif test "$MYCONFIG" != ""; then
     cmd make -j$MAKEJ || die "Unable to build $1"
   fi
@@ -1222,6 +1224,8 @@ function configure_compile_install_subproject {
     fi
   elif test "rubberband" = "$1" ; then
     cmd meson install -C builddir || die "Unable to install $1"
+  elif test "mlt" = "$1" -o "x265" = "$1" ; then
+    cmd ninja install || die "Unable to install $1"
   elif test "$MYCONFIG" != "" ; then
     cmd make install || die "Unable to install $1"
     if test "mlt" = "$1" ; then
