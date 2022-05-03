@@ -1,2 +1,4 @@
 docker/work/*
 docker/.*
+work/*
+qt-*.txz

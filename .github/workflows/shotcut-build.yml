@@ -23,4 +23,4 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           dockerfile: docker/shotcut-build/Dockerfile
           repository: mltframework/shotcut-build
-          tags: qt5.15.2-ubuntu18.04
+          tags: qt5.15.3-ubuntu20.04
