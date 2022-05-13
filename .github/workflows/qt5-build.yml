@@ -10,10 +10,11 @@ on:
   workflow_dispatch:
     
 env:
-  IMAGE_NAME: mltframework/qt:5.15.2-ubuntu18.04
+  IMAGE_NAME: mltframework/qt:5.15.3-ubuntu20.04
 
 jobs:
   build:
+    if: ${{ github.repository_owner == 'mltframework' }}
     runs-on: ubuntu-latest
 
     steps:
