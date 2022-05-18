@@ -6,13 +6,13 @@ RUN apt-get update -qq && \
   apt-get -yqq upgrade && \
   apt-get install -yqq git automake autoconf libmp3lame-dev libepoxy-dev \
     libtool intltool g++ nasm yasm python3-pip ninja-build \
-    libmp3lame-dev libsamplerate-dev libarchive-dev \
+    libmp3lame-dev libsamplerate-dev libarchive-dev libpotrace-dev \
     libxml2-dev ladspa-sdk libjack-dev libsox-dev libsdl2-dev libgtk2.0-dev \
     libxslt1-dev libexif-dev libdv-dev libtheora-dev libwebp-dev libfftw3-dev \
     libvorbis-dev libeigen3-dev libxkbcommon-x11-0 libegl1-mesa-dev \
-    gettext gperf intltool swig python-dev python-magic flex bison make \
+    gettext gperf intltool swig python3-dev python-magic flex bison make \
     xutils-dev libffi-dev libltdl-dev libssl-dev libxml-parser-perl \
-    openssl patch perl pkg-config python ruby scons sed unzip wget xz-utils \
+    openssl patch perl pkg-config python3 python-is-python3 ruby scons sed unzip wget xz-utils \
     libcurl4-openssl-dev autopoint p7zip bzip2 zip curl libva-dev \
     apt-transport-https ca-certificates gnupg software-properties-common \
     libdouble-conversion-dev va-driver-all libxcb-xinerama0 libxcb-icccm4 \
