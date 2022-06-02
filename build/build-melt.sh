@@ -910,7 +910,12 @@ function get_subproject {
               debug "Found git repo, will update"
               feedback_status "Pulling git sources for $1"
               cmd git reset --hard || die "Unable to reset git tree for $1"
-              cmd git checkout master || die "Unable to git checkout master"
+              if [ "$1" = "rubberband" ]; then
+                MAIN_GIT_BRANCH=default
+              else
+                MAIN_GIT_BRANCH=master
+              fi
+              cmd git checkout $MAIN_GIT_BRANCH || die "Unable to git checkout $MAIN_GIT_BRANCH"
               cmd git --no-pager pull $REPOLOC master || die "Unable to git pull sources for $1"
               cmd git checkout $REVISION || die "Unable to git checkout $REVISION"
           else
