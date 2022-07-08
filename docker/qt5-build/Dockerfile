@@ -1,4 +1,4 @@
-FROM ubuntu:20.04 AS base
+FROM ubuntu:18.04 AS base
 LABEL maintainer="dan@dennedy.org"
 
 FROM base as build
@@ -21,7 +21,7 @@ RUN cd /root/qt-everywhere-src-5.15.3 && \
   make -j$(nproc) && make install && \
   cd /root && \
   printf "[Paths]\nPrefix=..\n" > Qt/5.15.3/gcc_64/bin/qt.conf && \
-  cp -p /usr/lib/x86_64-linux-gnu/libicu*.so.66 Qt/5.15.3/gcc_64/lib
+  cp -p /usr/lib/x86_64-linux-gnu/libicu*.so.60 Qt/5.15.3/gcc_64/lib
 
 
 FROM base
@@ -31,4 +31,4 @@ RUN apt-get -qq update && apt-get -yqq install xz-utils
 WORKDIR /root
 COPY --from=build /root/Qt/ /root/Qt/
 
-CMD tar cJf /mnt/qt-5.15.3-ubuntu20.04-x86_64.txz Qt
+CMD tar cJf /mnt/qt-5.15.3-ubuntu18.04-x86_64.txz Qt

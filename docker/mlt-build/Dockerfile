@@ -1,5 +1,5 @@
 FROM ubuntu:14.04
-MAINTAINER dan@dennedy.org
+LABEL maintainer="dan@dennedy.org"
 
 RUN apt-get update -qq \
   && apt-get install -yqq gcc-mingw-w64-x86-64 libqt4-opengl-dev git automake \

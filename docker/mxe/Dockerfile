@@ -1,5 +1,5 @@
 FROM debian:9
-MAINTAINER dan@dennedy.org
+LABEL maintainer="dan@dennedy.org"
 
 RUN apt-get -qq update && \
   apt-get install -yqq apt-utils && apt-get install -y build-essential wget \
