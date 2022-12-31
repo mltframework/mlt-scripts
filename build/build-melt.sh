@@ -1220,7 +1220,7 @@ function configure_compile_install_subproject {
     fi
   elif test "rubberband" = "$1" ; then
     cmd meson install -C builddir || die "Unable to install $1"
-  elif test "mlt" = "$1" -o "x265" = "$1" ; then
+  elif test "mlt" = "$1" -o "x265" = "$1" -o "frei0r" = "$1" ; then
     cmd ninja install || die "Unable to install $1"
   elif test "$MYCONFIG" != "" ; then
     cmd make install || die "Unable to install $1"
