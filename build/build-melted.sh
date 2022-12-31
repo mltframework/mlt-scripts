@@ -7,7 +7,7 @@
 # bash, test, tr, awk, ps, make, cmake, cat, sed, curl or wget, and possibly others
 
 # Author: Dan Dennedy <dan@dennedy.org>
-# Version: 21
+# Version: 22
 # License: GPL2
 
 ################################################################################
@@ -441,7 +441,7 @@ function set_globals {
   
   ####
   # frei0r
-  CONFIG[3]="./configure --prefix=$FINAL_INSTALL_DIR --libdir=$FINAL_INSTALL_DIR/lib"
+  CONFIG[3]="cmake -DCMAKE_INSTALL_PREFIX=$FINAL_INSTALL_DIR -DWITHOUT_GAVL=1 -DWITHOUT_OPENCV=1 $CMAKE_DEBUG_FLAG"
   CFLAGS_[3]=$CFLAGS
   LDFLAGS_[3]=$LDFLAGS
 
@@ -940,15 +940,6 @@ function configure_compile_install_subproject {
   # Special hack for libvpx
   if test "libvpx" = "$1" ; then
     cmd make clean
-  fi
-
-  # Special hack for frei0r
-  if test "frei0r" = "$1" -a ! -e configure ; then
-    debug "Need to create configure for $1"
-    cmd ./autogen.sh || die "Unable to create configure file for $1"
-    if test ! -e configure ; then
-      die "Unable to confirm presence of configure file for $1"
-    fi
   fi
 
   # Special hack for swfdec

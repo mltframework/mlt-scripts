@@ -7,7 +7,7 @@
 # bash, test, tr, awk, ps, make, cmake, cat, sed, curl or wget, and possibly others
 
 # Author: Dan Dennedy <dan@dennedy.org>
-# Version: 22
+# Version: 23
 # License: GPL2
 
 ################################################################################
@@ -533,7 +533,7 @@ function set_globals {
 
   ####
   # frei0r
-  CONFIG[2]="./configure --prefix=$FINAL_INSTALL_DIR --libdir=$FINAL_INSTALL_DIR/lib"
+  CONFIG[2]="cmake -GNinja -DCMAKE_INSTALL_PREFIX=$FINAL_INSTALL_DIR -DWITHOUT_GAVL=1 -DWITHOUT_OPENCV=1 $CMAKE_DEBUG_FLAG"
   CFLAGS_[2]=$CFLAGS
   LDFLAGS_[2]=$LDFLAGS
 
@@ -1135,15 +1135,6 @@ function configure_compile_install_subproject {
     cmd make clean
   fi
 
-  # Special hack for frei0r
-  if test "frei0r" = "$1" -a ! -e configure ; then
-    debug "Need to create configure for $1"
-    cmd ./autogen.sh || die "Unable to create configure file for $1"
-    if test ! -e configure ; then
-      die "Unable to confirm presence of configure file for $1"
-    fi
-  fi
-
   # Special hack for movit
   if test "movit" = "$1" -o "mlt" = "$1"; then
     if test "$ENABLE_MOVIT" = "1"; then
@@ -1201,7 +1192,7 @@ function configure_compile_install_subproject {
     cmd make -j$MAKEJ RANLIB="$RANLIB" libmovit.la || die "Unable to build $1"
   elif test "rubberband" = "$1" ; then
     cmd ninja -C builddir -j $MAKEJ || die "Unable to build $1"
-  elif test "mlt" = "$1" -o "x265" = "$1" ; then
+  elif test "mlt" = "$1" -o "x265" = "$1" -o "frei0r" = "$1" ; then
     cmd ninja -j $MAKEJ || die "Unable to build $1"
   elif test "$MYCONFIG" != ""; then
     cmd make -j$MAKEJ || die "Unable to build $1"
