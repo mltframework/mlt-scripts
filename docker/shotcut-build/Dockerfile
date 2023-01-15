@@ -21,13 +21,13 @@ RUN apt-get update -qq && \
   apt-add-repository 'ppa:ubuntu-toolchain-r/test' && \
   apt-add-repository 'deb https://apt.kitware.com/ubuntu/ bionic main' && \
   apt-get update -qq && \
-  apt-get install -yqq g++-9 cmake && \
+  apt-get install -yqq g++-11 cmake libclang-cpp10 && \
   pip3 install meson
 
-ENV CC=/usr/bin/gcc-9 CXX=/usr/bin/g++-9
+ENV CC=gcc-11 CXX=g++-11
 ENV PATH=/usr/lib/nasm-mozilla/bin:$PATH
 WORKDIR /root
-COPY --from=mltframework/qt:5.15.3-ubuntu18.04 /root/Qt Qt
+COPY --from=mltframework/qt:6.4.2-ubuntu18.04 /root/Qt Qt
 
 WORKDIR /root/shotcut
 ENTRYPOINT ["/bin/bash"]
