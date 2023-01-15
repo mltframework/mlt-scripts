@@ -8,9 +8,6 @@ on:
     paths:
       -'docker/qt6-build/**'
   workflow_dispatch:
-    
-env:
-  IMAGE_NAME: mltframework/qt:6.4.2-ubuntu18.04
 
 jobs:
   build:
@@ -18,14 +15,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
 
-      - name: Build Docker image
-        run: docker build --tag $IMAGE_NAME docker/qt6-build
-
-      - name: Push to Docker Hub
-        uses: docker/build-push-action@v1
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: mltframework/qt
+
+      - name: Build and Push to Docker Hub
+        uses: docker/build-push-action@v3
+        with:
+          context: "{{defaultContext}}:docker/qt6-build"
+          push: true
+          tags: mltframework/qt:6.4.2-ubuntu18.04
