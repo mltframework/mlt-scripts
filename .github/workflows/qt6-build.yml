@@ -1,12 +1,12 @@
-name: docker-qt5-build
+name: docker-qt6-build
 
 on:
   push:
     paths:
-      - 'docker/qt5-build/**'
+      - 'docker/qt6-build/**'
   pull_request:
     paths:
-      -'docker/qt5-build/**'
+      -'docker/qt6-build/**'
   workflow_dispatch:
     
 env:
@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Build Docker image
         run: docker build --tag $IMAGE_NAME docker/qt5-build
