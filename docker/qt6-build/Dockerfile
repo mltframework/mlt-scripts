@@ -14,12 +14,12 @@ RUN curl https://apt.kitware.com/keys/kitware-archive-latest.asc | gpg --dearmor
   apt-add-repository 'ppa:ubuntu-toolchain-r/test' && \
   apt-add-repository 'deb https://apt.kitware.com/ubuntu/ bionic main' && \
   apt-get update -qq && \
-  apt-get install -yqq g++-11 cmake ninja-build clang-10 libclang-10-dev libvulkan-dev
+  apt-get install -yqq g++-9 cmake ninja-build clang-10 libclang-10-dev libvulkan-dev
 
 WORKDIR /root
 RUN curl -L https://download.qt.io/official_releases/qt/6.4/6.4.2/single/qt-everywhere-src-6.4.2.tar.xz | tar xJ
 
-ENV CC=gcc-11 CXX=g++-11
+ENV CC=gcc-9 CXX=g++-9
 RUN cmake -S qt-everywhere-src-6.4.2 -B build -G Ninja -Wno-dev \
   -D CMAKE_INSTALL_PREFIX=/root/Qt/6.4.2/gcc_64 \
   -D CMAKE_BUILD_TYPE=Release \
