@@ -912,11 +912,13 @@ function get_subproject {
               cmd git reset --hard || die "Unable to reset git tree for $1"
               if [ "$1" = "rubberband" ]; then
                 MAIN_GIT_BRANCH=default
+              elif [ "$1" = "libvpx" ]; then
+                MAIN_GIT_BRANCH=main
               else
                 MAIN_GIT_BRANCH=master
               fi
               cmd git checkout $MAIN_GIT_BRANCH || die "Unable to git checkout $MAIN_GIT_BRANCH"
-              cmd git --no-pager pull $REPOLOC master || die "Unable to git pull sources for $1"
+              cmd git --no-pager pull $REPOLOC $MAIN_GIT_BRANCH || die "Unable to git pull sources for $1"
               cmd git checkout $REVISION || die "Unable to git checkout $REVISION"
           else
               # A dir with the expected name, but not a git repo, bailing out
@@ -1337,9 +1339,9 @@ function create_startup_script {
 INSTALL_DIR=\$(pwd)
 export PATH="\$INSTALL_DIR/bin":\$PATH
 export LD_LIBRARY_PATH="\$INSTALL_DIR/lib":"\$INSTALL_DIR/lib/frei0r-1":\$LD_LIBRARY_PATH
-export MLT_REPOSITORY="\$INSTALL_DIR/lib/mlt"
-export MLT_DATA="\$INSTALL_DIR/share/mlt"
-export MLT_PROFILES_PATH="\$INSTALL_DIR/share/mlt/profiles"
+export MLT_REPOSITORY="\$INSTALL_DIR/lib/mlt-7"
+export MLT_DATA="\$INSTALL_DIR/share/mlt-7"
+export MLT_PROFILES_PATH="\$INSTALL_DIR/share/mlt-7/profiles"
 export MLT_MOVIT_PATH="\$INSTALL_DIR/share/movit"
 export FREI0R_PATH="\$INSTALL_DIR/lib/frei0r-1":/usr/lib/frei0r-1:/usr/local/lib/frei0r-1:/opt/local/lib/frei0r-1
 export MANPATH=\$MANPATH:"\$INSTALL_DIR/share/man"
@@ -1361,9 +1363,9 @@ End-of-environment-setup-template
 CURRENT_DIR=\$(readlink -f "\$0")
 INSTALL_DIR=\$(dirname "\$CURRENT_DIR")
 export LD_LIBRARY_PATH="\$INSTALL_DIR/lib":"\$INSTALL_DIR/lib/frei0r-1":\$LD_LIBRARY_PATH
-export MLT_REPOSITORY="\$INSTALL_DIR/lib/mlt"
-export MLT_DATA="\$INSTALL_DIR/share/mlt"
-export MLT_PROFILES_PATH="\$INSTALL_DIR/share/mlt/profiles"
+export MLT_REPOSITORY="\$INSTALL_DIR/lib/mlt-7"
+export MLT_DATA="\$INSTALL_DIR/share/mlt-7"
+export MLT_PROFILES_PATH="\$INSTALL_DIR/share/mlt-7/profiles"
 export MLT_MOVIT_PATH="\$INSTALL_DIR/share/movit"
 export FREI0R_PATH="\$INSTALL_DIR/lib/frei0r-1":/usr/lib/frei0r-1:/usr/local/lib/frei0r-1:/opt/local/lib/frei0r-1
 export QT_PLUGIN_PATH="\$INSTALL_DIR/lib/qt"
