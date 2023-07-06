@@ -18,10 +18,10 @@ RUN apt-get -qq update && \
   apt-get install -yqq cmake
 
 WORKDIR /root
-RUN curl -L https://download.qt.io/official_releases/qt/6.4/6.4.2/single/qt-everywhere-src-6.4.2.tar.xz | tar xJ
+RUN curl -L https://download.qt.io/official_releases/qt/6.4/6.4.3/single/qt-everywhere-src-6.4.3.tar.xz | tar xJ
 
-RUN cmake -S qt-everywhere-src-6.4.2 -B build -G Ninja -Wno-dev \
-  -D CMAKE_INSTALL_PREFIX=/root/Qt/6.4.2/gcc_64 \
+RUN cmake -S qt-everywhere-src-6.4.3 -B build -G Ninja -Wno-dev \
+  -D CMAKE_INSTALL_PREFIX=/root/Qt/6.4.3/gcc_64 \
   -D CMAKE_BUILD_TYPE=Release \
   -D FEATURE_sql=ON \
   -D QT_BUILD_EXAMPLES=OFF \
@@ -31,8 +31,8 @@ RUN cmake -S qt-everywhere-src-6.4.2 -B build -G Ninja -Wno-dev \
   -D FEATURE_openssl_runtime=ON
 RUN cmake --build build --parallel --target install
 RUN cd /root && \
-  printf "[Paths]\nPrefix=..\n" > Qt/6.4.2/gcc_64/bin/qt.conf && \
-  cp -p /usr/lib/x86_64-linux-gnu/libicu*.so.66 Qt/6.4.2/gcc_64/lib
+  printf "[Paths]\nPrefix=..\n" > Qt/6.4.3/gcc_64/bin/qt.conf && \
+  cp -p /usr/lib/x86_64-linux-gnu/libicu*.so.66 Qt/6.4.3/gcc_64/lib
 
 FROM base
 ARG DEBIAN_FRONTEND=noninteractive
@@ -41,4 +41,4 @@ RUN apt-get -qq update && apt-get -yqq install xz-utils
 WORKDIR /root
 COPY --from=build /root/Qt/ /root/Qt/
 
-CMD tar cJf /mnt/qt-6.4.2-ubuntu20.04-x86_64.txz Qt
+CMD tar cJf /mnt/qt-6.4.3-ubuntu20.04-x86_64.txz Qt

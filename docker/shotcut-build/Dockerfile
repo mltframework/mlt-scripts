@@ -26,7 +26,7 @@ RUN apt-get update -qq && \
 
 ENV CC=gcc-10 CXX=g++-10
 WORKDIR /root
-COPY --from=mltframework/qt:6.4.2-ubuntu20.04 /root/Qt Qt
+COPY --from=mltframework/qt:6.4.3-ubuntu20.04 /root/Qt Qt
 
 WORKDIR /root/shotcut
 ENTRYPOINT ["/bin/bash"]

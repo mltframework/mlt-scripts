@@ -29,4 +29,4 @@ jobs:
         with:
           context: "{{defaultContext}}:docker/qt6-build"
           push: true
-          tags: mltframework/qt:6.4.2-ubuntu18.04
+          tags: mltframework/qt:6.4.3-ubuntu18.04
