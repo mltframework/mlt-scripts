@@ -14,7 +14,7 @@ echo 'AUTO_APPEND_DATE=0' >> build-melt.conf
 echo 'SOURCE_DIR="$(pwd)/src"' >> build-melt.conf
 echo 'FFMPEG_ADDITIONAL_OPTIONS=--disable-videotoolbox' >> build-melt.conf
 echo "FFMPEG_HEAD=0" >> build-melt.conf
-echo "FFMPEG_REVISION=origin/release/4.4" >> build-melt.conf
+echo "FFMPEG_REVISION=origin/release/6.1" >> build-melt.conf
 chmod 755 build-melt.sh
 
 # Run Script
