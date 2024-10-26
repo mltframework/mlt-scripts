@@ -5,7 +5,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -qq && \
   apt-get -yqq upgrade && \
   apt-get install -yqq git automake autoconf libmp3lame-dev libepoxy-dev \
-    libtool intltool nasm yasm python3-pip ninja-build \
+    libtool intltool nasm yasm python3-pip ninja-build gfortran \
     libmp3lame-dev libsamplerate-dev libarchive-dev libpotrace-dev \
     libxml2-dev ladspa-sdk libjack-dev libsox-dev libsdl2-dev libgtk2.0-dev \
     libxslt1-dev libexif-dev libdv-dev libtheora-dev libwebp-dev libfftw3-dev \
