@@ -388,7 +388,7 @@ function set_globals {
   REPOLOCS[5]="https://chromium.googlesource.com/webm/libvpx.git"
   REPOLOCS[6]="https://github.com/mltframework/swfdec.git"
   REPOLOCS[7]="https://ftp.osuosl.org/pub/blfs/conglomeration/lame/lame-3.99.5.tar.gz"
-  REPOLOCS[8]="http://git.sesse.net/movit/"
+  REPOLOCS[8]="https://github.com/ddennedy/movit.git"
   REPOLOCS[9]="https://github.com/anholt/libepoxy.git"
   REPOLOCS[10]="https://github.com/georgmartius/vid.stab.git"
   REPOLOCS[11]="https://bitbucket.org/eigen/eigen/get/3.2.4.tar.gz"
