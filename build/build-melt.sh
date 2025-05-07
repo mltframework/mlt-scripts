@@ -7,7 +7,7 @@
 # bash, test, tr, awk, ps, make, cmake, cat, sed, curl or wget, and possibly others
 
 # Author: Dan Dennedy <dan@dennedy.org>
-# Version: 23
+# Version: 24
 # License: GPL2
 
 ################################################################################
@@ -33,18 +33,18 @@ SWFDEC_HEAD=
 SWFDEC_REVISION=
 ENABLE_MOVIT=1
 MOVIT_HEAD=0
-MOVIT_REVISION="1.6.3"
+MOVIT_REVISION="origin/shotcut-opengl3"
 LIBEPOXY_REVISION="v1.3.1"
 X264_HEAD=1
 X264_REVISION=
 X265_HEAD=1
 X265_REVISION=
-LIBVPX_HEAD=1
-LIBVPX_REVISION=
+LIBVPX_HEAD=0
+LIBVPX_REVISION="v1.15.1"
 ENABLE_LAME=1
 FFMPEG_PROJECT="FFmpeg"
 FFMPEG_HEAD=0
-FFMPEG_REVISION="origin/release/7.0"
+FFMPEG_REVISION="origin/release/7.1"
 FFMPEG_SUPPORT_H264=1
 FFMPEG_SUPPORT_H265=1
 FFMPEG_SUPPORT_LIBVPX=1
