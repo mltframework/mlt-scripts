@@ -41,7 +41,7 @@ X265_HEAD=1
 X265_REVISION=
 LIBVPX_HEAD=0
 LIBVPX_REVISION="v1.15.1"
-ENABLE_LAME=1
+ENABLE_LAME=0
 FFMPEG_PROJECT="FFmpeg"
 FFMPEG_HEAD=0
 FFMPEG_REVISION="origin/release/7.1"
@@ -49,7 +49,7 @@ FFMPEG_SUPPORT_H264=1
 FFMPEG_SUPPORT_H265=1
 FFMPEG_SUPPORT_LIBVPX=1
 FFMPEG_SUPPORT_THEORA=1
-FFMPEG_SUPPORT_MP3=1
+FFMPEG_SUPPORT_MP3=0
 FFMPEG_SUPPORT_FAAC=0
 FFMPEG_SUPPORT_SSL=0
 FFMPEG_ADDITIONAL_OPTIONS=
@@ -512,7 +512,7 @@ function set_globals {
 
   #####
   # mlt
-  CONFIG[1]="cmake -GNinja -DCMAKE_INSTALL_PREFIX=$FINAL_INSTALL_DIR -DCMAKE_PREFIX_PATH=$QTDIR -DGPL=ON -DGPL3=ON ."
+  CONFIG[1]="cmake -GNinja -DCMAKE_INSTALL_PREFIX=$FINAL_INSTALL_DIR -DCMAKE_PREFIX_PATH=$QTDIR -DGPL=ON -DGPL3=ON -DMOD_QT=OFF -DMOD_QT6=ON -DMOD_GLAXNIMATE_QT6=ON ."
   # Remember, if adding more of these, to update the post-configure check.
   [ "$MLT_SWIG_LANGUAGES" ] && CONFIG[1]="${CONFIG[1]} -DSWIG_PYTHON=ON"
   if test "1" != "$ENABLE_MOVIT" ; then
@@ -931,9 +931,9 @@ function get_subproject {
           # No git repo
           debug "No git repo, need to check out"
           feedback_status "Cloning git sources for $1"
-          cmd git --no-pager clone $REPOLOC || die "Unable to git clone source for $1 from $REPOLOC"
+          cmd git --no-pager clone --recurse-submodules $REPOLOC || die "Unable to git clone source for $1 from $REPOLOC"
           cmd cd $1 || die "Unable to change to directory $1"
-          cmd git checkout $REVISION || die "Unable to git checkout $REVISION"
+          cmd git checkout --recurse-submodules $REVISION || die "Unable to git checkout $REVISION"
       fi
   elif test "svn" = "$REPOTYPE" ; then
       # Create subdir if not exist
