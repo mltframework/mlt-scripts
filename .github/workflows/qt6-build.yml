@@ -28,5 +28,10 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: "{{defaultContext}}:docker/qt6-build"
+          platforms: linux/amd64,linux/arm64
+          build-args: |
+            UBUNTU_VERSION=20.04
+            QT_MAJOR=6.5
+            QT_VERSION=6.5.6
           push: true
-          tags: mltframework/qt:6.4.3-ubuntu18.04
+          tags: mltframework/qt:6.5.6-ubuntu20.04
