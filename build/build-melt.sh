@@ -528,6 +528,7 @@ function set_globals {
   fi
   LDFLAGS_[1]="-L$FINAL_INSTALL_DIR/lib $LDFLAGS"
   if test "$TARGET_OS" = "Darwin" ; then
+    CONFIG[1]="${CONFIG[1]} -DMOD_GDK=OFF"
     CFLAGS_[1]="${CFLAGS_[1]} -I/opt/local/include"
     LDFLAGS_[1]="${LDFLAGS_[1]} -L/opt/local/lib"
   fi
