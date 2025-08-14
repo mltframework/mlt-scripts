@@ -1,18 +1,18 @@
-name: docker-shotcut-build
+name: docker-qt6-build-arm64
 
 on:
   push:
     paths:
-      - 'docker/shotcut-build/**'
+      - 'docker/qt6-build/**'
   pull_request:
     paths:
-      -'docker/shotcut-build/**'
+      -'docker/qt6-build/**'
   workflow_dispatch:
 
 jobs:
   build:
     if: ${{ github.repository_owner == 'mltframework' }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
 
     steps:
       - name: Set up Docker Buildx
@@ -27,9 +27,11 @@ jobs:
       - name: Build and Push to Docker Hub
         uses: docker/build-push-action@v3
         with:
-          context: "{{defaultContext}}:docker/shotcut-build"
+          context: "{{defaultContext}}:docker/qt6-build"
+          platforms: linux/arm64
           build-args: |
-            UBUNTU_VERSION=20.04
+            UBUNTU_VERSION=24.04
+            QT_MAJOR=6.5
             QT_VERSION=6.5.6
           push: true
-          tags: mltframework/shotcut-build:qt6.5.6-ubuntu20.04
+          tags: mltframework/qt:6.5.6-ubuntu24.04-arm64
