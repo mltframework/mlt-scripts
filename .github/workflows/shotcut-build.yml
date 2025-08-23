@@ -29,4 +29,4 @@ jobs:
         with:
           context: "{{defaultContext}}:docker/shotcut-build"
           push: true
-          tags: mltframework/shotcut-build:qt6.4.3-ubuntu20.04
+          tags: mltframework/shotcut-build:qt6.9.1-ubuntu22.04
