@@ -20,9 +20,9 @@ RUN apt-get update -qq && \
         cmake clang-15 curl g++-12 libgomp1 meson s3cmd
 
 WORKDIR /root/Qt
-RUN curl -kLO --no-progress-meter https://s3.amazonaws.com/misc.meltymedia/shotcut-build/qt-6.9.1-ubuntu22.04-x86_64.txz && \
-    tar -xJf qt-6.9.1-ubuntu22.04-x86_64.txz && \
-    rm qt-6.9.1-ubuntu22.04-x86_64.txz
+RUN curl -kLO --no-progress-meter https://s3.amazonaws.com/misc.meltymedia/shotcut-build/qt-6.9.2-ubuntu22.04-x86_64.txz && \
+    tar -xJf qt-6.9.2-ubuntu22.04-x86_64.txz && \
+    rm qt-6.9.2-ubuntu22.04-x86_64.txz
 
 WORKDIR /root/shotcut
 ENTRYPOINT ["/bin/bash"]
