@@ -2,7 +2,7 @@
 
 ## Build Qt 6 for Linux
 
-    Note: outdated and no longer used for now since upgrading Shotcut to Qt 6.9.1 on Ubuntu 22.04,
+    Note: outdated and no longer used for now since upgrading Shotcut to Qt 6.8.3 on Ubuntu 22.04,
     which is using Qt SDK's binaries.
 
     docker build --rm -t mltframework/qt:6.4.3-ubuntu20.04 docker/qt6-build
@@ -11,9 +11,9 @@
 
 ## Build Shotcut for Linux
 
-    docker build --rm -t mltframework/shotcut-build:qt6.9.1-ubuntu22.04 docker/shotcut-build
+    docker build --rm -t mltframework/shotcut-build:qt6.8.3-ubuntu22.04 docker/shotcut-build
     mkdir work; cd work
     wget --no-check-certificate https://raw.githubusercontent.com/mltframework/shotcut/master/scripts/build-shotcut.sh
-    docker run -it --rm -v "$PWD":/root/shotcut mltframework/shotcut-build:qt6.9.1-ubuntu22.04 ./build-shotcut.sh
+    docker run -it --rm -v "$PWD":/root/shotcut mltframework/shotcut-build:qt6.8.3-ubuntu22.04 ./build-shotcut.sh
     
 Artifacts will be in work.

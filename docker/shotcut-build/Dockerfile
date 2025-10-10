@@ -16,8 +16,8 @@ RUN apt-get update -qq && \
         libcurl4-openssl-dev autopoint p7zip bzip2 zip curl libva-dev \
         apt-transport-https ca-certificates gnupg software-properties-common \
         libdouble-conversion-dev va-driver-all libxcb-xinerama0 libxcb-icccm4 \
-        libxcb-image0 libxcb-keysyms1 libxcb-render-util0 liblist-moreutils-perl \
-        cmake clang-15 curl g++-12 libgomp1 meson s3cmd
+        libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-cursor0 libxcb-shape0 \
+        liblist-moreutils-perl cmake clang-15 curl g++-12 libgomp1 meson s3cmd
 
 WORKDIR /root/Qt
 RUN curl -kLO --no-progress-meter https://s3.amazonaws.com/misc.meltymedia/shotcut-build/qt-6.8.3-ubuntu22.04-x86_64.txz && \
