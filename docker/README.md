@@ -11,9 +11,9 @@
 
 ## Build Shotcut for Linux
 
-    docker build --rm -t mltframework/shotcut-build:qt6.8.3-ubuntu22.04 docker/shotcut-build
+    docker build --rm -t mltframework/shotcut-build:qt6.10.1-ubuntu22.04 docker/shotcut-build
     mkdir work; cd work
     wget --no-check-certificate https://raw.githubusercontent.com/mltframework/shotcut/master/scripts/build-shotcut.sh
-    docker run -it --rm -v "$PWD":/root/shotcut mltframework/shotcut-build:qt6.8.3-ubuntu22.04 ./build-shotcut.sh
+    docker run -it --rm -v "$PWD":/root/shotcut mltframework/shotcut-build:qt6.10.1-ubuntu22.04 ./build-shotcut.sh
     
 Artifacts will be in work.
