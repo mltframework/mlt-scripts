@@ -17,7 +17,12 @@ RUN apt-get update -qq && \
         apt-transport-https ca-certificates gnupg software-properties-common \
         libdouble-conversion-dev va-driver-all libxcb-xinerama0 libxcb-icccm4 \
         libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-cursor0 libxcb-shape0 \
-        liblist-moreutils-perl cmake clang-15 curl g++-12 libgomp1 meson s3cmd
+        liblist-moreutils-perl clang-15 curl g++-12 libgomp1 meson s3cmd
+
+RUN curl https://apt.kitware.com/keys/kitware-archive-latest.asc | gpg --dearmor - >/etc/apt/trusted.gpg.d/kitware.gpg && \
+    apt-add-repository 'deb https://apt.kitware.com/ubuntu/ jammy main' && \
+    apt-get update -qq && \
+    apt-get install -yqq cmake
 
 RUN wget -qO- https://packages.lunarg.com/lunarg-signing-key-pub.asc | tee /etc/apt/trusted.gpg.d/lunarg.asc && \
     wget -qO /etc/apt/sources.list.d/lunarg-vulkan-jammy.list http://packages.lunarg.com/vulkan/lunarg-vulkan-jammy.list && \
