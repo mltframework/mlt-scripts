@@ -7,7 +7,7 @@
 # bash, test, tr, awk, ps, make, cmake, cat, sed, curl or wget, and possibly others
 
 # Author: Dan Dennedy <dan@dennedy.org>
-# Version: 24
+# Version: 25
 # License: GPL2
 
 ################################################################################
@@ -40,11 +40,11 @@ X264_REVISION=
 X265_HEAD=1
 X265_REVISION=
 LIBVPX_HEAD=0
-LIBVPX_REVISION="v1.15.1"
+LIBVPX_REVISION="v1.15.2"
 ENABLE_LAME=0
 FFMPEG_PROJECT="FFmpeg"
 FFMPEG_HEAD=0
-FFMPEG_REVISION="origin/release/7.1"
+FFMPEG_REVISION="origin/release/8.1"
 FFMPEG_SUPPORT_H264=1
 FFMPEG_SUPPORT_H265=1
 FFMPEG_SUPPORT_LIBVPX=1
@@ -64,6 +64,9 @@ WEBVFX_REVISION=
 ENABLE_RUBBERBAND=1
 RUBBERBAND_HEAD=1
 RUBBERBAND_REVISION=
+ENABLE_RNNOISE=1
+RNNOISE_HEAD=1
+RNNOISE_REVISION=
 MLT_DISABLE_SOX=0
 MLT_DISABLE_SDL=0
 MLT_SWIG_LANGUAGES="python"
@@ -181,6 +184,9 @@ function to_key {
     ;;
     rubberband)
       echo 13
+    ;;
+    rnnoise)
+      echo 14
     ;;
     *)
       echo UNKNOWN
@@ -351,6 +357,9 @@ function set_globals {
   if test "$ENABLE_RUBBERBAND" = 1 ; then
       SUBDIRS="rubberband $SUBDIRS"
   fi
+  if test "$ENABLE_RNNOISE" = 1 ; then
+      SUBDIRS="rnnoise $SUBDIRS"
+  fi
   debug "SUBDIRS = $SUBDIRS"
 
   # REPOLOCS Array holds the repo urls
@@ -374,6 +383,7 @@ function set_globals {
   REPOLOCS[11]="https://github.com/mltframework/webvfx.git"
   REPOLOCS[12]="https://github.com/videolan/x265.git"
   REPOLOCS[13]="https://github.com/breakfastquay/rubberband.git"
+  REPOLOCS[14]="https://github.com/xiph/rnnoise.git"
 
   # REPOTYPE Array holds the repo types. (Yes, this might be redundant, but easy for me)
   REPOTYPES[0]="git"
@@ -390,6 +400,7 @@ function set_globals {
   REPOTYPES[11]="git"
   REPOTYPES[12]="git"
   REPOTYPES[13]="git"
+  REPOTYPES[14]="git"
 
   # And, set up the revisions
   REVISIONS[0]=""
@@ -442,6 +453,10 @@ function set_globals {
   REVISIONS[13]=""
   if test 0 = "$RUBBERBAND_HEAD" -a "$RUBBERBAND_REVISION" ; then
     REVISIONS[13]="$RUBBERBAND_REVISION"
+  fi
+  REVISIONS[14]=""
+  if test 0 = "$RNNOISE_HEAD" -a "$RNNOISE_REVISION" ; then
+    REVISIONS[14]="$RNNOISE_REVISION"
   fi
 
   # Figure out the install dir - we may not install, but then we know it.
@@ -643,6 +658,12 @@ function set_globals {
   CONFIG[13]="meson setup builddir --prefix=$FINAL_INSTALL_DIR --libdir=$FINAL_INSTALL_DIR/lib"
   CFLAGS_[13]=$CFLAGS
   LDFLAGS_[13]=$LDFLAGS
+
+  #####
+  # rnnoise
+  CONFIG[14]="./configure --prefix=$FINAL_INSTALL_DIR --disable-examples"
+  CFLAGS_[14]=$CFLAGS
+  LDFLAGS_[14]=$LDFLAGS
 }
 
 ######################################################################
@@ -766,6 +787,10 @@ function prepare_feedback {
       debug Adding 1 step for get webvfx
       NUMSTEPS=$(( $NUMSTEPS + 1 ))
     fi
+    if test 1 = "$ENABLE_RNNOISE" ; then
+      debug Adding 1 step for get rnnoise
+      NUMSTEPS=$(( $NUMSTEPS + 1 ))
+    fi
   fi
   if test 1 = "$GET" -a 1 = "$SOURCES_CLEAN" ; then
     debug Adding 3 steps for clean on get
@@ -786,6 +811,10 @@ function prepare_feedback {
       debug Adding 1 step for clean webvfx
       NUMSTEPS=$(( $NUMSTEPS + 1 ))
     fi
+    if test 1 = "$ENABLE_RNNOISE" ; then
+      debug Adding 1 step for clean rnnoise
+      NUMSTEPS=$(( $NUMSTEPS + 1 ))
+    fi
   fi
   if test 1 = "$COMPILE_INSTALL" ; then
     debug Adding 9 steps for compile-install
@@ -804,6 +833,10 @@ function prepare_feedback {
     fi
     if test 1 = "$ENABLE_WEBVFX" ; then
       debug Adding 3 steps for compile-install webvfx
+      NUMSTEPS=$(( $NUMSTEPS + 3 ))
+    fi
+    if test 1 = "$ENABLE_RNNOISE" ; then
+      debug Adding 3 steps for compile-install rnnoise
       NUMSTEPS=$(( $NUMSTEPS + 3 ))
     fi
   fi
@@ -1159,6 +1192,13 @@ function configure_compile_install_subproject {
     cmd autoreconf -i || die "Unable to create configure file for $1"
     if test ! -e configure ; then
       die "Unable to confirm presence of configure file for $1"
+    fi
+  fi
+
+  # Special hack for rnnoise
+  if test "rnnoise" = "$1" ; then
+    if test ! -e configure ; then
+      cmd ./autogen.sh || die "Unable to create configure file for $1"
     fi
   fi
 
